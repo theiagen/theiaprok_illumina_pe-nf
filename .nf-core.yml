@@ -25,8 +25,8 @@ lint:
 
 template:
   org: nf-core
-  name: digger
-  description: Common assembly options for microbes. Hat tip to shovill.
+  name: theiaprok_illumina_pe
+  description: Theiagen Illumina Build Pipeline for Paired-End Reads of Prokaryotes
   author: Michal Babinski
   version: 1.0.0dev
   force: true
