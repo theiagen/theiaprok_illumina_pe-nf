@@ -1,0 +1,58 @@
+{
+    "ncbi_scrub - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "read1_dehosted": [
+                    
+                ],
+                "read2_dehosted": [
+                    
+                ],
+                "spots_removed_file": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-06-17T20:01:54.730794"
+    },
+    "ncbi_scrub test": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-06-17T20:01:42.957432"
+    }
+}
