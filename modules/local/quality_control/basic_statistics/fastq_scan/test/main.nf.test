@@ -1,0 +1,53 @@
+nextflow_process {
+    name "Test Process FASTQ_SCAN_PE"
+    script "../main.nf"
+    process "FASTQ_SCAN_PE"
+    
+    test("fastq_scan pe test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.read1_fastq_scan_json,
+                    process.out.read2_fastq_scan_json,
+                    process.out.read1_seq,
+                    process.out.read2_seq,
+                    process.out.read_pairs,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("should run with theiaprok workflow - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

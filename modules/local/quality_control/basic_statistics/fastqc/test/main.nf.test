@@ -1,0 +1,55 @@
+nextflow_process {
+    name "Test Process FASTQC"
+    script "../main.nf"
+    process "FASTQC"
+    
+    test("fastqc test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.read1_fastqc_html,
+                    process.out.read1_fastqc_zip,
+                    process.out.read2_fastqc_html,
+                    process.out.read2_fastqc_zip,
+                    process.out.read1_seq_txt,
+                    process.out.read2_seq_txt,
+                    process.out.read_pairs_txt,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("fastqc - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
