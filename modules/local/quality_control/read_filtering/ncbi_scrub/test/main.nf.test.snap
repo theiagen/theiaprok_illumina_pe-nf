@@ -1,58 +1,38 @@
 {
-    "ncbi_scrub - stub": {
-        "content": [
-            {
-                "0": [
-                    
-                ],
-                "1": [
-                    
-                ],
-                "2": [
-                    
-                ],
-                "3": [
-                    
-                ],
-                "read1_dehosted": [
-                    
-                ],
-                "read2_dehosted": [
-                    
-                ],
-                "spots_removed_file": [
-                    
-                ],
-                "versions": [
-                    
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
-        },
-        "timestamp": "2025-06-17T20:01:54.730794"
-    },
     "ncbi_scrub test": {
         "content": [
             [
-                
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_R1_dehosted.fastq.gz:md5,48ab5cdbf8567cf6023bd304fcf896a9"
+                ]
             ],
             [
-                
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_R2_dehosted.fastq.gz:md5,b4246225aa4a15496991ac7c6b58563f"
+                ]
             ],
             [
-                
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SPOTS_REMOVED.txt:md5,897316929176464ebc9ad085f31e7284"
+                ]
             ],
             [
-                
+                "versions.yml:md5,47ac256a637f9a86ad4ab4eae7b0de06"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-06-17T20:01:42.957432"
+        "timestamp": "2025-06-17T21:46:21.111777"
     }
 }

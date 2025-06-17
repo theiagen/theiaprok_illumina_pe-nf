@@ -2,7 +2,7 @@ process NCBI_SCRUB_PE {
     tag "$meta.id"
     label "process_low"
 
-    container "us-docker.pkg.dev/general-theiagen/ncbi/sra-human-scrubber:2.2.1"
+    container "us-docker.pkg.dev/general-theiagen/theiagen/sra-human-scrubber:2.2.1"
 
     input:
     tuple val(meta), path(read1), path(read2)
