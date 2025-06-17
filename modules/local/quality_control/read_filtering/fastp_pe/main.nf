@@ -2,7 +2,7 @@ process FASTP_PE {
     tag "$meta.id"
     label "process_low"
 
-    container = "us-docker.pkg.dev/general-theiagen/staphb/fastp:0.23.2"
+    container "us-docker.pkg.dev/general-theiagen/staphb/fastp:0.23.2"
 
     input:
     tuple val(meta), path(read1), path(read2)

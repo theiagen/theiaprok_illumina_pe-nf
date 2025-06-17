@@ -1,8 +1,8 @@
 process FASTQ_SCAN_PE {
     tag "$meta.id"
-    label 'process_low'
+    label "process_low"
 
-    container = 'us-docker.pkg.dev/general-theiagen/biocontainers/fastq-scan:1.0.1--h4ac6f70_3'
+    container "us-docker.pkg.dev/general-theiagen/biocontainers/fastq-scan:1.0.1--h4ac6f70_3"
 
     input:
     tuple val(meta), path(read1), path(read2)

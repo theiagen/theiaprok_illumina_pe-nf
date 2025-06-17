@@ -1,8 +1,8 @@
 process READLENGTH {
     tag "$meta.id"
-    label 'process_low'
+    label "process_low"
 
-    container = 'us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76'
+    container "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
 
     input:
     tuple val(meta), path(read1), path(read2)

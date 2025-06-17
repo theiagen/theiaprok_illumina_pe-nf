@@ -2,7 +2,7 @@ process BBDUK {
     tag "$meta.id"
     label "process_low"
 
-    container = "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
+    container "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
 
     input:
     tuple val(meta), path(read1_trimmed), path(read2_trimmed)
