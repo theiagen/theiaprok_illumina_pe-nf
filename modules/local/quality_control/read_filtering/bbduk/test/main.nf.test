@@ -1,0 +1,55 @@
+nextflow_process {
+    name "Test Process BBDUK"
+    script "../main.nf"
+    process "BBDUK"
+    
+    test("bbduk test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = []  // adapters
+                input[2] = []  // phix
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.read1_clean,
+                    process.out.read2_clean,
+                    process.out.adapter_stats,
+                    process.out.phix_stats,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("bbduk - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = []  // adapters
+                input[2] = []  // phix
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success }
+            )
+        }
+    }
+}
