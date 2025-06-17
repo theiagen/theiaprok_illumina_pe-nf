@@ -1,0 +1,60 @@
+nextflow_process {
+    name "Test Process FASTP_PE"
+    script "../main.nf"
+    process "FASTP_PE"
+    
+    test("fastp_pe test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 20  // fastp_window_size
+                input[2] = 30  // fastp_quality_trim_score
+                input[3] = 50  // fastp_min_length
+                input[4] = "--detect_adapter_for_pe -g -5 20 -3 20"  // fastp_args
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.read1_trimmed,
+                    process.out.read2_trimmed,
+                    process.out.read1_trimmed_unpaired,
+                    process.out.read2_trimmed_unpaired,
+                    process.out.fastp_stats,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("fastp_pe - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 20  // fastp_window_size
+                input[2] = 30  // fastp_quality_trim_score
+                input[3] = 50  // fastp_min_length
+                input[4] = "--detect_adapter_for_pe -g -5 20 -3 20"  // fastp_args
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success }
+            )
+        }
+    }
+}
