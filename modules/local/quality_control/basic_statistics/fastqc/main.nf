@@ -1,8 +1,8 @@
 process FASTQC {
     tag "$meta.id"
-    label 'process_low'
+    label "process_low"
 
-    container = 'us-docker.pkg.dev/general-theiagen/staphb/fastqc:0.12.1'
+    container "us-docker.pkg.dev/general-theiagen/staphb/fastqc:0.12.1"
 
     input:
     tuple val(meta), path(read1), path(read2)
