@@ -1,0 +1,67 @@
+nextflow_process {
+    name "Test Process CHECK_READS"
+    script "../main.nf"
+    process "CHECK_READS"
+    
+    test("should run with theiaprok workflow") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 1000        // min_reads
+                input[2] = 10000     // min_basepairs  
+                input[3] = 1000        // min_genome_length
+                input[4] = 10000000    // max_genome_length
+                input[5] = 5           // min_coverage
+                input[6] = 30          // min_proportion
+                input[7] = 'theiaprok'  // workflow_series
+                input[8] = ""       // expected_genome_length
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.read_screen_tsv,
+                    process.out.read_screen,
+                    process.out.est_genome_length,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+    
+    test("should run with theiaprok workflow - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 1000        // min_reads
+                input[2] = 100000      // min_basepairs  
+                input[3] = 1000        // min_genome_length
+                input[4] = 10000000    // max_genome_length
+                input[5] = 5           // min_coverage
+                input[6] = 30          // min_proportion
+                input[7] = 'theiaprok'  // workflow_series
+                input[8] = ""       // expected_genome_length
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
