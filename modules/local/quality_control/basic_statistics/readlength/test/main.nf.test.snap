@@ -1,0 +1,55 @@
+{
+    "bbtools readlength test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AVERAGE_READ_LENGTH.txt:md5,e38877d821e4f2fc156ecae3cd46a212"
+                ]
+            ],
+            [
+                "versions.yml:md5,7d351a35582ee9ebc976a098c87f7d0d"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-06-17T17:14:56.480723"
+    },
+    "readlength - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AVERAGE_READ_LENGTH.txt:md5,ad865d2f63b9feb2552c220385fbb7e3"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,7d351a35582ee9ebc976a098c87f7d0d"
+                ],
+                "average_read_length": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AVERAGE_READ_LENGTH.txt:md5,ad865d2f63b9feb2552c220385fbb7e3"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,7d351a35582ee9ebc976a098c87f7d0d"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-06-17T17:15:08.680067"
+    }
+}
