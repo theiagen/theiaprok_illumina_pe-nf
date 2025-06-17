@@ -1,0 +1,91 @@
+nextflow_process {
+    name "Test Process TRIMMOMATIC_PE"
+    script "../main.nf"
+    process "TRIMMOMATIC_PE"
+    
+    test("trimmomatic_pe test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 75  // trimmomatic_min_length
+                input[2] = 4   // trimmomatic_window_size
+                input[3] = 30  // trimmomatic_quality_trim_score
+                input[4] = ""  // trimmomatic_base_crop (empty for no cropping)
+                input[5] = "-phred33"  // trimmomatic_args
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.read1_trimmed,
+                    process.out.read2_trimmed,
+                    process.out.trimmomatic_stats,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("trimmomatic_pe with base cropping") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample_crop' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 75  // trimmomatic_min_length
+                input[2] = 4   // trimmomatic_window_size
+                input[3] = 30  // trimmomatic_quality_trim_score
+                input[4] = 10  // trimmomatic_base_crop
+                input[5] = "-phred33"  // trimmomatic_args
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.read1_trimmed,
+                    process.out.read2_trimmed,
+                    process.out.trimmomatic_stats,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("trimmomatic_pe - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = 75  // trimmomatic_min_length
+                input[2] = 4   // trimmomatic_window_size
+                input[3] = 30  // trimmomatic_quality_trim_score
+                input[4] = ""  // trimmomatic_base_crop
+                input[5] = "-phred33"  // trimmomatic_args
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
