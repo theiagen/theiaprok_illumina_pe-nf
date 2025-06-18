@@ -24,8 +24,7 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    process.out.read1_trimmed,
-                    process.out.read2_trimmed,
+                    process.out.trimmed_reads,
                     process.out.trimmomatic_stats,
                     process.out.versions
                     ).match() }
@@ -54,8 +53,7 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    process.out.read1_trimmed,
-                    process.out.read2_trimmed,
+                    process.out.trimmed_reads,
                     process.out.trimmomatic_stats,
                     process.out.versions
                     ).match() }

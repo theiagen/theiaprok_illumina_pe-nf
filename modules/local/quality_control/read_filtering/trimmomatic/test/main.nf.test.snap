@@ -6,15 +6,10 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_1P.fastq.gz:md5,53dede9a65d47a2ceca42cd91b6f38eb"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test_sample"
-                    },
-                    "test_sample_2P.fastq.gz:md5,0313dfd10f2da0a3a9e8e3fd4c4be040"
+                    [
+                        "test_sample_1P.fastq.gz:md5,53dede9a65d47a2ceca42cd91b6f38eb",
+                        "test_sample_2P.fastq.gz:md5,0313dfd10f2da0a3a9e8e3fd4c4be040"
+                    ]
                 ]
             ],
             [
@@ -31,9 +26,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T21:57:38.639162"
+        "timestamp": "2025-06-18T14:58:35.634602158"
     },
     "trimmomatic_pe - stub": {
         "content": [
@@ -43,7 +38,10 @@
                         {
                             "id": "test_sample"
                         },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/d5/136960a3cae00641188fe81b090ff3/test_sample_1P.fastq.gz"
+                        [
+                            "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/01/cce4acc371ffc3bc9fad9cb0eb24d9/test_sample_1P.fastq.gz",
+                            "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/01/cce4acc371ffc3bc9fad9cb0eb24d9/test_sample_2P.fastq.gz"
+                        ]
                     ]
                 ],
                 "1": [
@@ -51,34 +49,21 @@
                         {
                             "id": "test_sample"
                         },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/d5/136960a3cae00641188fe81b090ff3/test_sample_2P.fastq.gz"
-                    ]
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
                         "test_sample.trim.stats.txt:md5,646176042e218efe0275347b620b1059"
                     ]
                 ],
-                "3": [
+                "2": [
                     "versions.yml:md5,547dad3afa9cc5f417a5a40134d5ecab"
                 ],
-                "read1_trimmed": [
+                "trimmed_reads": [
                     [
                         {
                             "id": "test_sample"
                         },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/d5/136960a3cae00641188fe81b090ff3/test_sample_1P.fastq.gz"
-                    ]
-                ],
-                "read2_trimmed": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/d5/136960a3cae00641188fe81b090ff3/test_sample_2P.fastq.gz"
+                        [
+                            "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/01/cce4acc371ffc3bc9fad9cb0eb24d9/test_sample_1P.fastq.gz",
+                            "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/cf9e70fc43bf5ca3fe96feacffdae267/work/01/cce4acc371ffc3bc9fad9cb0eb24d9/test_sample_2P.fastq.gz"
+                        ]
                     ]
                 ],
                 "trimmomatic_stats": [
@@ -96,9 +81,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T21:58:05.78096"
+        "timestamp": "2025-06-18T14:59:04.263573901"
     },
     "trimmomatic_pe with base cropping": {
         "content": [
@@ -107,15 +92,10 @@
                     {
                         "id": "test_sample_crop"
                     },
-                    "test_sample_crop_1P.fastq.gz:md5,c8cd614931cf5dff6814ffcd1f9c3452"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test_sample_crop"
-                    },
-                    "test_sample_crop_2P.fastq.gz:md5,5b6ee961c2b2c611f574381c2660cc8b"
+                    [
+                        "test_sample_crop_1P.fastq.gz:md5,c8cd614931cf5dff6814ffcd1f9c3452",
+                        "test_sample_crop_2P.fastq.gz:md5,5b6ee961c2b2c611f574381c2660cc8b"
+                    ]
                 ]
             ],
             [
@@ -132,8 +112,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T21:57:53.77277"
+        "timestamp": "2025-06-18T14:58:51.213384301"
     }
 }

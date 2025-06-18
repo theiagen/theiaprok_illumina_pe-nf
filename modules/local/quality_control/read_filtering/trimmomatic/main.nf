@@ -13,8 +13,7 @@ process TRIMMOMATIC_PE {
     val trimmomatic_args
 
     output:
-    tuple val(meta), path("*_1P.fastq.gz"), emit: read1_trimmed
-    tuple val(meta), path("*_2P.fastq.gz"), emit: read2_trimmed
+    tuple val(meta), path("*P.fastq.gz"), emit: trimmed_reads
     tuple val(meta), path("*.trim.stats.txt"), emit: trimmomatic_stats
     path "versions.yml", emit: versions
 
@@ -60,7 +59,7 @@ process TRIMMOMATIC_PE {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimmomatic: \$(trimmomatic -version | sed 's/^//' | head -n1)
+        trimmomatic: \$(trimmomatic -version)
     END_VERSIONS
     """
 
@@ -73,7 +72,7 @@ process TRIMMOMATIC_PE {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        trimmomatic: 0.39
+        trimmomatic: \$(trimmomatic -version)
     END_VERSIONS
     """
 }
