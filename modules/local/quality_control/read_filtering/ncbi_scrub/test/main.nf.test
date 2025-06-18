@@ -19,8 +19,7 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    process.out.read1_dehosted,
-                    process.out.read2_dehosted,
+                    process.out.dehosted_reads,
                     process.out.spots_removed_file,
                     process.out.versions
                     ).match() }

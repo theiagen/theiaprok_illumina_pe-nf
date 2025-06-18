@@ -8,8 +8,7 @@ process NCBI_SCRUB_PE {
     tuple val(meta), path(read1), path(read2)
 
     output:
-    tuple val(meta), path("*_R1_dehosted.fastq.gz"), emit: read1_dehosted
-    tuple val(meta), path("*_R2_dehosted.fastq.gz"), emit: read2_dehosted
+    tuple val(meta), path("*_dehosted.fastq.gz"), emit: dehosted_reads
     tuple val(meta), path("SPOTS_REMOVED.txt"), emit: spots_removed_file
     path "versions.yml", emit: versions
 
