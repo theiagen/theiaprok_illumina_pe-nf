@@ -1,0 +1,61 @@
+nextflow_process {
+    name "Test Process Kraken2"
+    script "../main.nf"
+    process "KRAKEN2"
+    
+    test("kraken2 test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = file("https://github.com/nf-core/test-datasets/raw/refs/heads/taxprofiler/data/database/kraken2/testdb-kraken2.tar.gz")  // kraken2_db
+                input[2] = "" // kraken2_args
+                input[3] = "classified#.fastq"  // classified_out
+                input[4] = "unclassified#.fastq"  // unclassified_out
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.kraken2_report,
+                    process.out.kraken2_classified_report,
+                    process.out.kraken2_unclassified_reads,
+                    process.out.kraken2_classified_reads,
+                    process.out.kraken2_percent_human_file,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("kraken2 - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                ]
+                input[1] = file("https://github.com/nf-core/test-datasets/raw/refs/heads/taxprofiler/data/database/kraken2/testdb-kraken2.tar.gz") // kraken2_db
+                input[2] = "" // kraken2_args
+                input[3] = "classified#.fastq"  // classified_out
+                input[4] = "unclassified#.fastq"  // unclassified_out
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

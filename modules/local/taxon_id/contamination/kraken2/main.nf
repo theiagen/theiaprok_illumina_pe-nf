@@ -1,103 +1,99 @@
-process KRAKEN2_THEIACOV {
+process KRAKEN2 {
     tag "$meta.id"
-    label "process_low"
+    label "process_medium"
 
     container "us-docker.pkg.dev/general-theiagen/staphb/kraken2:2.1.2-no-db"
 
     input:
     tuple val(meta), path(read1), path(read2)
     path kraken2_db
-    val target_organism
+    val kraken2_args
+    val classified_out
+    val unclassified_out
 
     output:
-    tuple val(meta), path("*_kraken2_report.txt"), emit: kraken_report
+    tuple val(meta), path("*.report.txt"), emit: kraken2_report
     tuple val(meta), path("*.classifiedreads.txt.gz"), emit: kraken2_classified_report
-    tuple val(meta), path("PERCENT_HUMAN.txt"), emit: percent_human_file
-    tuple val(meta), path("PERCENT_SC2.txt"), emit: percent_sc2_file
-    tuple val(meta), path("PERCENT_TARGET_ORGANISM.txt"), emit: percent_target_organism_file
-    tuple val(meta), val(target_organism), emit: kraken_target_organism
+    tuple val(meta), path("*.unclassified_*.fastq.gz"), emit: kraken2_unclassified_reads
+    tuple val(meta), path("*.classified_*.fastq.gz"), emit: kraken2_classified_reads
+    tuple val(meta), path("PERCENT_HUMAN.txt"), emit: kraken2_percent_human_file
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    def args = task.ext.args ?: kraken2_args ?: ""
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def target_org = target_organism ?: ""
+    def classified_output = classified_out ?: "classified#.fastq"
+    def unclassified_output = unclassified_out ?: "unclassified#.fastq"
     def reads_input = read2 ? "${read1} ${read2}" : "${read1}"
     def mode = read2 ? "--paired" : ""
     def compression = read1.name.endsWith('.gz') ? "--gzip-compressed" : ""
     
     """
-    # date and version control
+    set -euo pipefail
+
     date | tee DATE
     
     # Decompress the Kraken2 database
     mkdir db
-    tar -C ./db/ -xzvf ${kraken2_db}
+    tar -C ./db/ --strip-components=1 -xzf ${kraken2_db}
     
-    echo "Mode: ${mode}"
-    echo "Compression: ${compression}"
+    echo "Reads are paired: ${read2 ? 'true' : 'false'}"
+    echo "Reads are compressed: ${read1.name.endsWith('.gz') ? 'true' : 'false'}"
     
     # Run Kraken2
+    echo "Running Kraken2..."
     kraken2 ${mode} ${compression} \\
-        --threads ${task.cpus} \\
         --db ./db/ \\
-        ${reads_input} \\
-        --report ${prefix}_kraken2_report.txt \\
-        --output ${prefix}.classifiedreads.txt
+        --threads ${task.cpus} \\
+        --report ${prefix}.report.txt \\
+        --unclassified-out ${prefix}.${unclassified_output} \\
+        --classified-out ${prefix}.${classified_output} \\
+        --output ${prefix}.classifiedreads.txt \\
+        ${args} \\
+        ${reads_input}
     
-    # Compress classified reads output
+    # Compress output files
+    gzip *.fastq
     gzip ${prefix}.classifiedreads.txt
     
-    # capture human percentage
-    percentage_human=\$(grep "Homo sapiens" ${prefix}_kraken2_report.txt | cut -f 1)
-    if [ -z "\$percentage_human" ] ; then percentage_human="0" ; fi
+    # Report percentage of human reads
+    percentage_human=\$(grep "Homo sapiens" ${prefix}.report.txt | cut -f 1 || echo "0" )
     echo "\$percentage_human" > PERCENT_HUMAN.txt
     echo "DEBUG: Human percentage: \$percentage_human"
     
-    # capture target org percentage
-    if [ -n "${target_org}" ]; then
-        echo "Target org designated: ${target_org}"
-        # if target organism is sc2, report it in a special legacy column called PERCENT_SC2
-        if [[ "${target_org}" == "Severe acute respiratory syndrome coronavirus 2" ]]; then
-            percentage_sc2=\$(grep "Severe acute respiratory syndrome coronavirus 2" ${prefix}_kraken2_report.txt | cut -f1 )
-            percent_target_organism=""
-            if [ -z "\$percentage_sc2" ] ; then percentage_sc2="0" ; fi
-            echo "DEBUG: SC2 percentage: \$percentage_sc2"
-        else
-            percentage_sc2="" 
-            percent_target_organism=\$(grep "${target_org}" ${prefix}_kraken2_report.txt | cut -f1 | head -n1 )
-            if [ -z "\$percent_target_organism" ] ; then percent_target_organism="0" ; fi
-            echo "DEBUG: Target organism percentage: \$percent_target_organism"
-        fi
-    else
-        percent_target_organism=""
-        percentage_sc2=""
-        echo "DEBUG: No target organism specified"
+    # rename classified and unclassified read files if single-end
+    if [ -e "${prefix}.classified#.fastq.gz" ]; then
+        mv "${prefix}.classified#.fastq.gz" ${prefix}.classified_1.fastq.gz
     fi
-    
-    echo "\$percentage_sc2" > PERCENT_SC2.txt
-    echo "\$percent_target_organism" > PERCENT_TARGET_ORGANISM.txt
+    if [ -e "${prefix}.unclassified#.fastq.gz" ]; then
+        mv "${prefix}.unclassified#.fastq.gz" ${prefix}.unclassified_1.fastq.gz
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        kraken2: \$(kraken2 --version | head -n1 | sed 's/Kraken version //')
+        kraken2: \$(kraken2 --version 2>&1 | sed 's/^.*Kraken version //;s/ .*\$//')
     END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}_kraken2_report.txt
-    touch ${prefix}.classifiedreads.txt.gz
+    touch ${prefix}.report.txt
+    touch ${prefix}.classifiedreads.txt
+    touch ${prefix}.unclassified_1.fastq
+    touch ${prefix}.classified_1.fastq
+
+    gzip ${prefix}.classifiedreads.txt
+    gzip *.fastq
+
     echo "0.0" > PERCENT_HUMAN.txt
-    echo "0.0" > PERCENT_SC2.txt
-    echo "0.0" > PERCENT_TARGET_ORGANISM.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        kraken2: 2.1.2
+        kraken2: \$(kraken2 --version 2>&1 | sed 's/^.*Kraken version //;s/ .*\$//')
     END_VERSIONS
     """
 }
