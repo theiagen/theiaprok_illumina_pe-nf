@@ -1,0 +1,66 @@
+nextflow_process {
+    name "Test Process MIDAS_BUILD"
+    script "../main.nf"
+    process "MIDAS_BUILD"
+    
+    test("midas build test") {
+        setup {
+            run ("UNTAR") {
+                script "../../../../../../nf-core/untar/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'db'],
+                        [file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.tar.gz', checkIfExists:true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                    .combine(
+                        Channel.of(
+                            file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.mapfile', checkIfExists:true)
+                        )
+                    )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.database.get(0).get(1).toString()
+                    ==~ ".*/db_midas_database\\.tar\\.gz" },
+                { assert process.out.versions.get(0).toString()
+                    ==~ ".*/versions\\.yml" }
+            )
+        }
+    }
+    
+    test("midas_build - stub") {
+        options '-stub'
+        when {
+            process {
+                """
+                input[0] = [
+                    [id:'test'],
+                    [],
+                    []
+                ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.database.get(0).get(1).toString()
+                    ==~ ".*/test_midas_database\\.tar\\.gz" },
+                { assert process.out.versions.get(0).toString()
+                    ==~ ".*/versions\\.yml" }
+            )
+        }
+    }
+}

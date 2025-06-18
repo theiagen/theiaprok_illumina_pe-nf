@@ -1,0 +1,100 @@
+nextflow_process {
+    name "Test Process MIDAS"
+    script "../main.nf"
+    process "MIDAS"
+    
+    test("midas - with built database") {
+        setup {
+            run ("UNTAR") {
+                script "../../../../../../nf-core/untar/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'db'],
+                        [file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.tar.gz', checkIfExists:true)]
+                    ]
+                    """
+                }
+            }
+            run ("MIDAS_BUILD") {
+                script "../../build/main.nf"
+                process {
+                    """
+                    input[0] = UNTAR.out.untar
+                        .combine(
+                            Channel.of(
+                                file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.mapfile', checkIfExists:true)
+                            )
+                        )
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = [
+                    [id:'test_sample'],
+                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkIfExists:true),
+                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkIfExists:true)
+                ]
+                input[1] = MIDAS_BUILD.out.database.map { meta, db -> db }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.species_profile.get(0).get(1).toString()
+                    ==~ ".*/test_sample_species_profile\\.tsv" },
+                { assert process.out.log_file.get(0).get(1).toString()
+                    ==~ ".*/test_sample_log\\.txt" },
+                { assert process.out.primary_genus_file.get(0).get(1).toString()
+                    ==~ ".*/PRIMARY_GENUS\\.txt" },
+                { assert process.out.secondary_genus_file.get(0).get(1).toString()
+                    ==~ ".*/SECONDARY_GENUS\\.txt" },
+                { assert process.out.primary_genus_abundance_file.get(0).get(1).toString()
+                    ==~ ".*/PRIMARY_GENUS_ABUNDANCE\\.txt" },
+                { assert process.out.secondary_genus_abundance_file.get(0).get(1).toString()
+                    ==~ ".*/SECONDARY_GENUS_ABUNDANCE\\.txt" },
+                { assert process.out.versions.get(0).toString()
+                    ==~ ".*/versions\\.yml" }
+            )
+        }
+    }
+    
+    test("midas - stub") {
+        options '-stub'
+        when {
+            process {
+                """
+                input[0] = [
+                    [id:'test_sample'],
+                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkIfExists:true),
+                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkIfExists:true)
+                ]
+                input[1] = []
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.species_profile.get(0).get(1).toString()
+                    ==~ ".*/test_sample_species_profile\\.tsv" },
+                { assert process.out.log_file.get(0).get(1).toString()
+                    ==~ ".*/test_sample_log\\.txt" },
+                { assert process.out.primary_genus_file.get(0).get(1).toString()
+                    ==~ ".*/PRIMARY_GENUS\\.txt" },
+                { assert process.out.secondary_genus_file.get(0).get(1).toString()
+                    ==~ ".*/SECONDARY_GENUS\\.txt" },
+                { assert process.out.primary_genus_abundance_file.get(0).get(1).toString()
+                    ==~ ".*/PRIMARY_GENUS_ABUNDANCE\\.txt" },
+                { assert process.out.secondary_genus_abundance_file.get(0).get(1).toString()
+                    ==~ ".*/SECONDARY_GENUS_ABUNDANCE\\.txt" },
+                { assert process.out.versions.get(0).toString()
+                    ==~ ".*/versions\\.yml" }
+            )
+        }
+    }
+}
