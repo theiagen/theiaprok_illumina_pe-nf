@@ -10,8 +10,7 @@ process BBDUK {
     path phix
 
     output:
-    tuple val(meta), path("*_1.clean.fastq.gz"), emit: read1_clean
-    tuple val(meta), path("*_2.clean.fastq.gz"), emit: read2_clean
+    tuple val(meta), path("*.clean.fastq.gz"), emit: cleaned_reads
     tuple val(meta), path("*.adapters.stats.txt"), emit: adapter_stats
     tuple val(meta), path("*.phix.stats.txt"), emit: phix_stats
     path "versions.yml", emit: versions

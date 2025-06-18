@@ -6,15 +6,10 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_1.clean.fastq.gz:md5,74a56b7f990a063e5a8b4ad5c6eb5f93"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test_sample"
-                    },
-                    "test_sample_2.clean.fastq.gz:md5,34916bf79dd48b3f972ecf0ab401ca4c"
+                    [
+                        "test_sample_1.clean.fastq.gz:md5,74a56b7f990a063e5a8b4ad5c6eb5f93",
+                        "test_sample_2.clean.fastq.gz:md5,34916bf79dd48b3f972ecf0ab401ca4c"
+                    ]
                 ]
             ],
             [
@@ -39,89 +34,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T18:25:01.254331"
-    },
-    "bbduk - stub": {
-        "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/8226edfc5ba8e78ac98759cbe07318d8/work/d0/d94a0a53e4bacb28b64ec497aa04a7/test_sample_1.clean.fastq.gz"
-                    ]
-                ],
-                "1": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/8226edfc5ba8e78ac98759cbe07318d8/work/d0/d94a0a53e4bacb28b64ec497aa04a7/test_sample_2.clean.fastq.gz"
-                    ]
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "test_sample.adapters.stats.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "3": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "test_sample.phix.stats.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "4": [
-                    "versions.yml:md5,c204e7913c37304983ec957bc710ad9a"
-                ],
-                "adapter_stats": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "test_sample.adapters.stats.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "phix_stats": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "test_sample.phix.stats.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "read1_clean": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/8226edfc5ba8e78ac98759cbe07318d8/work/d0/d94a0a53e4bacb28b64ec497aa04a7/test_sample_1.clean.fastq.gz"
-                    ]
-                ],
-                "read2_clean": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "/home/micha/phb-dev/theiaprok_illumina_pe-nf/.nf-test/tests/8226edfc5ba8e78ac98759cbe07318d8/work/d0/d94a0a53e4bacb28b64ec497aa04a7/test_sample_2.clean.fastq.gz"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,c204e7913c37304983ec957bc710ad9a"
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
-        },
-        "timestamp": "2025-06-17T18:25:13.759224"
+        "timestamp": "2025-06-18T15:30:56.2099707"
     }
 }
