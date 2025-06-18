@@ -82,12 +82,9 @@ process KRAKEN2 {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.report.txt
-    touch ${prefix}.classifiedreads.txt
-    touch ${prefix}.unclassified_1.fastq
-    touch ${prefix}.classified_1.fastq
-
-    gzip ${prefix}.classifiedreads.txt
-    gzip *.fastq
+    echo "" | gzip > ${prefix}.classifiedreads.txt.gz
+    echo "" | gzip > ${prefix}.unclassified_1.fastq.gz
+    echo "" | gzip > ${prefix}.classified_1.fastq.gz
 
     echo "0.0" > PERCENT_HUMAN.txt
 

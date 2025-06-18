@@ -15,7 +15,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.classifiedreads.txt.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.classifiedreads.txt.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "2": [
@@ -23,7 +23,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.unclassified_1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.unclassified_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "3": [
@@ -31,7 +31,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.classified_1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.classified_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "4": [
@@ -50,7 +50,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.classified_1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.classified_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "kraken2_classified_report": [
@@ -58,7 +58,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.classifiedreads.txt.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.classifiedreads.txt.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "kraken2_percent_human_file": [
@@ -82,7 +82,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "test_sample.unclassified_1.fastq.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test_sample.unclassified_1.fastq.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "versions": [
@@ -94,7 +94,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-18T19:00:11.249733966"
+        "timestamp": "2025-06-18T19:14:39.344833271"
     },
     "kraken2 test": {
         "content": [
@@ -152,6 +152,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-18T18:59:57.033239171"
+        "timestamp": "2025-06-18T19:14:25.207776915"
     }
 }
