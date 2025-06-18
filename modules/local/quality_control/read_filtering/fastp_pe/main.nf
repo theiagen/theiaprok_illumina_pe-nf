@@ -12,10 +12,8 @@ process FASTP_PE {
     val fastp_args
 
     output:
-    tuple val(meta), path("*_1P.fastq.gz"), emit: read1_trimmed
-    tuple val(meta), path("*_2P.fastq.gz"), emit: read2_trimmed
-    tuple val(meta), path("*_1U.fastq.gz"), emit: read1_trimmed_unpaired
-    tuple val(meta), path("*_2U.fastq.gz"), emit: read2_trimmed_unpaired
+    tuple val(meta), path("*P.fastq.gz"), emit: trimmed_reads
+    tuple val(meta), path("*U.fastq.gz"), emit:  unpaired_trimmed_reads
     tuple val(meta), path("*_fastp.html"), emit: fastp_stats
     path "versions.yml", emit: versions
 

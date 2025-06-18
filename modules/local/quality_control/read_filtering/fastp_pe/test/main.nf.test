@@ -23,10 +23,8 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 {  assert snapshot(
-                    process.out.read1_trimmed,
-                    process.out.read2_trimmed,
-                    process.out.read1_trimmed_unpaired,
-                    process.out.read2_trimmed_unpaired,
+                    process.out.trimmed_reads,
+                    process.out.unpaired_trimmed_reads,
                     process.out.fastp_stats,
                     process.out.versions
                     ).match() }
