@@ -1,0 +1,103 @@
+{
+    "fastqc - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_isolatespades_contigs.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_isolatespades_contigs.gfa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_spades.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,07e86bb6f39d315279103919a01645a5"
+                ],
+                "assembly_fasta": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_isolatespades_contigs.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "assembly_gfa": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_isolatespades_contigs.gfa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "assembly_log": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_spades.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,07e86bb6f39d315279103919a01645a5"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-20T14:45:04.601207949"
+    },
+    "spades - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_isolatespades_contigs.fa:md5,6ff16a20c43701b8fbf4afee544dc905"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_isolatespades_contigs.gfa:md5,18d254ebaccd286337f065b028050437"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_spades.log:md5,463343cfc24aa52a559f270888e38c00"
+                ]
+            ],
+            [
+                "versions.yml:md5,07e86bb6f39d315279103919a01645a5"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-20T14:44:51.260709908"
+    }
+}

@@ -10,9 +10,9 @@ process SPADES {
     val spades_type
 
     output:
-    tuple val(meta), path('*.contigs.fa'), emit: contigs
-    tuple val(meta), path('*.contigs.gfa'), emit: gfa, optional: true
-    tuple val(meta), path("*.log")        , emit: log
+    tuple val(meta), path('*contigs.fa'), emit: assembly_fasta
+    tuple val(meta), path('*contigs.gfa'), emit: assembly_gfa, optional: true
+    tuple val(meta), path("*.log")        , emit: assembly_log
     path "versions.yml"                   , emit: versions
 
     when:
