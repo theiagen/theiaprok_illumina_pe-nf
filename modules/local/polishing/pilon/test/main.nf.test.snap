@@ -1,0 +1,144 @@
+{
+    "homo sapiens bam": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.fasta:md5,2e881994820a5a641da9ea594ab4958f"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.changes:md5,9c753f7c99938cef09bf677517d321b3"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.vcf:md5,3ad454f57387de0e9be8fbb69046be79"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,73f60b48e5c3838296b66520b61a551a"
+                ],
+                "changes": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.changes:md5,9c753f7c99938cef09bf677517d321b3"
+                    ]
+                ],
+                "improved_assembly": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.fasta:md5,2e881994820a5a641da9ea594ab4958f"
+                    ]
+                ],
+                "vcf": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.vcf:md5,3ad454f57387de0e9be8fbb69046be79"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,73f60b48e5c3838296b66520b61a551a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-20T20:48:33.720731605"
+    },
+    "homo sapiens frags - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.changes:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,73f60b48e5c3838296b66520b61a551a"
+                ],
+                "changes": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.changes:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "improved_assembly": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "vcf": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_pilon.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,73f60b48e5c3838296b66520b61a551a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-20T20:48:46.101419055"
+    }
+}
