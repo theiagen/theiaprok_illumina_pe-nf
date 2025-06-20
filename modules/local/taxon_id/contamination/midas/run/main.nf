@@ -13,8 +13,8 @@ process MIDAS {
     tuple val(meta), path("*/species/*_log.txt"), emit: log_file
     tuple val(meta), path("PRIMARY_GENUS.txt"), emit: primary_genus_file
     tuple val(meta), path("SECONDARY_GENUS.txt"), emit: secondary_genus_file
-    tuple val(meta), path("PRIMARY_GENUS_ABUNDANCE.txt"), emit: primary_genus_abundance_file
     tuple val(meta), path("SECONDARY_GENUS_ABUNDANCE.txt"), emit: secondary_genus_abundance_file
+    tuple val(meta), path("SECONDARY_GENUS_COVERAGE.txt"), emit: secondary_genus_coverage_file
     path "versions.yml", emit: versions
 
     when:
@@ -37,7 +37,7 @@ process MIDAS {
     run_midas.py species ${prefix} \\
         -1 ${read1} \\
         ${read2_arg} \\
-        -d db/* \\
+        -d db/ \\
         -t ${task.cpus} \\
         ${args}
     
@@ -62,8 +62,8 @@ process MIDAS {
     touch ${prefix}/species/${prefix}_log.txt
     touch PRIMARY_GENUS.txt
     touch SECONDARY_GENUS.txt
-    touch PRIMARY_GENUS_ABUNDANCE.txt
     touch SECONDARY_GENUS_ABUNDANCE.txt
+    touch SECONDARY_GENUS_COVERAGE.txt
     touch versions.yml
 
     cat <<-END_VERSIONS > versions.yml

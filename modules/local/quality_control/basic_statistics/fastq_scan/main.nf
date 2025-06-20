@@ -10,16 +10,15 @@ process FASTQ_SCAN_PE {
     output:
     tuple val(meta), path("*_R1_fastq-scan.json"), emit: read1_fastq_scan_json
     tuple val(meta), path("*_R2_fastq-scan.json"), emit: read2_fastq_scan_json
-    tuple val(meta), env(READ1_SEQS), emit: read1_seq
-    tuple val(meta), env(READ2_SEQS), emit: read2_seq
-    tuple val(meta), env(READ_PAIRS), emit: read_pairs
+    tuple val(meta), env("READ1_SEQS"), emit: read1_seq
+    tuple val(meta), env("READ2_SEQS"), emit: read2_seq
+    tuple val(meta), env("READ_PAIRS"), emit: read_pairs
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     // Extract base names for reads

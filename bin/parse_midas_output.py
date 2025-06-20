@@ -2,8 +2,7 @@
 import argparse
 import pandas as pd
 import sys
-from pathlib import Path
-
+import os
 
 """
 Taking old MIDAS python script embedded in WDL
@@ -28,18 +27,18 @@ def parse_midas_output(input_file, output_dir=None):
     
     # Set output directory
     if output_dir is None:
-        output_dir = Path.cwd()
+        output_dir = os.getcwd()
     else:
-        output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
     
     try:
         df = pd.read_csv(input_file, sep="\t", header=0)
-    except FileNotFoundError:
-        print(f"Error: Input file '{input_file}' not found.", file=sys.stderr)
+    except IOError:
+        print >> sys.stderr, "Error: Input file '{}' not found.".format(input_file)
         sys.exit(1)
     except pd.errors.EmptyDataError:
-        print(f"Error: Input file '{input_file}' is empty.", file=sys.stderr)
+        print >> sys.stderr, "Error: Input file '{}' is empty.".format(input_file)
         sys.exit(1)
     
     # Round relative abundance to 4 decimal places
@@ -49,9 +48,10 @@ def parse_midas_output(input_file, output_dir=None):
     sorted_df = df.sort_values(by=['relative_abundance'], ascending=False)
     
     # Split species_id column into genus, species, strain
-    sorted_df[['genus', 'species', 'strain']] = sorted_df['species_id'].str.split(
-        pat='_', expand=True, n=2
-    )
+    split_cols = sorted_df['species_id'].str.split(pat='_', expand=True, n=2)
+    sorted_df['genus'] = split_cols.iloc[:, 0] if len(split_cols.columns) > 0 else ''
+    sorted_df['species'] = split_cols.iloc[:, 1] if len(split_cols.columns) > 1 else ''
+    sorted_df['strain'] = split_cols.iloc[:, 2] if len(split_cols.columns) > 2 else ''
     
     # Capture primary genus (most abundant)
     primary_genus = sorted_df['genus'].iloc[0]
@@ -95,7 +95,7 @@ def parse_midas_output(input_file, output_dir=None):
     }
     
     for filename, content in output_files.items():
-        output_path = output_dir / filename
+        output_path = os.path.join(output_dir, filename)
         with open(output_path, 'w') as f:
             f.write(content)
     
@@ -125,31 +125,10 @@ def main():
         default=None
     )
     
-    parser.add_argument(
-        '--verbose', '-v',
-        action='store_true',
-        help='Print verbose output'
-    )
-    
     args = parser.parse_args()
     
     results = parse_midas_output(args.input_file, args.output_dir)
     
-    # Print results if verbose - if we need to debug or provide detailed output
-    if args.verbose:
-        print("MIDAS Analysis Results:")
-        print(f"Primary genus: {results['primary_genus']}")
-        print(f"Secondary genus: {results['secondary_genus']}")
-        print(f"Secondary genus abundance: {results['secondary_genus_abundance']}")
-        print(f"Secondary genus coverage: {results['secondary_genus_coverage']}")
-        
-        output_dir = Path(args.output_dir) if args.output_dir else Path.cwd()
-        print(f"\nOutput files written to: {output_dir}")
-        print("- PRIMARY_GENUS")
-        print("- SECONDARY_GENUS")
-        print("- SECONDARY_GENUS_ABUNDANCE")
-        print("- SECONDARY_GENUS_COVERAGE")
-
 
 if __name__ == "__main__":
     main()

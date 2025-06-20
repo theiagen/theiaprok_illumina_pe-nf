@@ -2,8 +2,7 @@ process CHECK_READS {
     tag "$meta.id"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
-    container = 'us-docker.pkg.dev/general-theiagen/bactopia/gather_samples:2.0.2' 
+    container "us-docker.pkg.dev/general-theiagen/bactopia/gather_samples:2.0.2" 
 
     input:
     tuple val(meta), path(read1), path(read2)
@@ -18,8 +17,8 @@ process CHECK_READS {
 
     output:
     tuple val(meta), path("*_read_screen.tsv"), emit: read_screen_tsv
-    tuple val(meta), env(READ_SCREEN_FLAG), emit: read_screen
-    tuple val(meta), env(EST_GENOME_LENGTH), emit: est_genome_length
+    tuple val(meta), env("READ_SCREEN_FLAG"), emit: read_screen
+    tuple val(meta), env("EST_GENOME_LENGTH"), emit: est_genome_length
     path "versions.yml", emit: versions
 
     when:

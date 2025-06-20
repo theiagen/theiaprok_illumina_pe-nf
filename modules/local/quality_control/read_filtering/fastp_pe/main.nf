@@ -21,7 +21,7 @@ process FASTP_PE {
     task.ext.when == null || task.ext.when
 
     script:
-    def fastp_args = fastp_args ?: "--detect_adapter_for_pe -g -5 20 -3 20"
+    def fastp_detect_args = fastp_args ?: "--detect_adapter_for_pe -g -5 20 -3 20"
     def prefix = task.ext.prefix ?: "${meta.id}"
     def window_size = fastp_window_size ?: 20
     def quality_score = fastp_quality_trim_score ?: 30
@@ -42,7 +42,7 @@ process FASTP_PE {
         --cut_right_mean_quality ${quality_score} \\
         --length_required ${min_length} \\
         --thread ${task.cpus} \\
-        ${fastp_args} \\
+        ${fastp_detect_args} \\
         --html ${prefix}_fastp.html \\
         --json ${prefix}_fastp.json
 

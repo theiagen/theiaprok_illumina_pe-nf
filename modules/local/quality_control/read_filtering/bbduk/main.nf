@@ -20,26 +20,26 @@ process BBDUK {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def adapters = adapters ?: ""
-    def phix = phix ?: ""
+    def bbduk_adapters = adapters ?: ""
+    def bbduk_phix = phix ?: ""
     
     """
     # date and version control
     date | tee DATE
     
     # set adapter fasta
-    if [[ ! -z "${adapters}"  ]]; then
+    if [[ ! -z "${bbduk_adapters}"  ]]; then
         echo "Using user supplied FASTA file for adapters: ${adapters}"
-        adapter_fasta="${adapters}"
+        adapter_fasta="${bbduk_adapters}"
     else
         echo "User did not supply adapters FASTA file, using default adapters.fa file..."
         adapter_fasta="/bbmap/resources/adapters.fa" 
     fi
     
     # set phix fasta
-    if [[ ! -z "${phix}" ]]; then
-        echo "Using user supplied FASTA file for phiX: ${phix}"
-        phix_fasta="${phix}"
+    if [[ ! -z "${bbduk_phix}" ]]; then
+        echo "Using user supplied FASTA file for phiX: ${bbduk_phix}"
+        phix_fasta="${bbduk_phix}"
     else
         echo "User did not supply phiX FASTA file, using default phix174_ill.ref.fa.gz file..."
         phix_fasta="/bbmap/resources/phix174_ill.ref.fa.gz"

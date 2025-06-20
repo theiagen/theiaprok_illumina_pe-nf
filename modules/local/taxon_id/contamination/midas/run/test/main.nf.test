@@ -45,20 +45,13 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert process.out.species_profile.get(0).get(1).toString()
-                    ==~ ".*/test_sample_species_profile\\.tsv" },
-                { assert process.out.log_file.get(0).get(1).toString()
-                    ==~ ".*/test_sample_log\\.txt" },
-                { assert process.out.primary_genus_file.get(0).get(1).toString()
-                    ==~ ".*/PRIMARY_GENUS\\.txt" },
-                { assert process.out.secondary_genus_file.get(0).get(1).toString()
-                    ==~ ".*/SECONDARY_GENUS\\.txt" },
-                { assert process.out.primary_genus_abundance_file.get(0).get(1).toString()
-                    ==~ ".*/PRIMARY_GENUS_ABUNDANCE\\.txt" },
-                { assert process.out.secondary_genus_abundance_file.get(0).get(1).toString()
-                    ==~ ".*/SECONDARY_GENUS_ABUNDANCE\\.txt" },
-                { assert process.out.versions.get(0).toString()
-                    ==~ ".*/versions\\.yml" }
+                { assert process.out.species_profile },
+                { assert process.out.log_file },
+                { assert process.out.primary_genus_file },
+                { assert process.out.secondary_genus_file },
+                { assert process.out.secondary_genus_coverage_file },
+                { assert process.out.secondary_genus_abundance_file },
+                { assert process.out.versions }
             )
         }
     }
@@ -80,20 +73,7 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert process.out.species_profile.get(0).get(1).toString()
-                    ==~ ".*/test_sample_species_profile\\.tsv" },
-                { assert process.out.log_file.get(0).get(1).toString()
-                    ==~ ".*/test_sample_log\\.txt" },
-                { assert process.out.primary_genus_file.get(0).get(1).toString()
-                    ==~ ".*/PRIMARY_GENUS\\.txt" },
-                { assert process.out.secondary_genus_file.get(0).get(1).toString()
-                    ==~ ".*/SECONDARY_GENUS\\.txt" },
-                { assert process.out.primary_genus_abundance_file.get(0).get(1).toString()
-                    ==~ ".*/PRIMARY_GENUS_ABUNDANCE\\.txt" },
-                { assert process.out.secondary_genus_abundance_file.get(0).get(1).toString()
-                    ==~ ".*/SECONDARY_GENUS_ABUNDANCE\\.txt" },
-                { assert process.out.versions.get(0).toString()
-                    ==~ ".*/versions\\.yml" }
+                { assert snapshot(process.out).match() }
             )
         }
     }
