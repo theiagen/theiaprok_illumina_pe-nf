@@ -1,0 +1,55 @@
+nextflow_process {
+
+    name "Test Process FILTER_CONTIGS"
+    script "../main.nf"
+    process "FILTER_CONTIGS"
+
+    test("homo sapiens filter contigs") {
+
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test_sample' ],
+                            [
+                            file(params.modules_testdata_base_path + "genomics/homo_sapiens/genome/genome.fasta", checkIfExists: true)
+                            ] ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.filtered_contigs,
+                    process.out.filtered_metrics
+                ).match() }
+            )
+        }
+
+    }
+
+
+    test("homo sapiens filter contigs stub - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [ [ id:'test_sample'],
+                            [
+                            file(params.modules_testdata_base_path + "genomics/homo_sapiens/genome/genome.fasta", checkIfExists: true)
+                            ] ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
