@@ -5,7 +5,7 @@ process NCBI_SCRUB_PE {
     container "us-docker.pkg.dev/general-theiagen/theiagen/sra-human-scrubber:2.2.1"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
 
     output:
     tuple val(meta), path("*_dehosted.fastq.gz"), emit: dehosted_reads
@@ -16,6 +16,12 @@ process NCBI_SCRUB_PE {
     task.ext.when == null || task.ext.when
 
     script:
+    // Ensure reads are paired
+    if (reads.size() != 2) {
+        error "NCBI_SCRUB_PE requires exactly two reads (forward and reverse). Found: ${reads.size()} reads."
+    }
+    def read1 = reads[0]
+    def read2 = reads[1] 
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     """

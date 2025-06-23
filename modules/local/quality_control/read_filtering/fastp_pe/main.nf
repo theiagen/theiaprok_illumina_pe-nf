@@ -5,7 +5,7 @@ process FASTP_PE {
     container "us-docker.pkg.dev/general-theiagen/staphb/fastp:0.23.2"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
     val fastp_window_size
     val fastp_quality_trim_score
     val fastp_min_length
@@ -23,6 +23,8 @@ process FASTP_PE {
     script:
     def fastp_detect_args = fastp_args ?: "--detect_adapter_for_pe -g -5 20 -3 20"
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def read1 = reads[0]
+    def read2 = reads[1]
     def window_size = fastp_window_size ?: 20
     def quality_score = fastp_quality_trim_score ?: 30
     def min_length = fastp_min_length ?: 50

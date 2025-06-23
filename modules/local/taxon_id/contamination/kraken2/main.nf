@@ -5,7 +5,7 @@ process KRAKEN2 {
     container "us-docker.pkg.dev/general-theiagen/staphb/kraken2:2.1.2-no-db"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
     path kraken2_db
     val kraken2_args
     val classified_out
@@ -27,6 +27,8 @@ process KRAKEN2 {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def classified_output = classified_out ?: "classified#.fastq"
     def unclassified_output = unclassified_out ?: "unclassified#.fastq"
+    def read1 = reads[0]
+    def read2 = reads.size() > 1 ? reads[1] : null
     def reads_input = read2 ? "${read1} ${read2}" : "${read1}"
     def mode = read2 ? "--paired" : ""
     def compression = read1.name.endsWith('.gz') ? "--gzip-compressed" : ""
