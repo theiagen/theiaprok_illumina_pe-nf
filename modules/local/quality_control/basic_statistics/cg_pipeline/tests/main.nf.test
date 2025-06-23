@@ -24,7 +24,6 @@ nextflow_process {
                 { assert process.success },
                 {  assert snapshot(
                     process.out.cg_pipeline_report,
-                    process.out.pipeline_date,
                     process.out.r1_mean_q,
                     process.out.r2_mean_q,
                     process.out.combined_mean_q,
@@ -43,11 +42,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
+                input[0] = Channel.of([
                     [ id:'test_sample' ],
+                    [
                     file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
                     file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
-                ]
+                    ]
+                ])
                 input[1] = 5200000 // genome length
                 input[2] = "--fast"
                 """
