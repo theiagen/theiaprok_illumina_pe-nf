@@ -1,0 +1,173 @@
+nextflow_workflow {
+
+    name "Test Subworkflow READ_QC_TRIM_PE"
+    script "../main.nf"
+    workflow "READ_QC_TRIM_PE"
+
+    test("read_qc_trim_pe - trimmomatic with fastqc") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 50                           // trim_min_length
+                input[2] = 20                           // trim_quality_min_score
+                input[3] = 4                            // trim_window_size
+                input[4] = false                        // call_midas
+                input[5] = []                           // midas_db
+                input[6] = false                        // call_kraken
+                input[7] = []                           // kraken_db
+                input[8] = []                           // adapters
+                input[9] = []                           // phix
+                input[10] = "theiaprok"                  // workflow_series
+                input[11] = "trimmomatic"               // read_processing
+                input[12] = "fastqc"                    // read_qc
+                input[13] = "-phred33"                  // trimmomatic_args
+                input[14] = ""                          // fastp_args
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.bbduk_cleaned_reads,
+                    workflow.out.bbduk_adapters_stats,
+                    workflow.out.bbduk_phix_stats,
+                    workflow.out.fastqc_raw_html1,
+                    workflow.out.fastqc_raw_html2,
+                    workflow.out.fastqc_clean_html1,
+                    workflow.out.fastqc_clean_html2,
+                    workflow.out.trimmomatic_stats,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("read_qc_trim_pe - fastp with fastq_scan") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 30                           // trim_min_length
+                input[2] = 15                           // trim_quality_min_score
+                input[3] = 5                            // trim_window_size
+                input[4] = false                        // call_midas
+                input[5] = []                           // midas_db
+                input[6] = false                        // call_kraken
+                input[7] = []                           // kraken_db
+                input[8] = []                          // adapters
+                input[9] = []                           // phix
+                input[10] = "theiaprok"                  // workflow_series
+                input[11] = "fastp"                     // read_processing
+                input[12] = "fastq_scan"                // read_qc
+                input[13] = ""                          // trimmomatic_args
+                input[14] = "--detect_adapter_for_pe -g -5 20 -3 20" // fastp_args
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.bbduk_cleaned_reads,
+                    workflow.out.bbduk_adapters_stats,
+                    workflow.out.bbduk_phix_stats,
+                    workflow.out.fastqc_raw_html1,
+                    workflow.out.fastqc_raw_html2,
+                    workflow.out.fastqc_clean_html1,
+                    workflow.out.fastqc_clean_html2,
+                    workflow.out.trimmomatic_stats,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("read_qc_trim_pe - theiaprok with midas and kraken") {
+
+        setup {
+            run ("UNTAR") {
+                script "../../../../../modules/nf-core/untar/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'db'],
+                        [file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.tar.gz', checkIfExists:true)]
+                    ]
+                    """
+                }
+            }
+            run ("MIDAS_BUILD") {
+                script "../../../../../modules/local/taxon_id/contamination/midas/build/main.nf"
+                process {
+                    """
+                    input[0] = UNTAR.out.untar
+                        .combine(
+                            Channel.of(
+                                file('https://github.com/snayfach/MIDAS/raw/refs/heads/master/test/genomes.mapfile', checkIfExists:true)
+                            )
+                        )
+                    """
+                }
+            }
+        }
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 50                           // trim_min_length
+                input[2] = 20                           // trim_quality_min_score
+                input[3] = 4                            // trim_window_size
+                input[4] = true                         // call_midas
+                input[5] = MIDAS_BUILD.out.database.map { meta, db -> db }   // midas_db
+                input[6] = true                         // call_kraken
+                input[7] = file("https://github.com/nf-core/test-datasets/raw/refs/heads/taxprofiler/data/database/kraken2/testdb-kraken2.tar.gz")      // kraken_db
+                input[8] = []                              // adapters
+                input[9] = []                               // phix
+                input[10] = "theiaprok"                 // workflow_series
+                input[11] = "trimmomatic"               // read_processing
+                input[12] = "fastqc"                    // read_qc
+                input[13] = "-phred33"                  // trimmomatic_args
+                input[14] = ""                          // fastp_args
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.bbduk_cleaned_reads,
+                    workflow.out.bbduk_adapters_stats,
+                    workflow.out.bbduk_phix_stats,
+                    workflow.out.fastqc_raw_html1,
+                    workflow.out.fastqc_raw_html2,
+                    workflow.out.fastqc_clean_html1,
+                    workflow.out.fastqc_clean_html2,
+                    workflow.out.trimmomatic_stats,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+}

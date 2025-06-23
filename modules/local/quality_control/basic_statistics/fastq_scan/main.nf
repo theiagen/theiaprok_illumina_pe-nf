@@ -5,25 +5,26 @@ process FASTQ_SCAN_PE {
     container "us-docker.pkg.dev/general-theiagen/biocontainers/fastq-scan:1.0.1--h4ac6f70_3"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
 
     output:
     tuple val(meta), path("*_R1_fastq-scan.json"), emit: read1_fastq_scan_json
     tuple val(meta), path("*_R2_fastq-scan.json"), emit: read2_fastq_scan_json
-    tuple val(meta), env("READ1_SEQS"), emit: read1_seq
-    tuple val(meta), env("READ2_SEQS"), emit: read2_seq
-    tuple val(meta), env("READ_PAIRS"), emit: read_pairs
+    tuple val(meta), path("READ1_SEQS"), emit: read1_seq
+    tuple val(meta), path("READ2_SEQS"), emit: read2_seq
+    tuple val(meta), path("READ_PAIRS"), emit: read_pairs
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    def read1 = reads[0]
+    def read2 = reads[1]
+    if (!read1 || !read2) {
+        error "FASTQ_SCAN_PE requires two input reads, but only found: ${reads}"
+    }
     def prefix = task.ext.prefix ?: "${meta.id}"
-    
-    // Extract base names for reads
-    def read1_name = read1.name.replaceAll(/\.gz$/, '').replaceAll(/\.(fastq|fq)$/, '')
-    def read2_name = read2.name.replaceAll(/\.gz$/, '').replaceAll(/\.(fastq|fq)$/, '')
     
     """
     # exit task in case anything fails in one-liners or variables are unset
@@ -67,6 +68,11 @@ process FASTQ_SCAN_PE {
     READ2_SEQS="\$read2_seqs"
     READ_PAIRS="\$read_pairs"
 
+    # Write read counts to files
+    echo "\$READ1_SEQS" > READ1_SEQS
+    echo "\$READ2_SEQS" > READ2_SEQS
+    echo "\$READ_PAIRS" > READ_PAIRS
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         fastq-scan: \$(fastq-scan -v 2>&1 | sed 's/fastq-scan //')
@@ -82,6 +88,10 @@ process FASTQ_SCAN_PE {
     READ1_SEQS="1000"
     READ2_SEQS="1000"
     READ_PAIRS="1000"
+
+    echo "\$READ1_SEQS" > READ1_SEQS
+    echo "\$READ2_SEQS" > READ2_SEQS
+    echo "\$READ_PAIRS" > READ_PAIRS
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

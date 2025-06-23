@@ -5,7 +5,7 @@ process MIDAS {
     container "us-docker.pkg.dev/general-theiagen/fhcrc-microbiome/midas:v1.3.2--6"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
     path midas_db
 
     output:
@@ -23,6 +23,8 @@ process MIDAS {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def read1 = reads[0]
+    def read2 = reads.size() > 1 ? reads[1] : null
     def read2_arg = read2 ? "-2 ${read2}" : ""
     
     """
@@ -64,7 +66,6 @@ process MIDAS {
     touch SECONDARY_GENUS.txt
     touch SECONDARY_GENUS_ABUNDANCE.txt
     touch SECONDARY_GENUS_COVERAGE.txt
-    touch versions.yml
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

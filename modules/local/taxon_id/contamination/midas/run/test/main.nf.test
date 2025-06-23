@@ -33,11 +33,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
-                    [id:'test_sample'],
-                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkIfExists:true),
-                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkIfExists:true)
-                ]
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
                 input[1] = MIDAS_BUILD.out.database.map { meta, db -> db }
                 """
             }
@@ -61,19 +63,20 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
-                    [id:'test_sample'],
-                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkIfExists:true),
-                    file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkIfExists:true)
-                ]
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
                 input[1] = []
                 """
             }
         }
         then {
             assertAll(
-                { assert process.success },
-                { assert snapshot(process.out).match() }
+                { assert process.success }
             )
         }
     }

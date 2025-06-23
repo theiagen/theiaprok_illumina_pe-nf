@@ -5,7 +5,7 @@ process FASTQC {
     container "us-docker.pkg.dev/general-theiagen/staphb/fastqc:0.12.1"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
 
     output:
     tuple val(meta), path("*_R1_fastqc.html"), emit: read1_fastqc_html
@@ -22,6 +22,11 @@ process FASTQC {
 
     script:
     def args = task.ext.args ?: ''
+    def read1 = reads[0]
+    def read2 = reads[1]
+    if (!read1 || !read2) {
+        error "FASTQC requires two input reads, but only found: ${reads}"
+    }
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     // Extract base names for reads

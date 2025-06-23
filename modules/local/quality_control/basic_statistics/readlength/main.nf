@@ -5,7 +5,7 @@ process READLENGTH {
     container "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
 
     output:
     tuple val(meta), path("AVERAGE_READ_LENGTH.txt"), emit: average_read_length
@@ -16,6 +16,11 @@ process READLENGTH {
 
     script:
     def args = task.ext.args ?: ''
+    def read1 = reads[0]
+    def read2 = reads[1]
+    if (!read1 || !read2) {
+        error "Both read1 and read2 must be provided. Received: read1=${read1}, read2=${read2}"
+    }
 
     """
 

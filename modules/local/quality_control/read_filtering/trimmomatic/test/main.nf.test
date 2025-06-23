@@ -7,11 +7,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
+                input[0] = Channel.of([
                     [ id:'test_sample' ],
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
-                ]
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
                 input[1] = 75  // trimmomatic_min_length
                 input[2] = 4   // trimmomatic_window_size
                 input[3] = 30  // trimmomatic_quality_trim_score
@@ -36,11 +38,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
-                    [ id:'test_sample_crop' ],
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
-                ]
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
                 input[1] = 75  // trimmomatic_min_length
                 input[2] = 4   // trimmomatic_window_size
                 input[3] = 30  // trimmomatic_quality_trim_score
@@ -66,11 +70,13 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = [
+                input[0] = Channel.of([
                     [ id:'test_sample' ],
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
-                ]
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
                 input[1] = 75  // trimmomatic_min_length
                 input[2] = 4   // trimmomatic_window_size
                 input[3] = 30  // trimmomatic_quality_trim_score

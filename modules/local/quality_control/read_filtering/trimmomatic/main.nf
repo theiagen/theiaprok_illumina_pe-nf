@@ -5,7 +5,7 @@ process TRIMMOMATIC_PE {
     container "us-docker.pkg.dev/general-theiagen/staphb/trimmomatic:0.39"
 
     input:
-    tuple val(meta), path(read1), path(read2)
+    tuple val(meta), path(reads)
     val trimmomatic_min_length
     val trimmomatic_window_size
     val trimmomatic_quality_trim_score
@@ -23,6 +23,12 @@ process TRIMMOMATIC_PE {
     script:
     def trim_args = trimmomatic_args ?: "-phred33"
     def prefix = task.ext.prefix ?: "${meta.id}"
+    // Ensure reads are paired
+    if (reads.size() != 2) {
+        error "TRIMMOMATIC_PE requires exactly two reads (forward and reverse). Found: ${reads.size()} reads."
+    }
+    def read1 = reads[0]
+    def read2 = reads[1]
     def min_length = trimmomatic_min_length ?: 75
     def window_size = trimmomatic_window_size ?: 4
     def quality_score = trimmomatic_quality_trim_score ?: 30
