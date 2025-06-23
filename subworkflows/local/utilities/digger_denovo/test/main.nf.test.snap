@@ -1,0 +1,95 @@
+{
+    "digger_denovo - megahit assembler": {
+        "content": [
+            "test_megahit_contigs.fa",
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,44a194933db72abb1740ea50740f176e"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T14:36:16.386416531"
+    },
+    "digger_denovo - skesa assembler": {
+        "content": [
+            "test_skesa_contigs.fa",
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,f7c83145e4e4df79b00294e5f3cc9bf8"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T14:40:26.447883072"
+    },
+    "digger_denovo - spades assembler": {
+        "content": [
+            "test_isolatespades_contigs.fa",
+            "test_isolatespades_contigs.gfa",
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,6b7ae1c44a246671b59aa7d7831f667c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T14:40:00.454566148"
+    },
+    "digger_denovo - full pipeline with pilon and filtering": {
+        "content": [
+            "test_filtered_contigs.fasta",
+            "test_isolatespades_contigs.gfa",
+            "test_filtering_metrics.txt",
+            "test_pilon.changes",
+            "test_pilon.vcf",
+            [
+                "versions.yml:md5,2ddcb7b2e649d5a42bdde8870e7bb82d",
+                "versions.yml:md5,6b7ae1c44a246671b59aa7d7831f667c",
+                "versions.yml:md5,990c85ed7fc1c013e309e6e18451ff3e",
+                "versions.yml:md5,c1c66d929d0d43d9db27d2978db4fbac"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T14:41:43.422189844"
+    }
+}

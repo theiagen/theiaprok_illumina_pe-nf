@@ -1,0 +1,156 @@
+nextflow_workflow {
+
+    name "Test Subworkflow DIGGER_DENOVO"
+    script "../main.nf"
+    workflow "DIGGER_DENOVO"
+
+    // Spades doesn't assemble the sarscov2 test data, so we use a different test set of prokaryotes
+    // for the spades assembler test.
+    // The sarscov2 test data is used for megahit and skesa assembler tests
+
+    test("digger_denovo - spades assembler prokaryotes") {
+
+        when {
+            params {
+                assembler = 'spades'
+                kmers = '21, 33, 55'
+                spades_type = 'isolate'
+                call_pilon = false
+                run_filter_contigs = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:false ], // meta map
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    file(workflow.out.assembly[0][1]).name,
+                    file(workflow.out.contigs_gfa[0][1]).name,
+                    workflow.out.filter_metrics,
+                    workflow.out.pilon_changes,
+                    workflow.out.pilon_vcf,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("digger_denovo - megahit assembler sarscov2") {
+
+        when {
+            params {
+                assembler = 'megahit'
+                kmers = '21,33,55'
+                call_pilon = false
+                run_filter_contigs = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:false ], // meta map
+                    [
+                        file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    file(workflow.out.assembly[0][1]).name,
+                    workflow.out.contigs_gfa,
+                    workflow.out.filter_metrics,
+                    workflow.out.pilon_changes,
+                    workflow.out.pilon_vcf,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("digger_denovo - skesa assembler sarscov2") {
+
+        when {
+            params {
+                assembler = 'skesa'
+                call_pilon = false
+                run_filter_contigs = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:false ], // meta map
+                    [
+                        file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    file(workflow.out.assembly[0][1]).name,
+                    workflow.out.contigs_gfa,
+                    workflow.out.filter_metrics,
+                    workflow.out.pilon_changes,
+                    workflow.out.pilon_vcf,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("digger_denovo - full pipeline with pilon and filtering") {
+
+        when {
+            params {
+                assembler = 'spades'
+                kmers = '21, 33, 55'
+                spades_type = 'isolate'
+                call_pilon = true
+                run_filter_contigs = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test', single_end:false ], // meta map
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    file(workflow.out.assembly[0][1]).name,
+                    file(workflow.out.contigs_gfa[0][1]).name,
+                    file(workflow.out.filter_metrics[0][1]).name,
+                    file(workflow.out.pilon_changes[0][1]).name,
+                    file(workflow.out.pilon_vcf[0][1]).name,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+}
