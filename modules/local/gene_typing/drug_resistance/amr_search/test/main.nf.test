@@ -1,0 +1,50 @@
+nextflow_process {
+    name "Test Process AMR_SEARCH"
+    script "../main.nf"
+    process "AMR_SEARCH"
+    
+    test("amr search test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+                ]
+                input[1] = "485" // amr_search_database
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.amr_results_csv,
+                    process.out.amr_results_pdf,
+                    process.out.amr_search_json_output,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+//     test("should run with theiaprok workflow - stub") {
+//         options "-stub"
+//         when {
+//             process {
+//                 """
+//                 input[0] = [
+//                     [ id:'test_sample' ],
+//                     file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+//                 ]
+//                 """
+//             }
+//         }
+//         then {
+//             assertAll(
+//                 { assert process.success },
+//                 { assert snapshot(process.out).match() }
+//             )
+//         }
+//     }
+}
