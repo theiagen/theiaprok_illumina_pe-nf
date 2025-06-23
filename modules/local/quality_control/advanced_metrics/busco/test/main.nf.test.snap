@@ -1,0 +1,95 @@
+{
+    "busco - prokaryote assembly - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_busco-summary.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "DATABASE:md5,cee23dedf42c3279dcb264cd0921d32a"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BUSCO_RESULTS:md5,66d37ffebdb87a4abf84ba6181b710ee"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,134e62fa491b8f5ed72b939723abb2e4"
+                ],
+                "busco_database": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "DATABASE:md5,cee23dedf42c3279dcb264cd0921d32a"
+                    ]
+                ],
+                "busco_report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_busco-summary.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "busco_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BUSCO_RESULTS:md5,66d37ffebdb87a4abf84ba6181b710ee"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,134e62fa491b8f5ed72b939723abb2e4"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T21:11:04.072207317"
+    },
+    "busco - prokaryote assembly": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "DATABASE:md5,a27e3b2b3da17fe14209a67d9b01a9db"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "BUSCO_RESULTS:md5,2a549ad461b0dc700b0de3d642b57710"
+                ]
+            ],
+            [
+                "versions.yml:md5,134e62fa491b8f5ed72b939723abb2e4"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-23T21:10:49.198471471"
+    }
+}
