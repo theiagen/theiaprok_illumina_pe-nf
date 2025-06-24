@@ -1,0 +1,70 @@
+nextflow_process {
+    name "Test Process STXTYPER"
+    script "../main.nf"
+    process "STXTYPER"
+    
+    test("stxtyper test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/473675_contigs.fasta", checkIfExists: true)
+                ])
+                params.stxtyper_enable_debugging = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.stxtyper_report,
+                    process.out.stxtyper_log,
+                    process.out.stxtyper_num_hits,
+                    process.out.stxtyper_all_hits,
+                    process.out.stxtyper_complete_operon_hits,
+                    process.out.stxtyper_partial_hits,
+                    process.out.stxtyper_frameshifts_or_internal_stop_hits,
+                    process.out.stxtyper_novel_hits,
+                    process.out.stxtyper_extended_operons,
+                    process.out.stxtyper_ambiguous_hits,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("kmerfinder - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/473675_contigs.fasta", checkIfExists: true)
+                ])
+                params.stxtyper_enable_debugging = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(                    
+                    process.out.stxtyper_report,
+                    process.out.stxtyper_log,
+                    process.out.stxtyper_num_hits,
+                    process.out.stxtyper_all_hits,
+                    process.out.stxtyper_complete_operon_hits,
+                    process.out.stxtyper_partial_hits,
+                    process.out.stxtyper_frameshifts_or_internal_stop_hits,
+                    process.out.stxtyper_novel_hits,
+                    process.out.stxtyper_extended_operons,
+                    process.out.stxtyper_ambiguous_hits,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+}

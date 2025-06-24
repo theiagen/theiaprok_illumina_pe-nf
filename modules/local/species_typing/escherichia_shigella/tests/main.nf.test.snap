@@ -1,0 +1,182 @@
+{
+    "stxtyper test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_stxtyper.tsv:md5,7d1ca039d71af73ae9309d2232eabefd"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_stxtyper.log:md5,b23621f04808057fced9ec2b6be0fa06"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_num_hits.txt:md5,26ab0db90d72e28ad0ba1e22ee510510"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_all_hits.txt:md5,72a1694a84f8fb82935808c899c32f11"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_complete_operons.txt:md5,a52b6019b75bb8cae42fb11880499811"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_partial_hits.txt:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_stx_frameshifts_or_internal_stop_hits.txt:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stx_novel_hits.txt:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_extended_operons.txt:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_ambiguous_hits.txt:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            null
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-24T19:20:09.00855636"
+    },
+    "kmerfinder - stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_stxtyper.tsv:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_stxtyper.log:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_num_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_all_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_complete_operons.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_partial_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_stx_frameshifts_or_internal_stop_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stx_novel_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_extended_operons.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "stxtyper_ambiguous_hits.txt:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                ]
+            ],
+            null
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-24T19:20:13.729357558"
+    }
+}
