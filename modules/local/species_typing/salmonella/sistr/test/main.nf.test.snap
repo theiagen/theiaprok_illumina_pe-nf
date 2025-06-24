@@ -1,0 +1,205 @@
+{
+    "SISTR - test": {
+        "content": [
+            
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T21:40:30.984779695"
+    },
+    "SISTR - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-allele.json:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_antigenic_formula.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "11": [
+                    "versions.yml:md5,9cd2b041e26756435a56098355b5a2ca"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-allele.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-cgmlst.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_predicted_serotype.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_serogroup.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_h1_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_h2_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_o_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_serotype_cgmlst.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_allele_fasta": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-allele.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_allele_json": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-allele.json:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_antigenic_formula": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_antigenic_formula.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_cgmlst": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-cgmlst.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_h1_antigens": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_h1_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_h2_antigens": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_h2_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_o_antigens": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_o_antigens.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_predicted_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_predicted_serotype.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_result": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_serogroup": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_serogroup.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sistr_serotype_cgmlst": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_serotype_cgmlst.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,9cd2b041e26756435a56098355b5a2ca"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T21:40:43.740233188"
+    }
+}
