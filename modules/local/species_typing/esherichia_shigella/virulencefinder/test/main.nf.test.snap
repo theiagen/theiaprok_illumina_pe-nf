@@ -1,0 +1,85 @@
+{
+    "virulencefinder - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test_results_tab.tsv:md5,bcb7f27deceee8ba2a356d38c01624e8"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "VIRULENCE_FACTORS.txt:md5,3367e51b942ab7c2ea68321397919c7d"
+                ]
+            ],
+            [
+                "versions.yml:md5,5b285e7bcfd868c47d3f3516911d854d"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T19:53:34.991305795"
+    },
+    "virulencefinder - test - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_results_tab.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "VIRULENCE_FACTORS.txt:md5,a162cc1a4b531a49f95c357bfd360920"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,5b285e7bcfd868c47d3f3516911d854d"
+                ],
+                "versions": [
+                    "versions.yml:md5,5b285e7bcfd868c47d3f3516911d854d"
+                ],
+                "virulence_factors": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "VIRULENCE_FACTORS.txt:md5,a162cc1a4b531a49f95c357bfd360920"
+                    ]
+                ],
+                "virulence_report": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_results_tab.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T19:53:47.309303378"
+    }
+}
