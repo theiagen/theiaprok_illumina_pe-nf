@@ -1,9 +1,9 @@
 nextflow_process {
-    name "Test Process SISTR"
+    name "Test Process KLEBORATE"
     script "../main.nf"
-    process "SISTR"
+    process "KLEBORATE"
 
-    test("SISTR - test") {
+    test("KLEBORATE - test") {
         setup {
             run("GUNZIP") {
                 script "../../../../../nf-core/gunzip/main.nf"
@@ -11,7 +11,7 @@ nextflow_process {
                     """
                     input[0] = [
                         [id:'test_sample'],
-                        [file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic.fna.gz', checkIfExists: true)]
+                        [file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/869/665/GCF_022869665.1_ASM2286966v1/GCF_022869665.1_ASM2286966v1_genomic.fna.gz', checkIfExists: true)]
                     ]
                     """
                 }
@@ -27,12 +27,17 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot().match() }
+                { assert snapshot(
+                    process.out.kleborate_bla_resistance_genes,
+                    process.out.kleborate_k_locus,
+                    process.out.kleborate_k_type,
+                    process.out.versions
+                ).match() }
             )
         }
     }
 
-    test("SISTR - stub") {
+    test("KLEBORATE - stub") {
         options "-stub"
         when {
             process {
