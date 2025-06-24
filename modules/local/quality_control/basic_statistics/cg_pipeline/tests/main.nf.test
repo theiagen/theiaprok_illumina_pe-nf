@@ -1,0 +1,64 @@
+nextflow_process {
+    name "Test Process CG_PIPELINE"
+    script "../main.nf"
+    process "CG_PIPELINE"
+    
+    test("cg_pipeline test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 5200000 // genome length
+                input[2] = "--fast"
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.cg_pipeline_report,
+                    process.out.r1_mean_q,
+                    process.out.r2_mean_q,
+                    process.out.combined_mean_q,
+                    process.out.r1_mean_readlength,
+                    process.out.r2_mean_readlength,
+                    process.out.combined_mean_readlength,
+                    process.out.est_coverage,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("cg_pipeline - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 5200000 // genome length
+                input[2] = "--fast"
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
