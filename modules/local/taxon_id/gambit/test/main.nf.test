@@ -1,0 +1,68 @@
+nextflow_process {
+    name "Test Process GAMBIT"
+    script "../main.nf"
+    process "GAMBIT"
+    config "./nextflow.config"
+    
+    test("gambit - prokaryote assembly") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        [file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = file("https://storage.googleapis.com/jlumpe-gambit/public/databases/refseq-curated/1.0/gambit-refseq-curated-1.0.gdb")
+                input[2] = file("https://storage.googleapis.com/jlumpe-gambit/public/databases/refseq-curated/1.0/gambit-refseq-curated-1.0.gs")
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.gambit_report,
+                    process.out.gambit_closest,
+                    process.out.predicted_taxon,
+                    process.out.predicted_taxon_rank,
+                    process.out.next_taxon,
+                    process.out.next_taxon_rank,
+                    process.out.merlin_tag,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("gambit - prokaryote assembly - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)
+                ])
+                input[1] = file("gs://gambit-databases-rp/2.0.0/gambit-metadata-2.0.0-20240628.gdb")
+                input[2] = file("gs://gambit-databases-rp/2.0.0/gambit-signatures-2.0.0-20240628.gs")
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
