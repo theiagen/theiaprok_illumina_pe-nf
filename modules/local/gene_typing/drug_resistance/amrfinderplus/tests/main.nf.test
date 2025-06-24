@@ -1,0 +1,78 @@
+nextflow_process {
+    name "Test Process AMRFINDER_PLUS_NUC"
+    script "../main.nf"
+    process "AMRFINDER_PLUS_NUC"
+    
+    test("amrfinderplus test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+                ])
+                input[1] = "Bacteroides fragilis"
+                
+                // Override process parameters for this test
+                params.amrfinder_min_percent_identity = 90
+                params.amrfinder_min_percent_coverage = 80
+                params.amrfinder_hide_point_mutations = true
+                params.amrfinder_detailed_drug_class = true
+                params.amrfinder_separate_betalactam_genes = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.amrfinderplus_all_report,
+                    process.out.amrfinderplus_amr_report,
+                    process.out.amrfinderplus_stress_report,
+                    process.out.amrfinderplus_virulence_report,
+                    process.out.amrfinderplus_amr_core_genes,
+                    process.out.amrfinderplus_amr_plus_genes,
+                    process.out.amrfinderplus_stress_genes,
+                    process.out.amrfinderplus_virulence_genes,
+                    process.out.amrfinderplus_amr_classes,
+                    process.out.amrfinderplus_amr_subclasses,
+                    process.out.amrfinderplus_amr_betalactam_genes,
+                    process.out.amrfinderplus_amr_betalactam_betalactam_genes,
+                    process.out.amrfinderplus_amr_betalactam_carbapenem_genes,
+                    process.out.amrfinderplus_amr_betalactam_cephalosporin_genes,
+                    process.out.amrfinderplus_amr_betalactam_cephalothin_genes,
+                    process.out.amrfinderplus_amr_betalactam_methicillin_genes,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("amrfinderplus - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+                ])
+                input[1] = "Bacteroides fragilis"
+                
+                // Override process parameters for this test
+                params.amrfinder_min_percent_identity = 90
+                params.amrfinder_min_percent_coverage = 80
+                params.amrfinder_hide_point_mutations = true
+                params.amrfinder_detailed_drug_class = true
+                params.amrfinder_separate_betalactam_genes = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
