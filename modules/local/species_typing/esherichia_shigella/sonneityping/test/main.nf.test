@@ -1,0 +1,61 @@
+nextflow_process {
+    name "Test Process SONNEITYPER"
+    script "../main.nf"
+    process "SONNEITYPER"
+    
+    test("sonneityper - test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[1] = false
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.mykrobe_report_csv,
+                    process.out.mykrobe_report_json,
+                    process.out.sonneityping_final_report,
+                    process.out.sonneityping_species,
+                    process.out.sonneityping_final_genotype,
+                    process.out.sonneityping_genotype_name,
+                    process.out.genotype_confidence,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("sonneityper - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[1] = false
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
