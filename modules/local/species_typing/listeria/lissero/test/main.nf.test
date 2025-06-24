@@ -1,0 +1,62 @@
+nextflow_process {
+    name "Test Process LISSERO"
+    script "../main.nf"
+    process "LISSERO"
+
+    test("LISSERO - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        [file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/848/505/GCF_002848505.1_ASM284850v1/GCF_002848505.1_ASM284850v1_genomic.fna.gz', checkIfExists: true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = 90.0
+                input[2] = 90.0
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.lissero_results,
+                    process.out.lissero_serotype,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("lissero - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa.gz', checkIfExists: true)
+                ])
+                input[1] = 90.0
+                input[2] = 95.0
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
