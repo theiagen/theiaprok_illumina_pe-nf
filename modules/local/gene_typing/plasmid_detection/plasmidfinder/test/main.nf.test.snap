@@ -1,0 +1,106 @@
+{
+    "test plasmidfinder": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "PLASMIDS.txt:md5,40768104355b17959fee4df4661a6818"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_results.tsv:md5,c457f4c5f1eacaa47e8466c01c4a1e7c"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    [
+                        "Plasmid_seqs.fsa:md5,d41d8cd98f00b204e9800998ecf8427e",
+                        "test_sample_seqs.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,2de62652dc2eb6c95f17225e88da8d70"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T15:19:58.316997847"
+    },
+    "plasmidfinder - prokaryote assembly - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_seqs.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PLASMIDS.txt:md5,40768104355b17959fee4df4661a6818"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,2de62652dc2eb6c95f17225e88da8d70"
+                ],
+                "plasmidfinder_plasmids": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PLASMIDS.txt:md5,40768104355b17959fee4df4661a6818"
+                    ]
+                ],
+                "plasmidfinder_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "plasmidfinder_seqs": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_seqs.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2de62652dc2eb6c95f17225e88da8d70"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T15:20:10.430811046"
+    }
+}
