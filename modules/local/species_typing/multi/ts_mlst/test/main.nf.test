@@ -1,0 +1,73 @@
+nextflow_process {
+    name "Test Process TS_MLST"
+    script "../main.nf"
+    process "TS_MLST"
+
+    test("ts_mlst - prokaryote assembly") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        [file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = true // nopath = true
+                input[2] = "" // scheme = null
+                input[3] = "" // taxonomy = null
+                input[4] = "" // min_percent_identity = null
+                input[5] = ""    // min_percent_coverage = null
+                input[6] = "" // minscore = null
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.ts_mlst_results,
+                    process.out.predicted_st_file,
+                    process.out.pubmlst_scheme_file,
+                    process.out.allelic_profile_file,
+                    process.out.novel_alleles,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("busco - prokaryote assembly - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                        [id:'test_sample'],
+                        [file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)]
+                    ]
+                input[1] = true
+                input[2] = ""
+                input[3] = ""
+                input[4] = ""
+                input[5] = ""
+                input[6] = ""
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

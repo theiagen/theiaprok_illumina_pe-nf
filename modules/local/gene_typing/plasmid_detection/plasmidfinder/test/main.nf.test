@@ -1,0 +1,69 @@
+nextflow_process {
+    name "Test Process PLASMIDFINDER"
+    script "../main.nf"
+    process "PLASMIDFINDER"
+
+    test ("test plasmidfinder") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        [file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = []
+                input[2] = []
+                input[3] = []
+                input[4] = ""
+                input[5] = ""
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.plasmidfinder_plasmids,
+                    process.out.plasmidfinder_results,
+                    process.out.plasmidfinder_seqs,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("plasmidfinder - prokaryote assembly - stub") {
+            options "-stub"
+            when {
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [ id:'test_sample' ],
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)
+                    ])
+                    input[1] = []
+                    input[2] = []
+                    input[3] = []
+                    input[4] = ""
+                    input[5] = ""
+                    """
+                }
+            }
+            then {
+                assertAll(
+                    { assert process.success },
+                    { assert snapshot(process.out).match() }
+                )
+            }
+        }
+}

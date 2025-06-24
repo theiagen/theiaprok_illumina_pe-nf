@@ -1,0 +1,56 @@
+nextflow_process {
+
+    name "Test Process ABRICATE"
+    script "../main.nf"
+    process "ABRICATE"
+
+    test("bacteroides_fragilis - genome.fa.gz") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test', single_end:false ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)
+                ]
+                input[1] = "AcinetobacterPlasmidTyping"
+                input[2] = 75 // min_percent_identity
+                input[3] = 75 // min_percent_coverage
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("bacteroides_fragilis - genome.fa.gz - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test', single_end:false ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true)
+                ]
+                input[1] = "AcinetobacterPlasmidTyping"
+                input[2] = 75 // min_percent_identity
+                input[3] = 75 // min_percent_coverage
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
