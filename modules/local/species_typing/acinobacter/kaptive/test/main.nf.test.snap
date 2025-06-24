@@ -1,0 +1,598 @@
+{
+    "kaptive - prokaryote assembly": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_kaptive_out_k_table.tsv:md5,67c0f57b4ccb182dc4fc4b8f642779bc"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_kaptive_out_oc_table.tsv:md5,abe925b36b036961517c975038621348"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "BEST_MATCH_LOCUS_K:md5,82b4557e30a61616f0d0ec14da312fab"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "BEST_MATCH_TYPE_K:md5,75fd026b16b90ad5c056cf31cba5af75"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MATCH_CONFIDENCE_K:md5,6adf97f83acf6453d4a6a4b1070f3754"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_EXPECTED_INSIDE_K:md5,103cb539f94c65b4546f791171a46b1e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "EXPECTED_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_EXPECTED_OUTSIDE_K:md5,103cb539f94c65b4546f791171a46b1e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "EXPECTED_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_OTHER_INSIDE_K:md5,cfcd208495d565ef66e7dff9f98764da"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "OTHER_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_OTHER_OUTSIDE_K:md5,cfcd208495d565ef66e7dff9f98764da"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "OTHER_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "BEST_MATCH_LOCUS_OC:md5,701b720e336886983d2e553bd9eb5ff4"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "BEST_MATCH_TYPE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MATCH_CONFIDENCE_OC:md5,6adf97f83acf6453d4a6a4b1070f3754"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_EXPECTED_INSIDE_OC:md5,73a4238f772a4ce623d365c59d457d7a"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "EXPECTED_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_EXPECTED_OUTSIDE_OC:md5,73a4238f772a4ce623d365c59d457d7a"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "EXPECTED_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_OTHER_INSIDE_OC:md5,cfcd208495d565ef66e7dff9f98764da"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "OTHER_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NUM_OTHER_OUTSIDE_OC:md5,cfcd208495d565ef66e7dff9f98764da"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "OTHER_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T18:25:15.496273648"
+    },
+    "kaptive - prokaryote assembly - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_kaptive_out_k_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_kaptive_out_oc_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "11": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_OUTSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "12": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "13": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "14": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_TYPE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "15": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MATCH_CONFIDENCE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "16": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_INSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "17": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "18": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_OUTSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "19": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "20": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_INSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "21": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "22": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_OUTSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "23": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_TYPE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MATCH_CONFIDENCE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_INSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_OUTSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_INSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_confidence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MATCH_CONFIDENCE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_expected_inside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_INSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_expected_inside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_expected_outside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_OUTSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_expected_outside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_match": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_other_inside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_INSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_other_inside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_IN_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_other_outside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_OUTSIDE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_other_outside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_OUT_LOCUS_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_table": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_kaptive_out_k_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_TYPE_K:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_confidence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MATCH_CONFIDENCE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_expected_inside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_INSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_expected_inside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_expected_outside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_EXPECTED_OUTSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_expected_outside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EXPECTED_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_match": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_other_inside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_INSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_other_inside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_IN_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_other_outside_count": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NUM_OTHER_OUTSIDE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_other_outside_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "OTHER_GENES_OUT_LOCUS_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_table": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_kaptive_out_oc_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "oc_type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "BEST_MATCH_TYPE_OC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T18:25:28.501748995"
+    }
+}
