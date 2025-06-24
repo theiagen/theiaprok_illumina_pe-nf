@@ -1,0 +1,48 @@
+nextflow_process {
+    name "Test Process SEROTYPEFINDER"
+    script "../main.nf"
+    process "SEROTYPEFINDER"
+    
+    test("serotypefinder test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/473675_contigs.fasta", checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.serotypefinder_report,
+                    process.out.serotypefinder_serotype,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("serotypefinder - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/473675_contigs.fasta", checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
