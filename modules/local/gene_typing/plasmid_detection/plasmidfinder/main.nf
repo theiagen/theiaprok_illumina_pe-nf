@@ -6,9 +6,9 @@ process PLASMIDFINDER {
 
     input:
     tuple val(meta), path(assembly)
-    val database
-    val database_path
-    val method_path
+    path database
+    path database_path
+    path method_path
     val min_percent_coverage
     val min_percent_identity
 

@@ -36,7 +36,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-24T15:19:58.316997847"
+        "timestamp": "2025-06-24T15:39:00.234252451"
     },
     "plasmidfinder - prokaryote assembly - stub": {
         "content": [
@@ -101,6 +101,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-24T15:20:10.430811046"
+        "timestamp": "2025-06-24T15:39:12.121676078"
     }
 }
