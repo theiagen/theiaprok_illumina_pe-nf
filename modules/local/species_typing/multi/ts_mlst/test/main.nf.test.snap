@@ -1,0 +1,146 @@
+{
+    "ts_mlst - prokaryote assembly": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_ts_mlst.tsv:md5,d080a7d03330e57defe1a7d1d26b1f22"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "PREDICTED_MLST.txt:md5,8aa298fc44bc50abdfcc74c5a9b7bbe5"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "PUBMLST_SCHEME.txt:md5,8bd3caee13d52e0765aa2293f6bb0a0b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "ALLELIC_PROFILE.txt:md5,9e0e63a518673f199e8e16a97e2a2dac"
+                ]
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,08cd134c7354359d264ec4d50b1b4231"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T14:19:47.589768737"
+    },
+    "busco - prokaryote assembly - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_ts_mlst.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PREDICTED_MLST.txt:md5,c55d857f0c5bda37f86000ed996f2c0c"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PUBMLST_SCHEME.txt:md5,e321471812e5c4b54c9c58319aec9f2b"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ALLELIC_PROFILE.txt:md5,e321471812e5c4b54c9c58319aec9f2b"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_novel_mlst_alleles.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,08cd134c7354359d264ec4d50b1b4231"
+                ],
+                "allelic_profile_file": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ALLELIC_PROFILE.txt:md5,e321471812e5c4b54c9c58319aec9f2b"
+                    ]
+                ],
+                "novel_alleles": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_novel_mlst_alleles.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "predicted_st_file": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PREDICTED_MLST.txt:md5,c55d857f0c5bda37f86000ed996f2c0c"
+                    ]
+                ],
+                "pubmlst_scheme_file": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "PUBMLST_SCHEME.txt:md5,e321471812e5c4b54c9c58319aec9f2b"
+                    ]
+                ],
+                "ts_mlst_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_ts_mlst.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,08cd134c7354359d264ec4d50b1b4231"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T14:20:00.122888949"
+    }
+}
