@@ -1,0 +1,223 @@
+{
+    "shigeifinder test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_shigeifinder.tsv:md5,2e8e4a466f0cd3712c2ecf7c269e99a9"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_serotype.txt:md5,4e538ac566c763dfc4105b77c0a2776a"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_ipaH_presence_absence.txt:md5,c30dba8197a1560649606ea4745e9d04"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_num_virulence_plasmid_genes.txt:md5,bda81ba88c634b46394ead43aff31ad5"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_cluster.txt:md5,0d6eb8e4083f85cc42500b2ed76b3eb7"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_O_antigen.txt:md5,57138138bf0e4e927747b2279c3689c2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_H_antigen.txt:md5,08f220a0c52ec2d483b95118b5bee112"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "shigeifinder_notes.txt:md5,d638507c090e6e2516837cf7c7fc81ec"
+                ]
+            ],
+            [
+                "versions.yml:md5,2b5cc2dc552ab223bc0f0ec557a622a2"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-24T21:10:51.065175839"
+    },
+    "shigeifinder - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigeifinder.tsv:md5,8c0b0472ba6dd8f65926459e9c3f0253"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_serotype.txt:md5,f71779d60e182830ed09056d287a9b85"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_ipaH_presence_absence.txt:md5,01c02267d50ef05d04a758424716498d"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_num_virulence_plasmid_genes.txt:md5,751ad5bbb0c2833f252c9c6c9686274c"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_cluster.txt:md5,a21aa83b0bd35bdc65ed38dae65965c7"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_O_antigen.txt:md5,509da607078f4182648c8b43cd30cb61"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_H_antigen.txt:md5,08f220a0c52ec2d483b95118b5bee112"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_notes.txt:md5,d638507c090e6e2516837cf7c7fc81ec"
+                    ]
+                ],
+                "8": [
+                    "versions.yml:md5,2b5cc2dc552ab223bc0f0ec557a622a2"
+                ],
+                "shigeifinder_H_antigen": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_H_antigen.txt:md5,08f220a0c52ec2d483b95118b5bee112"
+                    ]
+                ],
+                "shigeifinder_O_antigen": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_O_antigen.txt:md5,509da607078f4182648c8b43cd30cb61"
+                    ]
+                ],
+                "shigeifinder_cluster": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_cluster.txt:md5,a21aa83b0bd35bdc65ed38dae65965c7"
+                    ]
+                ],
+                "shigeifinder_ipaH_presence_absence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_ipaH_presence_absence.txt:md5,01c02267d50ef05d04a758424716498d"
+                    ]
+                ],
+                "shigeifinder_notes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_notes.txt:md5,d638507c090e6e2516837cf7c7fc81ec"
+                    ]
+                ],
+                "shigeifinder_num_virulence_plasmid_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_num_virulence_plasmid_genes.txt:md5,751ad5bbb0c2833f252c9c6c9686274c"
+                    ]
+                ],
+                "shigeifinder_report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigeifinder.tsv:md5,8c0b0472ba6dd8f65926459e9c3f0253"
+                    ]
+                ],
+                "shigeifinder_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "shigeifinder_serotype.txt:md5,f71779d60e182830ed09056d287a9b85"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2b5cc2dc552ab223bc0f0ec557a622a2"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-24T21:10:55.481701971"
+    }
+}
