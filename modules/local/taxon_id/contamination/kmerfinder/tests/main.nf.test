@@ -1,0 +1,53 @@
+nextflow_process {
+    name "Test Process KMERFINDER_BACTERIA"
+    script "../main.nf"
+    process "KMERFINDER_BACTERIA"
+    
+    test("kmerfinder test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+                ])
+                input[1] = file("$projectDir/../../datasets/kmerfinder_bacteria_20230911.tar.gz", checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.kmerfinder_results_tsv,
+                    process.out.kmerfinder_top_hit,
+                    process.out.kmerfinder_query_coverage,
+                    process.out.kmerfinder_template_coverage,
+                    process.out.kmerfinder_database,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("kmerfinder - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
+                ])
+                input[1] = file("$projectDir/../../datasets/kmerfinder_bacteria_20230911.tar.gz", checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

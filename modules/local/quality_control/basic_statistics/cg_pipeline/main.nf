@@ -46,7 +46,7 @@ process CG_PIPELINE {
     fi
     
     cat ${read1} ${read2} > ${prefix}_concat.fastq\${extension}
-    run_assembly_readMetrics.pl ${pipe_opts} ${prefix}_concat.fastq\${extension} -e ${genome_length} > ${prefix}_concat_readMetrics.tsv
+    run_assembly_readMetrics.pl ${pipe_opts} ${prefix}_concat.fastq\${extension} -e ${genome_length} ${args} > ${prefix}_concat_readMetrics.tsv
     
     cg_pipeline_parser.py --prefix ${prefix} \\
         --read1 "${read1}" \\
