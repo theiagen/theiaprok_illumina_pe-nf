@@ -54,7 +54,6 @@ process SEQSERO2 {
     # Parse the output using the external Python script
     seqsero2_parser.py \\
         ${prefix}_seqsero2_output_dir/SeqSero_result.tsv \\
-        ${prefix} \\
         --mode ${contamination_mode}
 
     # Copy and rename the main report file

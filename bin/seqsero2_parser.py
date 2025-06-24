@@ -60,7 +60,6 @@ def parse_seqsero2_output(tsv_file_path, output_contamination=True):
 def main():
     parser = argparse.ArgumentParser(description='Parse SeqSero2 output TSV file')
     parser.add_argument('tsv_file', help='Path to SeqSero_result.tsv file')
-    parser.add_argument('samplename', help='Sample name')
     parser.add_argument('--mode', choices=['reads', 'assembly'], default='reads',
                        help='Analysis mode: reads (includes contamination) or assembly (no contamination)')
     
@@ -69,7 +68,7 @@ def main():
     # Contamination output is only relevant for reads mode
     output_contamination = (args.mode == 'reads')
     
-    parse_seqsero2_output(args.tsv_file, args.samplename, output_contamination)
+    parse_seqsero2_output(args.tsv_file, output_contamination)
     
 
 if __name__ == "__main__":
