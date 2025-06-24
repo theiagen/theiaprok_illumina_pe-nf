@@ -1,0 +1,59 @@
+nextflow_process {
+    name "Test Process SHIGATYPER"
+    script "../main.nf"
+    process "SHIGATYPER"
+    
+    test("shigatyper - test") {
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[1] = false
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.shigatyper_summary,
+                    process.out.shigatyper_hits,
+                    process.out.shigatyper_predicted_serotype,
+                    process.out.shigatyper_ipaB_presence,
+                    process.out.shigatyper_notes,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("shigayper - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[1] = false
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
