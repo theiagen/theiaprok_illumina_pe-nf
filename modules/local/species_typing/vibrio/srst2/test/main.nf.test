@@ -1,0 +1,68 @@
+nextflow_process {
+    name "Test Process SRST2_VIBRIO"
+    script "../main.nf"
+    process "SRST2_VIBRIO"
+
+    test("SRST2_VIBRIO - reads paired-end") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 90
+                input[2] = 10
+                input[3] = 5
+                input[4] = 2
+                input[5] = 10
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.srst2_detailed_tsv,
+                    process.out.srst2_ctxa,
+                    process.out.srst2_ompw,
+                    process.out.srst2_toxr,
+                    process.out.srst2_biotype,
+                    process.out.srst2_serogroup,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("SRST2_VIBRIO - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_1.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = 90
+                input[2] = 10
+                input[3] = 5
+                input[4] = 2
+                input[5] = 10
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

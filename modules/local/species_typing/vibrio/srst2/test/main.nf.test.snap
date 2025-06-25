@@ -1,0 +1,85 @@
+{
+    "SRST2_VIBRIO - reads paired-end": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T20:28:49.448355214"
+    },
+    "SRST2_VIBRIO - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    
+                ],
+                "5": [
+                    
+                ],
+                "6": [
+                    
+                ],
+                "srst2_biotype": [
+                    
+                ],
+                "srst2_ctxa": [
+                    
+                ],
+                "srst2_detailed_tsv": [
+                    
+                ],
+                "srst2_ompw": [
+                    
+                ],
+                "srst2_serogroup": [
+                    
+                ],
+                "srst2_toxr": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T20:28:56.81805896"
+    }
+}
