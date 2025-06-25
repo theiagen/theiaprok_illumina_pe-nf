@@ -1,0 +1,79 @@
+{
+    "EMMTYPER  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_emmtyper.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EMM_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,7e550d04ba7cd72c1fe1a7d91508d3a6"
+                ],
+                "emmtyper_emm_type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "EMM_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "emmtyper_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_emmtyper.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,7e550d04ba7cd72c1fe1a7d91508d3a6"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T17:59:46.020153324"
+    },
+    "EMMTYPER - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_emmtyper.tsv:md5,14440096c75f6ffd042544697c1bb8cd"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "EMM_TYPE:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                "versions.yml:md5,5b5c1da0775dd0ab4fb85e0b5d1bf8d9"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T17:59:32.958017931"
+    }
+}
