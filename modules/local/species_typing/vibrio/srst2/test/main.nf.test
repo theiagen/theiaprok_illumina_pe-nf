@@ -10,8 +10,8 @@ nextflow_process {
                 input[0] = Channel.of([
                     [ id:'test_sample' ],
                     [
-                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
-                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_2.fastq.gz", checkIfExists: true)
                     ]
                 ])
                 input[1] = 90
@@ -47,7 +47,7 @@ nextflow_process {
                     [ id:'test_sample' ],
                     [
                         file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_1.fastq.gz", checkIfExists: true),
-                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_1.fastq.gz", checkIfExists: true)
+                        file(params.pipelines_testdata_base_path + "delete_me/srst2/SRR9067271_2.fastq.gz", checkIfExists: true)
                     ]
                 ])
                 input[1] = 90

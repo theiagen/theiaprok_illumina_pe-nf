@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 import csv
 import re
 import argparse
@@ -9,7 +9,7 @@ import sys
 Converting from wdl embedded script to a standalone python script
 """
 
-def tsv_to_dict(filename) -> dict:
+def tsv_to_dict(filename):
     """Convert TSV file into list of dictionaries"""
     result_list = []
     with open(filename) as file_obj:
@@ -19,7 +19,7 @@ def tsv_to_dict(filename) -> dict:
     # only one sample is run, so there's only one row, flattening list
     return result_list[0]
 
-def translate_chars(string) -> str:
+def translate_chars(string):
     """Make characters human-readable"""
     translation = []
     if '?' in string:
@@ -43,7 +43,7 @@ def parse_srst2_vibrio_output(tsv_file_path):
     """
     
     if not os.path.exists(tsv_file_path):
-        print(f"Error: Input file {tsv_file_path} not found")
+        print("Error: Input file not found")
         sys.exit(1)
     
     try:
@@ -112,7 +112,7 @@ def parse_srst2_vibrio_output(tsv_file_path):
                     serotype_fh.write(result.strip())
     
     except Exception as exc:
-        print(f"Error parsing TSV file: {exc}")
+        print("Error parsing TSV file")
         sys.exit(1)
 
 def main():
@@ -121,7 +121,7 @@ def main():
     
     args = parser.parse_args()
     
-    parse_srst2_vibrio_output(args.tsv_file, args.prefix)
+    parse_srst2_vibrio_output(args.tsv_file)
 
 if __name__ == "__main__":
     main()

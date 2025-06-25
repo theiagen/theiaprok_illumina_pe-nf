@@ -50,7 +50,7 @@ process SRST2_VIBRIO {
             forward_id = "_1.fastq"
             reverse_id = "_2.fastq"
         } else if (read1_name.contains("_R1") && read2_name.contains("_R2")) {
-            // Alternative naming: sample_R1.fastq.gz, sample_R2.fastq.gz - for some tests
+            // Alternative naming: sample_R1.fastq.gz, sample_R2.fastq.gz
             forward_id = "_R1"
             reverse_id = "_R2"
         } else {
@@ -81,6 +81,7 @@ process SRST2_VIBRIO {
     # Capture detailed output TSV - not available if no results are outputted
     mv ${prefix}__fullgenes__*__results.txt ${prefix}.detailed.tsv || echo "No results" > ${prefix}.detailed.tsv
 
+    
     vibrio_parser.py \\
         ${prefix}.tsv
 
