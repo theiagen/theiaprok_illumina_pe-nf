@@ -1,0 +1,79 @@
+{
+    "LISSERO - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.tsv:md5,028387ad8c00f7511c78416cba9999f0"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SEROTYPE.txt:md5,db31935632c995351cf6cd5d0ca52772"
+                ]
+            ],
+            [
+                "versions.yml:md5,f091db71715241a5f46beacaf97dc08b"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T21:27:57.21742011"
+    },
+    "lissero - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROTYPE.txt:md5,d4b61d77cb0b810024447774a7d4d141"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,f091db71715241a5f46beacaf97dc08b"
+                ],
+                "lissero_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "lissero_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROTYPE.txt:md5,d4b61d77cb0b810024447774a7d4d141"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f091db71715241a5f46beacaf97dc08b"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T21:28:10.664525911"
+    }
+}

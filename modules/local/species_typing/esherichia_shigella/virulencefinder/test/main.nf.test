@@ -1,0 +1,58 @@
+nextflow_process {
+
+    name "Test Process VIRULENCEFINDER"
+    script "../main.nf"
+    process "VIRULENCEFINDER"
+
+    test("virulencefinder - test") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test', single_end:false ], // meta map
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true)
+                ]
+                input[1] = "virulence_ecoli" // database
+                input[2] = "" // min_percent_identity
+                input[3] = "" // min_percent_coverage
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.virulence_report,
+                    process.out.virulence_factors,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("virulencefinder - test - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test', single_end:false ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true)
+                ]
+                input[1] = "virulence_ecoli"
+                input[2] = "" // min_percent_identity
+                input[3] = "" // min_percent_coverage
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

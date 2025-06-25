@@ -1,0 +1,70 @@
+nextflow_process {
+    name "Test Process ECTYPER"
+    script "../main.nf"
+    process "ECTYPER"
+
+    test("ectyper - ecoli assembly") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        [file(params.pipelines_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa.gz', checkIfExists: true)]
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = 90
+                input[2] = 95
+                input[3] = 90
+                input[4] = 50
+                input[5] = true
+                input[6] = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.ectyper_results,
+                    process.out.ectyper_predicted_serotype_file,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("ectyper - prokaryote assembly - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa.gz', checkIfExists: true)
+                ])
+                input[1] = 90
+                input[2] = 95
+                input[3] = 90
+                input[4] = 50
+                input[5] = true
+                input[6] = true
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

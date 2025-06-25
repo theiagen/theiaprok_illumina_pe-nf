@@ -1,0 +1,211 @@
+{
+    "PASTY - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    [
+                        "test_sample.blastn.tsv:md5,ec58783a0ded5271804a072d74a4a0d0",
+                        "test_sample.details.tsv:md5,f3bc55066d891d92380dc9643098ff7c",
+                        "test_sample.tsv:md5,af8ae2cf8ad3031d258bb42ebc4cd564"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.details.tsv:md5,f3bc55066d891d92380dc9643098ff7c"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.blastn.tsv:md5,ec58783a0ded5271804a072d74a4a0d0"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "COMMENT:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SEROGROUP:md5,3a9a7a6e8bf79f0169971b05bcfb0709"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "COVERAGE:md5,408ca9e6fe8870fd011f3c95de65f2e4"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "FRAGMENTS:md5,b026324c6904b2a9cb4b88d6d61c81d1"
+                ]
+            ],
+            [
+                "versions.yml:md5,32c515d76f90e17d0250b4b6a780210b"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:25:42.142235"
+    },
+    "PASTY  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample.blastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.details.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.blastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.details.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROGROUP:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "COVERAGE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "FRAGMENTS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "COMMENT:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    "versions.yml:md5,32c515d76f90e17d0250b4b6a780210b"
+                ],
+                "pasty_all_serogroups": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.details.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_blast_hits": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.blastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_comment": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "COMMENT:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_serogroup": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROGROUP:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_serogroup_coverage": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "COVERAGE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_serogroup_fragments": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "FRAGMENTS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pasty_summary_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample.blastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.details.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,32c515d76f90e17d0250b4b6a780210b"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:25:46.991973"
+    }
+}

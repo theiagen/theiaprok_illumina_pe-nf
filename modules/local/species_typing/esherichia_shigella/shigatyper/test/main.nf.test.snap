@@ -1,0 +1,151 @@
+{
+    "spades - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_shigatyper_summary.tsv:md5,ef396ef3b6fdc4c57d405d19aac62cdd"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample_shigatyper_hits.tsv:md5,48ced7592e1c5fd58e65cb107c68761b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SHIGATYPER_PREDICTION.txt:md5,1cdd2058f09c4d8126ac3d4545fb898f"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SHIGATYPER_IPAB.txt:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SHIGATYPER_NOTES.txt:md5,a01386db14a5991c5d0248bff99ef295"
+                ]
+            ],
+            [
+                "versions.yml:md5,5546505c7719718340a0cd98ece587d8"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T19:15:34.871914784"
+    },
+    "spades - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigatyper_summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigatyper_hits.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_PREDICTION.txt:md5,d4b61d77cb0b810024447774a7d4d141"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_IPAB.txt:md5,66155f044c6dd2ee8fcb545a4807bb6e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_NOTES.txt:md5,3fb63f92519cefe3564cb6cfeabfbe11"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,5546505c7719718340a0cd98ece587d8"
+                ],
+                "shigatyper_hits": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigatyper_hits.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "shigatyper_ipaB_presence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_IPAB.txt:md5,66155f044c6dd2ee8fcb545a4807bb6e"
+                    ]
+                ],
+                "shigatyper_notes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_NOTES.txt:md5,3fb63f92519cefe3564cb6cfeabfbe11"
+                    ]
+                ],
+                "shigatyper_predicted_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SHIGATYPER_PREDICTION.txt:md5,d4b61d77cb0b810024447774a7d4d141"
+                    ]
+                ],
+                "shigatyper_summary": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_shigatyper_summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,5546505c7719718340a0cd98ece587d8"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T19:15:49.483048673"
+    }
+}

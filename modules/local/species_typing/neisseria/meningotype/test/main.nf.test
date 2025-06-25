@@ -1,0 +1,65 @@
+nextflow_process {
+    name "Test Process MENINGOTYPE "
+    script "../main.nf"
+    process "MENINGOTYPE"
+
+    test("MENINGOTYPE  - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/019/048/825/GCF_019048825.1_ASM1904882v1/GCF_019048825.1_ASM1904882v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.meningotype_report,
+                    process.out.meningotype_serogroup,
+                    process.out.meningotype_pora,
+                    process.out.meningotype_feta,
+                    process.out.meningotype_porb,
+                    process.out.meningotype_fhbp,
+                    process.out.meningotype_nhba,
+                    process.out.meningotype_nada,
+                    process.out.meningotype_bast,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("MENINGOTYPE  - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa.gz', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

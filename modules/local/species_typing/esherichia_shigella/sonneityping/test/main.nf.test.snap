@@ -1,0 +1,192 @@
+{
+    "sonneityper - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.mykrobe.csv:md5,242c9b02404c2aba9a380ed95592b0be"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.mykrobe.json:md5,bcaf61c7c2b7262deaefee4a251c9127"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.sonneityping.tsv:md5,897dd1ce907df7e1acdad381a89329a4"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SPECIES.txt:md5,bde357f0a8af0bea5b4dbf47f14ff988"
+                ]
+            ],
+            null,
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "GENOTYPE_NAME.txt:md5,d4cd0dabcf4caa22ad92fab40844c786"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "CONFIDENCE.txt:md5,d4cd0dabcf4caa22ad92fab40844c786"
+                ]
+            ],
+            [
+                "versions.yml:md5,076b2c1451625aecb218634e9a61337a"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T20:53:16.067579207"
+    },
+    "sonneityper - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.mykrobe.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.mykrobe.json:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.sonneityping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SPECIES.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "FINAL_GENOTYPE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GENOTYPE_NAME.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "CONFIDENCE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    "versions.yml:md5,296cf002785168be7059459ab971b893"
+                ],
+                "genotype_confidence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "CONFIDENCE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "mykrobe_report_csv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.mykrobe.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "mykrobe_report_json": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.mykrobe.json:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sonneityping_final_report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.sonneityping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sonneityping_genotype_name": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GENOTYPE_NAME.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sonneityping_species": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SPECIES.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sonnietyping_final_genotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "FINAL_GENOTYPE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,296cf002785168be7059459ab971b893"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-24T20:53:29.3410081"
+    }
+}
