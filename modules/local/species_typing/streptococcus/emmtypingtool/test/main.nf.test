@@ -1,0 +1,54 @@
+nextflow_process {
+    name "Test Process EMMTYPINGTOOL"
+    script "../main.nf"
+    process "EMMTYPINGTOOL"
+
+    test("EMMTYPINGTOOL - reads paired-end") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file("https://github.com/sanger-pathogens/seroba/raw/refs/heads/master/seroba/tests/data/06B_1.fq.gz", checkIfExists: true),
+                        file("https://github.com/sanger-pathogens/seroba/raw/refs/heads/master/seroba/tests/data/06B_2.fq.gz", checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.emmtypingtool_results,
+                    process.out.emmtypingtool_emm_type,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("EMMTYPINGTOOL - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
