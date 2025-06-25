@@ -1,0 +1,103 @@
+{
+    "STAPHOPIASCCMEC  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.staphopia-sccmec.summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.staphopia-sccmec.hamming.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "TYPES_AND_MECA.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,efa986cf837fac5b6e3bdd3dab8b424c"
+                ],
+                "staphopia_hamming_distance_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.staphopia-sccmec.hamming.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "staphopia_results_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.staphopia-sccmec.summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "staphopia_types_and_meca_presence": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "TYPES_AND_MECA.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,efa986cf837fac5b6e3bdd3dab8b424c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-25T08:50:27.085125"
+    },
+    "STAPHOPIASCCMEC - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.staphopia-sccmec.summary.tsv:md5,fa2f9b997dcb27e4969fe695abc7ad32"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.staphopia-sccmec.hamming.tsv:md5,75489ab577d33e311d78ede0d40d0d2e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "TYPES_AND_MECA.txt:md5,646c4b9f161e16c64773fcae1485d00c"
+                ]
+            ],
+            [
+                "versions.yml:md5,e548a4ec886b19e5055de4f09e7ba8b2"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-25T08:50:22.766939"
+    }
+}
