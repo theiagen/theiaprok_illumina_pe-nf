@@ -1,0 +1,49 @@
+nextflow_process {
+    name "Test Process LEGSTA"
+    script "../main.nf"
+    process "LEGSTA"
+
+    
+    test("legsta test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/2022AZMC-0005_filtered_contigs.fasta", checkIfExists: true) // Point to our own test data once available in our datasets repo
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.legsta_results,
+                    process.out.legsta_predicted_sbt,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("spatyper - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/2022AZMC-0005_filtered_contigs.fasta", checkIfExists: true) // Point to our own test data once available in our datasets repo
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
