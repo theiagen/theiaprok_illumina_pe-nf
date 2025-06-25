@@ -1,0 +1,302 @@
+{
+    "resfinder - fasta - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table_species.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Hit_in_genome_seq.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Resistance_gene_seq.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_results_tab.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_PointFinder_prediction.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_PointFinder_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "RESFINDER_PREDICTED_PHENO_RESISTANCE.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AMP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AXO.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AZM.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_CIP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_SMX.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_TMP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_XDR_SHIGELLA.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "8": [
+                    "versions.yml:md5,797867e8d8aa528d6c2f72d02517df3f"
+                ],
+                "hit_in_genome_seq": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Hit_in_genome_seq.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pointfinder_pheno_table": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_PointFinder_prediction.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pointfinder_results": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_PointFinder_results.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "resfinder_pheno_table": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "resfinder_pheno_table_species": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table_species.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "resfinder_predicted_resistance": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "RESFINDER_PREDICTED_PHENO_RESISTANCE.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AMP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AXO.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_AZM.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_CIP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_SMX.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_RESISTANCE_TMP.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "RESFINDER_PREDICTED_XDR_SHIGELLA.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "resistance_gene_seq": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Resistance_gene_seq.fsa:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "results_tab": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_results_tab.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,797867e8d8aa528d6c2f72d02517df3f"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T11:03:55.838066625"
+    },
+    "resfinder - fasta": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table.tsv:md5,8ad8083ce10e88e99d28ea83233a3a0e"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Hit_in_genome_seq.fsa:md5,381b2fcff2418aca0fced30a86502407"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Resistance_gene_seq.fsa:md5,f216c1c0686068e2f27b1f192fa24519"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_results_tab.tsv:md5,068b8b12e27ebce6b866d1c0fdca728d"
+                    ]
+                ],
+                "5": [
+                    
+                ],
+                "6": [
+                    
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "RESFINDER_PREDICTED_PHENO_RESISTANCE.txt:md5,458f1b4efedc6d1d4fe309f954d781a6",
+                            "RESFINDER_PREDICTED_RESISTANCE_AMP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_AXO.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_AZM.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_CIP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_SMX.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_TMP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_XDR_SHIGELLA.txt:md5,b564fb38ebce0d97260914c7d128e72b",
+                            "ResFinder_results.txt:md5,9760bf2021510e40cd4eb80bffb7e443",
+                            "ResFinder_results_table.txt:md5,0f34ea3fe0722ad9ecb4aa66fa207a8f"
+                        ]
+                    ]
+                ],
+                "8": [
+                    "versions.yml:md5,105249cacc8b2d29f63fabbde882b2ee"
+                ],
+                "hit_in_genome_seq": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Hit_in_genome_seq.fsa:md5,381b2fcff2418aca0fced30a86502407"
+                    ]
+                ],
+                "pointfinder_pheno_table": [
+                    
+                ],
+                "pointfinder_results": [
+                    
+                ],
+                "resfinder_pheno_table": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_pheno_table.tsv:md5,8ad8083ce10e88e99d28ea83233a3a0e"
+                    ]
+                ],
+                "resfinder_pheno_table_species": [
+                    
+                ],
+                "resfinder_predicted_resistance": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "RESFINDER_PREDICTED_PHENO_RESISTANCE.txt:md5,458f1b4efedc6d1d4fe309f954d781a6",
+                            "RESFINDER_PREDICTED_RESISTANCE_AMP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_AXO.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_AZM.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_CIP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_SMX.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_RESISTANCE_TMP.txt:md5,a4ee12b1ae0e459a6874dad538935aa9",
+                            "RESFINDER_PREDICTED_XDR_SHIGELLA.txt:md5,b564fb38ebce0d97260914c7d128e72b",
+                            "ResFinder_results.txt:md5,9760bf2021510e40cd4eb80bffb7e443",
+                            "ResFinder_results_table.txt:md5,0f34ea3fe0722ad9ecb4aa66fa207a8f"
+                        ]
+                    ]
+                ],
+                "resistance_gene_seq": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_Resistance_gene_seq.fsa:md5,f216c1c0686068e2f27b1f192fa24519"
+                    ]
+                ],
+                "results_tab": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_ResFinder_results_tab.tsv:md5,068b8b12e27ebce6b866d1c0fdca728d"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,105249cacc8b2d29f63fabbde882b2ee"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T11:03:45.750930581"
+    }
+}
