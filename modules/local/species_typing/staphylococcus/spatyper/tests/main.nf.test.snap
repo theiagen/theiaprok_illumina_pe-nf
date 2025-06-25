@@ -1,0 +1,95 @@
+{
+    "spatyper test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.tsv:md5,10a31ab23a232ce70a56c72134953fb7"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "REPEATS:md5,238e5efb505a6f5785895073a675d035"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "TYPE:md5,573f89c6dac8854674a872d0091e6a5a"
+                ]
+            ],
+            null
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-25T20:18:42.885581414"
+    },
+    "spatyper - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "REPEATS:md5,358427305e412fd00ab05251f491dfa8"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "TYPE:md5,0104a1bf80547cbd6bc99eb00df49a5d"
+                    ]
+                ],
+                "repeats": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "REPEATS:md5,358427305e412fd00ab05251f491dfa8"
+                    ]
+                ],
+                "tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "TYPE:md5,0104a1bf80547cbd6bc99eb00df49a5d"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-25T20:18:47.473943345"
+    }
+}
