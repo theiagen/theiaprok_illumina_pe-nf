@@ -1,0 +1,68 @@
+{
+    "vibrio - reads - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "lineage_report.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f058d058e7bea244c8f991e71d9bcfad"
+                ],
+                "report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "lineage_report.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f058d058e7bea244c8f991e71d9bcfad"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:53:22.980083377"
+    },
+    "vibrio - reads": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "lineage_report.csv:md5,352077018245847111f9f4fedb85ed3b"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f058d058e7bea244c8f991e71d9bcfad"
+                ],
+                "report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "lineage_report.csv:md5,352077018245847111f9f4fedb85ed3b"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f058d058e7bea244c8f991e71d9bcfad"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:53:12.303511551"
+    }
+}
