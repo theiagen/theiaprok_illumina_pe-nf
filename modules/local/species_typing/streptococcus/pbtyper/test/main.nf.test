@@ -1,0 +1,67 @@
+nextflow_process {
+    name "Test Process PBPTYPER"
+    script "../main.nf"
+    process "PBPTYPER"
+
+    test("PBPTYPER - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = []
+                input[2] = 95
+                input[3] = 95
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.pbtyper_predicted_1a_2b_2x,
+                    process.out.pbtyper_predicted_tsv,
+                    process.out.pbtyper_pbptype_1a_tsv,
+                    process.out.pbtyper_pbptype_2b_tsv,
+                    process.out.pbtyper_pbptype_2x_tsv,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("PBPTYPER  - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/839/195/GCF_001839195.1_ASM183919v1/GCF_001839195.1_ASM183919v1_genomic.fna.gz', checkIfExists: true)
+                ])
+                input[1] = []
+                input[2] = 95
+                input[3] = 95
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

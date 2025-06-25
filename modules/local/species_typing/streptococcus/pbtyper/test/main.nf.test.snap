@@ -1,0 +1,167 @@
+{
+    "PBPTYPER - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "pbptype.txt:md5,751731643069c800f8765867bfffe8d2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    [
+                        "test_sample-1A.tblastn.tsv:md5,0df2c531d8b430ca71ad82cf459b90d8",
+                        "test_sample-2B.tblastn.tsv:md5,d409db68916b1821e221f68b9e93de18",
+                        "test_sample-2X.tblastn.tsv:md5,34637d0371ac3a504db220d64cefa215",
+                        "test_sample.fastani.tsv:md5,5fbb805f89005ec4f2180e5e498313ad",
+                        "test_sample.tsv:md5,69607c1fb8f75a60b38f6376c838d890"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample-1A.tblastn.tsv:md5,0df2c531d8b430ca71ad82cf459b90d8"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample-2B.tblastn.tsv:md5,d409db68916b1821e221f68b9e93de18"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample-2X.tblastn.tsv:md5,34637d0371ac3a504db220d64cefa215"
+                ]
+            ],
+            [
+                "versions.yml:md5,a7c1b2919575cc4bdee9e9ff9b77899c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:17:39.092889841"
+    },
+    "PBPTYPER  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "pbptype.txt:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample-1A.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample-2B.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample-2X.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-1A.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-2B.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-2X.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,a7c1b2919575cc4bdee9e9ff9b77899c"
+                ],
+                "pbtyper_pbptype_1a_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-1A.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pbtyper_pbptype_2b_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-2B.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pbtyper_pbptype_2x_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample-2X.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "pbtyper_predicted_1a_2b_2x": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "pbptype.txt:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "pbtyper_predicted_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample-1A.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample-2B.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample-2X.tblastn.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,a7c1b2919575cc4bdee9e9ff9b77899c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:17:51.163074911"
+    }
+}
