@@ -1,0 +1,103 @@
+{
+    "HICAP  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.hicap.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "hicap_serotype:md5,60b725f10c9c85c70d97880dfe8191b3"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "hicap_genes:md5,d10eb57a297f3f78c9ae3dfa2d1e2ec1"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,8f155331d348220ce0f7d6467340608a"
+                ],
+                "hicap_genes": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "hicap_genes:md5,d10eb57a297f3f78c9ae3dfa2d1e2ec1"
+                    ]
+                ],
+                "hicap_results_tsv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.hicap.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "hicap_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "hicap_serotype:md5,60b725f10c9c85c70d97880dfe8191b3"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,8f155331d348220ce0f7d6467340608a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T19:48:58.340810523"
+    },
+    "HICAP - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.hicap.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "hicap_serotype:md5,6381cdea650a02cb1c4b4094632ef966"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "hicap_genes:md5,6381cdea650a02cb1c4b4094632ef966"
+                ]
+            ],
+            [
+                "versions.yml:md5,8f155331d348220ce0f7d6467340608a"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T19:48:48.319993312"
+    }
+}

@@ -1,0 +1,67 @@
+nextflow_process {
+    name "Test Process HICAP"
+    script "../main.nf"
+    process "HICAP"
+
+    test("HICAP - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/736/045/GCF_020736045.1_ASM2073604v1/GCF_020736045.1_ASM2073604v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = 0.80
+                input[2] = 0.70
+                input[3] = 0.80
+                input[4] = 60
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.hicap_results_tsv, 
+                    process.out.hicap_serotype, 
+                    process.out.hicap_genes, 
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("HICAP  - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/736/045/GCF_020736045.1_ASM2073604v1/GCF_020736045.1_ASM2073604v1_genomic.fna.gz', checkIfExists: true)
+                ])
+                input[1] = 0.80
+                input[2] = 0.70
+                input[3] = 0.80
+                input[4] = 60
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
