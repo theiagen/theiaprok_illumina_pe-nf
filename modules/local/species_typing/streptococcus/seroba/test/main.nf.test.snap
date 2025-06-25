@@ -1,0 +1,122 @@
+{
+    "SEQSERO2 - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROTYPE:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ARIBA_SEROTYPE:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ARIBA_IDENTITY:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "detailed_serogroup_info.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    "versions.yml:md5,844750624c43b8557ad1bb42ff4845b6"
+                ],
+                "seroba_ariba_identity": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ARIBA_IDENTITY:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "seroba_ariba_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "ARIBA_SEROTYPE:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "seroba_details": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "detailed_serogroup_info.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "seroba_serotype": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "SEROTYPE:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,844750624c43b8557ad1bb42ff4845b6"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:04:58.955310092"
+    },
+    "SEROBA - reads paired-end": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "SEROTYPE:md5,253ce0dee2b80d881ea1049b2ef50317"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "ARIBA_SEROTYPE:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "ARIBA_IDENTITY:md5,68b329da9893e34099c7d8ad5cb9c940"
+                ]
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,844750624c43b8557ad1bb42ff4845b6"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T14:04:45.848788473"
+    }
+}
