@@ -1,0 +1,63 @@
+nextflow_process {
+    name "Test Process AGRVATE"
+    script "../main.nf"
+    process "AGRVATE"
+
+    test("AGRVATE - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/839/195/GCF_001839195.1_ASM183919v1/GCF_001839195.1_ASM183919v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.agrvate_summary,
+                    process.out.agrvate_results,
+                    process.out.agrvate_agr_group,
+                    process.out.agrvate_agr_match_score,
+                    process.out.agrvate_agr_canonical,
+                    process.out.agrvate_agr_multiple,
+                    process.out.agrvate_agr_num_frameshifts,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("AGRVATE  - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/839/195/GCF_001839195.1_ASM183919v1/GCF_001839195.1_ASM183919v1_genomic.fna.gz', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,199 @@
+{
+    "AGRVATE  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.agrvate.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.agrvate.tar.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_GROUP:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_MATCH_SCORE:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_CANONICAL:md5,659c499e9573b6f86feee58e7165e7b0"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_MULTIPLE:md5,659c499e9573b6f86feee58e7165e7b0"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_NUM_FRAMESHIFTS:md5,b6cae007c6ca87d25b2ea96db64c7f5d"
+                    ]
+                ],
+                "7": [
+                    "versions.yml:md5,fbf8f6ba5629f99370082f5f837a7a2e"
+                ],
+                "agrvate_agr_canonical": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_CANONICAL:md5,659c499e9573b6f86feee58e7165e7b0"
+                    ]
+                ],
+                "agrvate_agr_group": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_GROUP:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "agrvate_agr_match_score": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_MATCH_SCORE:md5,d9f7497c382d9ee2709f9d1b560aecaf"
+                    ]
+                ],
+                "agrvate_agr_multiple": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_MULTIPLE:md5,659c499e9573b6f86feee58e7165e7b0"
+                    ]
+                ],
+                "agrvate_agr_num_frameshifts": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "AGR_NUM_FRAMESHIFTS:md5,b6cae007c6ca87d25b2ea96db64c7f5d"
+                    ]
+                ],
+                "agrvate_results": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.agrvate.tar.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "agrvate_summary": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.agrvate.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,fbf8f6ba5629f99370082f5f837a7a2e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T13:38:46.850827258"
+    },
+    "AGRVATE - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.agrvate.tsv:md5,6e87b5fc3b52f82f19c47ae8a0af41ba"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.agrvate.tar.gz:md5,427de7c66cfbd0514577dc7752dde52b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AGR_GROUP:md5,348a272f9cde0d186e82348e85aefab6"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AGR_MATCH_SCORE:md5,aa6ed9e0f26a6eba784aae8267df1951"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AGR_CANONICAL:md5,81c2592c1a13361950b19c2fd2e84189"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AGR_MULTIPLE:md5,796329042ec830f5c9f0c8e6aae29def"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "AGR_NUM_FRAMESHIFTS:md5,897316929176464ebc9ad085f31e7284"
+                ]
+            ],
+            [
+                "versions.yml:md5,fbf8f6ba5629f99370082f5f837a7a2e"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T13:38:34.992780557"
+    }
+}
