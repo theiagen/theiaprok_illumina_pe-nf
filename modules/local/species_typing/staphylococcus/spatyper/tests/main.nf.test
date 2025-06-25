@@ -1,0 +1,51 @@
+nextflow_process {
+    name "Test Process SPATYPER"
+    script "../main.nf"
+    process "SPATYPER"
+    
+    test("spatyper test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/SRR7706353_filtered_contigs.fasta", checkIfExists: true)
+                ])
+                input[1] = false
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.tsv,
+                    process.out.repeats,
+                    process.out.type,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("spatyper - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("$projectDir/bin/SRR7706353_filtered_contigs.fasta", checkIfExists: true)
+                ])
+                input[1] = false  // Set do_enrich to false for variation
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
