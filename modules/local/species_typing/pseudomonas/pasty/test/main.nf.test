@@ -1,0 +1,63 @@
+nextflow_process {
+    name "Test Process PASTY"
+    script "../main.nf"
+    process "PASTY"
+
+    test("PASTY - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/765/GCF_000006765.1_ASM676v1/GCF_000006765.1_ASM676v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.pasty_summary_tsv,
+                    process.out.pasty_all_serogroups,
+                    process.out.pasty_blast_hits,
+                    process.out.pasty_comment,
+                    process.out.pasty_serogroup,
+                    process.out.pasty_serogroup_coverage,
+                    process.out.pasty_serogroup_fragments,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("PASTY  - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/765/GCF_000006765.1_ASM676v1/GCF_000006765.1_ASM676v1_genomic.fna.gz', checkIfExists: true)
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

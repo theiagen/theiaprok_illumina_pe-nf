@@ -1,0 +1,247 @@
+{
+    "MENINGOTYPE  - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_SEROTYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_PORA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_FETA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_FHBP:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_NHBA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_NADA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_BAST:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "9": [
+                    "versions.yml:md5,91abd476dd11f1259a8ef6f8be2fd7a4"
+                ],
+                "meningotype_bast": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_BAST:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_feta": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_FETA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_fhbp": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_FHBP:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_nada": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_NADA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_nhba": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_NHBA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_pora": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_PORA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_porb": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "meningotype_serogroup": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "MENINGOTYPE_SEROTYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,91abd476dd11f1259a8ef6f8be2fd7a4"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:16:20.840625"
+    },
+    "MENINGOTYPE  - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.tsv:md5,d9215741782af688916e5408e53a1148"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_SEROTYPE:md5,b39bfc0e26a30024c76e4dcb8a1eae87"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_PORA:md5,5e5d2781cf382826446ff70f0f5e9de6"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_FETA:md5,693a0f9f92783c3ef2979d37a20422e3"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_PORB:md5,6717dc6c302b21d7f8569c28391a67d6"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_FHBP:md5,31d30eea8d0968d6458e0ad0027c9f80"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_NHBA:md5,dbbf8220893d497d403bb9cdf49db7a4"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_NADA:md5,9cd599a3523898e6a12e13ec787da50a"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "MENINGOTYPE_BAST:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                "versions.yml:md5,91abd476dd11f1259a8ef6f8be2fd7a4"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:16:16.825177"
+    }
+}
