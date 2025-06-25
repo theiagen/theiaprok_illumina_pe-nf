@@ -1,0 +1,312 @@
+{
+    "NGMASTER - test": {
+        "content": [
+            null,
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGMAST_SEQUENCE_TYPE:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGMAST_PORB:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGMAST_TBPB:md5,7c6139e8fb296b24c93dc4466bf90340"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_SEQUENCE_TYPE:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_PENA:md5,6d7fce9fee471194aa8b5b6e47267f03"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_MTRR:md5,1c1535d0401fddadb767a21a98d1bfa3"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_PORB:md5,0a1f21a3417389e0c0a13392c79a7a89"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_PONA:md5,919d117956d3135c4c683ff021352f5c"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_GYRA:md5,5d668b5523f7b66e79cd30aa8c03b91b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_PARC:md5,eb7f750551be8d3e491935d533be6dba"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "NGSTAR_23S:md5,e689b4e07fe8bfa43992478420b295fb"
+                ]
+            ],
+            [
+                "versions.yml:md5,dc279e606b45d96b6d776b1a4466d121"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:01:55.350149"
+    },
+    "NGMASTER - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.ngmaster.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_SEQUENCE_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PARC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "11": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_23S:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "12": [
+                    "versions.yml:md5,dc279e606b45d96b6d776b1a4466d121"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_TBPB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_SEQUENCE_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PENA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_MTRR:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PONA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_GYRA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngmast_porb_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngmast_report": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample.ngmaster.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngmast_sequence_type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_SEQUENCE_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngmast_tbpb_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGMAST_TBPB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_23s_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_23S:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_gyra_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_GYRA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_mtrr_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_MTRR:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_parc_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PARC:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_pena_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PENA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_pona_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PONA:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_porb_allele": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_PORB:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "ngstar_sequence_type": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "NGSTAR_SEQUENCE_TYPE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,dc279e606b45d96b6d776b1a4466d121"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-06-24T20:01:59.666369"
+    }
+}
