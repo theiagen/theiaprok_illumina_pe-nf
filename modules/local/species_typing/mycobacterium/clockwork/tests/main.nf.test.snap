@@ -1,0 +1,64 @@
+{
+    "clockwork_decon_reads test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    [
+                        "clockwork_cleaned_test_sample_R1.fastq.gz:md5,8529f89a9f6c3e5c8551fa7cdb6f0f03",
+                        "clockwork_cleaned_test_sample_R2.fastq.gz:md5,0730541efc8a00148e75b7109523ba7f"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,4f0b0b69a1319304f45e6ee9208a82d2"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-25T13:52:56.552936698"
+    },
+    "clockwork_decon_reads - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "clockwork_cleaned_test_sample_R1.fastq.gz:md5,48ab5cdbf8567cf6023bd304fcf896a9",
+                            "clockwork_cleaned_test_sample_R2.fastq.gz:md5,b4246225aa4a15496991ac7c6b58563f"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,4f0b0b69a1319304f45e6ee9208a82d2"
+                ],
+                "cleaned_reads": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "clockwork_cleaned_test_sample_R1.fastq.gz:md5,48ab5cdbf8567cf6023bd304fcf896a9",
+                            "clockwork_cleaned_test_sample_R2.fastq.gz:md5,b4246225aa4a15496991ac7c6b58563f"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,4f0b0b69a1319304f45e6ee9208a82d2"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-06-25T13:53:02.563749504"
+    }
+}
