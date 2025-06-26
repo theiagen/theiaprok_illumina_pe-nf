@@ -1,0 +1,87 @@
+nextflow_process {
+    name "Test Process POPPUNK"
+    script "../main.nf"
+    process "POPPUNK"
+    config "./nextflow.config"
+    
+    test("POPPUNK - test") {
+        setup {
+            // Stage the PopPUNK database first
+            run("POPPUNK_DATABASE") {
+                script "../../fetch/main.nf"
+                process {
+                    """
+                    input[0] = "https://gps-project.cog.sanger.ac.uk/GPS_v9.tar.gz"
+                    input[1] = "https://gps-project.cog.sanger.ac.uk/GPS_v9_external_clusters.csv"
+                    """
+                }
+            }
+            
+            run("GUNZIP") {
+                script "../../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = POPPUNK_DATABASE.out.database
+                input[2] = POPPUNK_DATABASE.out.ext_clusters
+                input[3] = POPPUNK_DATABASE.out.db_info
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.gps_cluster,
+                    process.out.gps_db_version,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("POPPUNK - stub") {
+        options "-stub"
+        setup {
+            run("POPPUNK_DATABASE") {
+                script "../../fetch/main.nf"
+                process {
+                    """
+                    input[0] = "https://gps-project.cog.sanger.ac.uk/GPS_v9.tar.gz"
+                    input[1] = "https://gps-project.cog.sanger.ac.uk/GPS_v9_external_clusters.csv"
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                ])
+                input[1] = POPPUNK_DATABASE.out.database
+                input[2] = POPPUNK_DATABASE.out.ext_clusters
+                input[3] = POPPUNK_DATABASE.out.db_info
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "POPPUNK - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GPSC.txt:md5,52624c9b32fce1066844d3ebc45e4e20"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_poppunk_external_clusters.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GPS_DB_NAME:md5,ed3d29d82c44692fb53300087c871e68"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,531092b9c7ba01c441ff748497effa7a"
+                ],
+                "external_cluster_csv": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "test_sample_poppunk_external_clusters.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "gps_cluster": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GPSC.txt:md5,52624c9b32fce1066844d3ebc45e4e20"
+                    ]
+                ],
+                "gps_db_version": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        "GPS_DB_NAME:md5,ed3d29d82c44692fb53300087c871e68"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,531092b9c7ba01c441ff748497effa7a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T18:39:55.889800257"
+    },
+    "POPPUNK - test": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-25T18:39:41.514434383"
+    }
+}

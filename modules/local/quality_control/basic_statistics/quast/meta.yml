@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "quast"
+description: write your description here
+keywords:
+  - sort
+  - example
+  - genomics
+tools:
+  - "quast":
+      description: "Quality Assessment Tool for Genome Assemblies"
+      homepage: "None"
+      documentation: "None"
+      tool_dev_url: "None"
+      doi: ""
+      licence: ["Custom"]
+      identifier: biotools:quast
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+
+    - sequence_set_(nucleic_acid):
+        # TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
+        type: file
+        description: sequence_set_(nucleic_acid) file
+        pattern: "*.{fasta}"
+        ontologies:
+          - edam: "http://edamontology.org/data_1234" # Sequence set (nucleic acid)
+          - edam: "http://edamontology.org/format_1929" # FASTA
+
+output:
+  - output:
+      #Only when we have meta
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+
+      - "*":
+          type: file
+          description:
+          pattern:
+          ontologies:
+            - edam: ""
+  - versions:
+      - "versions.yml":
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+
+authors:
+  - "@thanhleviet"
+maintainers:
+  - "@thanhleviet"

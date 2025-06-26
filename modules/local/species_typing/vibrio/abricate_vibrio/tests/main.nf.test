@@ -1,0 +1,58 @@
+nextflow_process {
+    name "Test Process ABRICATE_VIBRIO"
+    script "../main.nf"
+    process "ABRICATE_VIBRIO"
+    
+    test("abricate_vibrio test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + "vibrio_test.fasta", checkIfExists: true)
+                ])
+                input[1] = "vibrio"  // database_type
+                input[2] = 90        // min_percent_identity
+                input[3] = 80        // min_percent_coverage
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.abricate_hits,
+                    process.out.ctxa,
+                    process.out.ompw,
+                    process.out.toxr,
+                    process.out.biotype,
+                    process.out.serogroup,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("abricate_vibrio - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file(params.modules_testdata_base_path + "vibrio_test.fasta", checkIfExists: true)
+                ])
+                input[1] = "vibrio"  // database_type
+                input[2] = 90        // min_percent_identity
+                input[3] = 80        // min_percent_coverage
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
