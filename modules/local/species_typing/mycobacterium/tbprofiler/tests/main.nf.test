@@ -10,8 +10,8 @@ nextflow_process {
                 input[0] = Channel.of([
                     [ id:'test_sample' ],
                     [
-                    file("$projectDir/bin/SRX11523936_1.fastq.gz", checkIfExists: true),
-                    file("$projectDir/bin/SRX11523936_2.fastq.gz", checkIfExists: true)
+                    file(params.modules_local_testdata_base_path + "SRX11523932_1.fastq", checkIfExists: true),
+                    file(params.modules_local_testdata_base_path + "SRX11523932_2.fastq", checkIfExists: true)
                     ]
                 ])
                 input[1] = false
@@ -46,8 +46,8 @@ nextflow_process {
                 input[0] = Channel.of([
                     [ id:'test_sample' ],
                     [
-                    file("$projectDir/bin/SRX11523936_1.fastq.gz", checkIfExists: true),
-                    file("$projectDir/bin/SRX11523936_2.fastq.gz", checkIfExists: true)
+                    file(params.modules_local_testdata_base_path + "SRX11523932_1.fastq", checkIfExists: true),
+                    file(params.modules_local_testdata_base_path + "SRX11523932_2.fastq", checkIfExists: true)
                     ]
                 ])
                 input[1] = false

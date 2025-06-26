@@ -23,7 +23,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "NUM_DR_VARIANTS:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "NUM_OTHER_VARIANTS.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "11": [
@@ -31,7 +31,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "NUM_OTHER_VARIANTS:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "RESISTANCE_GENES.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "12": [
@@ -39,7 +39,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "RESISTANCE_GENES:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "MEDIAN_DEPTH.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "13": [
@@ -47,15 +47,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "MEDIAN_DEPTH:md5,51bb9b62d9be48ac08dfb0ec931632e2"
-                    ]
-                ],
-                "14": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "PCT_READS_MAPPED:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "PCT_READS_MAPPED.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
@@ -95,7 +87,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "VERSION:md5,b32d1e9ad34bb4c363d507c86077bc58"
+                        "MAIN_LINEAGE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "7": [
@@ -103,7 +95,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "MAIN_LINEAGE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "SUB_LINEAGE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "8": [
@@ -111,7 +103,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "SUB_LINEAGE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "DR_TYPE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "9": [
@@ -119,7 +111,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "DR_TYPE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "NUM_DR_VARIANTS.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "bai": [
@@ -151,7 +143,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "DR_TYPE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "DR_TYPE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "json": [
@@ -167,7 +159,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "MAIN_LINEAGE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "MAIN_LINEAGE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "median_depth": [
@@ -175,7 +167,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "MEDIAN_DEPTH:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "MEDIAN_DEPTH.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "num_dr_variants": [
@@ -183,7 +175,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "NUM_DR_VARIANTS:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "NUM_DR_VARIANTS.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "num_other_variants": [
@@ -191,7 +183,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "NUM_OTHER_VARIANTS:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "NUM_OTHER_VARIANTS.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "pct_reads_mapped": [
@@ -199,7 +191,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "PCT_READS_MAPPED:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "PCT_READS_MAPPED.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "resistance_genes": [
@@ -207,7 +199,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "RESISTANCE_GENES:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "RESISTANCE_GENES.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "sub_lineage": [
@@ -215,7 +207,7 @@
                         {
                             "id": "test_sample"
                         },
-                        "SUB_LINEAGE:md5,51bb9b62d9be48ac08dfb0ec931632e2"
+                        "SUB_LINEAGE.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "txt": [
@@ -233,14 +225,6 @@
                         },
                         "test_sample.targets.csq.merged.vcf:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
-                ],
-                "version": [
-                    [
-                        {
-                            "id": "test_sample"
-                        },
-                        "VERSION:md5,b32d1e9ad34bb4c363d507c86077bc58"
-                    ]
                 ]
             }
         ],
@@ -248,7 +232,7 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.8"
         },
-        "timestamp": "2025-06-25T16:57:07.856344048"
+        "timestamp": "2025-06-26T16:43:52.293881954"
     },
     "tbprofiler test": {
         "content": [
@@ -259,6 +243,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.8"
         },
-        "timestamp": "2025-06-25T16:57:02.73101476"
+        "timestamp": "2025-06-26T16:43:45.989144821"
     }
 }

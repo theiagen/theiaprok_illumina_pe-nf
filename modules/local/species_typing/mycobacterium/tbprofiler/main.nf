@@ -15,20 +15,19 @@ process TBPROFILER {
     tuple val(meta), path("bam/*.bam"), emit: bam
     tuple val(meta), path("bam/*.bam.bai"), emit: bai
     tuple val(meta), path("vcf/*.targets.csq.merged.vcf"), optional: true, emit: vcf
-    tuple val(meta), path("VERSION"), emit: version
-    tuple val(meta), path("MAIN_LINEAGE"), emit: main_lineage
-    tuple val(meta), path("SUB_LINEAGE"), emit: sub_lineage
-    tuple val(meta), path("DR_TYPE"), emit: dr_type
-    tuple val(meta), path("NUM_DR_VARIANTS"), emit: num_dr_variants
-    tuple val(meta), path("NUM_OTHER_VARIANTS"), emit: num_other_variants
-    tuple val(meta), path("RESISTANCE_GENES"), emit: resistance_genes
-    tuple val(meta), path("MEDIAN_DEPTH"), emit: median_depth
-    tuple val(meta), path("PCT_READS_MAPPED"), emit: pct_reads_mapped
+    tuple val(meta), path("MAIN_LINEAGE.txt"), emit: main_lineage
+    tuple val(meta), path("SUB_LINEAGE.txt"), emit: sub_lineage
+    tuple val(meta), path("DR_TYPE.txt"), emit: dr_type
+    tuple val(meta), path("NUM_DR_VARIANTS.txt"), emit: num_dr_variants
+    tuple val(meta), path("NUM_OTHER_VARIANTS.txt"), emit: num_other_variants
+    tuple val(meta), path("RESISTANCE_GENES.txt"), emit: resistance_genes
+    tuple val(meta), path("MEDIAN_DEPTH.txt"), emit: median_depth
+    tuple val(meta), path("PCT_READS_MAPPED.txt"), emit: pct_reads_mapped
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def read1 = reads[0]
-    def read2 = reads.size() > 1 ? reads[1] : null
+    def read1 = "-1 ${reads[0]}"
+    def read2 = reads.size() > 1 ? "-2 ${reads[1]}" : null
     def is_ont = ont_data ? "--platform nanopore": ""
     def variant_caller = params.tbprofiler_variant_caller ?: "gatk"
     def variant_calling_params = params.tbprofiler_variant_calling_params ?: ""
@@ -44,13 +43,6 @@ process TBPROFILER {
     # Print and save version
     tb-profiler version > VERSION && sed -i -e 's/TBProfiler version //' VERSION && sed -n -i '\$p' VERSION
     
-    # check if file is non existant or non empty
-    if [ -z "${read2}" ] || [ ! -s "${read2}" ]; then
-      INPUT_READS="-1 ${read1}"
-    else
-      INPUT_READS="-1 ${read1} -2 ${read2}"
-    fi
-
     # check if new database file is provided and not empty
     TBDB=""
     if ${tbprofiler_run_custom_db}; then
@@ -72,7 +64,8 @@ process TBPROFILER {
 
     # Run tb-profiler on the input reads with prefix prefix
     tb-profiler profile \\
-      ${read1} ${read2} \\
+      ${read1} \\
+      ${read2} \\
       --prefix ${prefix} \\
       --mapper ${tbprofiler_mapper} \\
       --caller ${variant_caller} \\
@@ -87,17 +80,22 @@ process TBPROFILER {
 
     # Collate results
     tb-profiler collate --prefix ${prefix}
-    ls -la ./*/*
+
     # merge all vcf files if multiple are present
-    bcftools index ./vcf/*.bcf
-    bcftools index ./vcf/*.gz
-    bcftools merge --force-samples ./vcf/*.bcf ./vcf/*.gz > ./vcf/${prefix}.targets.csq.merged.vcf
-    
-    parse_tbprofiler.py --input_file results/${prefix}.results.txt
+    if [ -f ./vcf/*.bcf ] && [ -f ./vcf/*.gz ]; then
+      bcftools index ./vcf/*.bcf
+      bcftools index ./vcf/*.gz
+      bcftools merge --force-samples ./vcf/*.bcf ./vcf/*.gz > ./vcf/${prefix}.targets.csq.merged.vcf
+    else
+      bcftools index ./vcf/*.gz
+      bcftools merge --force-samples --force-single ./vcf/*.gz > ./vcf/${prefix}.targets.csq.merged.vcf
+    fi
+
+    parse_tbprofiler.py --input_file ${prefix}.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        tbprofiler: \$(VERSION)
+        tbprofiler: \$(cat VERSION)
     END_VERSIONS
     """
     stub:
@@ -113,19 +111,19 @@ process TBPROFILER {
     touch bam/${prefix}.bam
     touch bam/${prefix}.bam.bai
     touch vcf/${prefix}.targets.csq.merged.vcf
-    echo "na" > MAIN_LINEAGE
-    echo "na" > SUB_LINEAGE
-    echo "na" > DR_TYPE
-    echo "na" > NUM_DR_VARIANTS
-    echo "na" > NUM_OTHER_VARIANTS
-    echo "na" > RESISTANCE_GENES
-    echo "na" > MEDIAN_DEPTH
-    echo "na" > PCT_READS_MAPPED
+    touch MAIN_LINEAGE.txt
+    touch SUB_LINEAGE.txt
+    touch DR_TYPE.txt
+    touch NUM_DR_VARIANTS.txt
+    touch NUM_OTHER_VARIANTS.txt
+    touch RESISTANCE_GENES.txt
+    touch MEDIAN_DEPTH.txt
+    touch PCT_READS_MAPPED.txt
     
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        tbprofiler: \$(VERSION)
+        tbprofiler: \$(cat VERSION)
     END_VERSIONS
     """
 }
