@@ -7,7 +7,7 @@ process AMR_SEARCH {
     // to avoid Nextflow trying to run the Java command directly.
     // This is a workaround for the issue where Nextflow tries to run the Java command directly
     containerOptions "--entrypoint=''"
-
+   
     input:
     tuple val(meta), path(assembly_fasta)
     val amr_search_database 
