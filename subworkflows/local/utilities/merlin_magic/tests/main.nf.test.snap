@@ -38,7 +38,13 @@
                 ]
             ],
             [
-                
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli_stxtyper.tsv:md5,61f9260cfa9779f36d28ee83e80f4a32"
+                ]
             ],
             [
                 [
@@ -54,14 +60,15 @@
                 "versions.yml:md5,6492955cbea78b17cebcaf15dc764e19",
                 "versions.yml:md5,745644c713937fa7ec9634b4e43eb98d",
                 "versions.yml:md5,7c44509bda17d78f449d26836edf9065",
-                "versions.yml:md5,9b3a99c7dc7eb35f1789c9c0c9943485"
+                "versions.yml:md5,9b3a99c7dc7eb35f1789c9c0c9943485",
+                "versions.yml:md5,a38f80a3c1cc6b1734c32555f0f3580c"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-26T18:16:34.46758566"
+        "timestamp": "2025-06-26T20:32:56.088725136"
     },
     "merlin_magic - Klebsiella pneumoniae typing": {
         "content": [
@@ -70,7 +77,7 @@
                     {
                         "id": "test_klebsiella"
                     },
-                    "test_klebsiella_kleborate_out.tsv:md5,5f6b1617ae2cfee7d9d695ac7c12b7a0"
+                    "test_klebsiella_kleborate_out.tsv:md5,084f1c1618514f80d3fa0cacf0abf23c"
                 ]
             ],
             [
@@ -81,10 +88,13 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-26T18:19:49.962990474"
+        "timestamp": "2025-06-26T20:54:12.454776451"
     },
-    "merlin_magic - Streptococcus pneumoniae with PopPUNK": {
+    "merlin_magic - AMR Search enabled": {
         "content": [
+            [
+                
+            ],
             [
                 
             ],
@@ -102,7 +112,104 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-26T18:17:12.463474739"
+        "timestamp": "2025-06-26T20:54:28.412049596"
+    },
+    "merlin_magic - Assembly only mode": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_assembly_only",
+                        "single_end": false
+                    },
+                    "test_assembly_only_results_tab.tsv:md5,ce2cce637d6c95936e6554095a0e3795"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_assembly_only",
+                        "single_end": false
+                    },
+                    "test_assembly_only.tsv:md5,ba923d7c7ee7d1047466aafc9a9df208"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_assembly_only",
+                        "single_end": false
+                    },
+                    "test_assembly_only_shigeifinder.tsv:md5,472db92264776d500d2b747fccc2a911"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_assembly_only",
+                        "single_end": false
+                    },
+                    "test_assembly_only_results_tab.tsv:md5,bcb7f27deceee8ba2a356d38c01624e8"
+                ]
+            ],
+            [
+                "versions.yml:md5,25d2cb230fe9d151e405df5cff72f681",
+                "versions.yml:md5,6492955cbea78b17cebcaf15dc764e19",
+                "versions.yml:md5,7c44509bda17d78f449d26836edf9065",
+                "versions.yml:md5,9b3a99c7dc7eb35f1789c9c0c9943485",
+                "versions.yml:md5,a38f80a3c1cc6b1734c32555f0f3580c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T20:55:04.204311354"
+    },
+    "merlin_magic - Streptococcus pneumoniae with PopPUNK": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_spneumo"
+                    },
+                    "SEROTYPE:md5,84818e3441adfda6b3b92bab2b8ebdb6"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_spneumo"
+                    },
+                    [
+                        "test_spneumo-1A.tblastn.tsv:md5,d9184224f13b5f40764147486a9d5197",
+                        "test_spneumo-2B.tblastn.tsv:md5,f38374c1a9de6d1a20670786942f62ee",
+                        "test_spneumo-2X.tblastn.tsv:md5,76f0451ee9d372449b09721133500e24",
+                        "test_spneumo.fastani.tsv:md5,32ac90ae0d78375f73821384b684a39f",
+                        "test_spneumo.tsv:md5,2c22fb30efba71419feabd909afc1809"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_spneumo"
+                    },
+                    "GPSC.txt:md5,2a53da1a6fbfc0bafdd96b0a2ea29515"
+                ]
+            ],
+            [
+                "versions.yml:md5,5747da5829dc8d7e9cc5ee1c3afa8f56",
+                "versions.yml:md5,a894d6801d6adba2b392244374381af1",
+                "versions.yml:md5,bfb727d3dd57313294fdcf155e23eb71",
+                "versions.yml:md5,d827abd0ca6546d1256d3f4f7cd02632"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T20:51:05.906871661"
     },
     "merlin_magic - Staphylococcus aureus typing": {
         "content": [
@@ -140,6 +247,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-26T18:16:56.050672149"
+        "timestamp": "2025-06-26T20:33:22.194649171"
     }
 }

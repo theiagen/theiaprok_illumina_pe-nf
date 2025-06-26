@@ -98,7 +98,7 @@ nextflow_workflow {
                     """
                     input[0] = Channel.of([
                         [id:'test_spneumo'],
-                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/147/095/GCF_000147095.1_ASM14709v1/GCF_000147095.1_ASM14709v1_genomic.fna.gz', checkIfExists: true)
                     ])
                     """
                 }
@@ -119,8 +119,8 @@ nextflow_workflow {
                 """
                 input[0] = GUNZIP.out.gunzip.map { meta, fasta -> 
                     [meta, fasta, [
-                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/streptococcus_pneumoniae/illumina/fastq/test_1.fastq.gz", checkIfExists: true),
-                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/streptococcus_pneumoniae/illumina/fastq/test_2.fastq.gz", checkIfExists: true)
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
                     ]]
                 }
                 input[1] = "Streptococcus pneumoniae"
@@ -183,7 +183,19 @@ nextflow_workflow {
     }
 
     test("merlin_magic - AMR Search enabled") {
-
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_amr'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/494/545/GCF_022494545.1_ASM2249454v1/GCF_022494545.1_ASM2249454v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
         when {
             params {
                 assembly_only = true
@@ -191,11 +203,9 @@ nextflow_workflow {
             }
             workflow {
                 """
-                input[0] = Channel.of([
-                    [ id:'test_amr', single_end:false ],
-                    file("https://github.com/nf-core/test-datasets/raw/refs/heads/modules/data/genomics/prokaryotes/escherichia_coli/genome/genome.fa", checkIfExists: true),
-                    []
-                ])
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> 
+                    [meta, fasta, []]
+                }
                 input[1] = "Staphylococcus aureus"
                 """
             }
