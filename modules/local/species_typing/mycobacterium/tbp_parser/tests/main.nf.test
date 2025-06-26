@@ -1,0 +1,98 @@
+nextflow_process {
+
+    name "Test Process TBP_PARSER"
+    script "../main.nf"
+    process "TBP_PARSER"
+
+    test("tbp_parser test") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.results.json"),
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.bam"),
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.bam.bai")
+                ]
+                input[1] = ""  // config
+                input[2] = ""  // sequencing_method
+                input[3] = ""  // operator
+                input[4] = 10  // min_depth
+                input[5] = 0.1  // min_frequency
+                input[6] = 10  // min_read_support
+                input[7] = 100  // min_percent_coverage
+                input[8] = ""  // coverage_regions_bed
+                input[9] = false  // add_cycloserine_lims
+                input[10] = false  // tbp_parser_debug
+                input[11] = false  // tngs_data
+                input[12] = 0.1  // rrs_frequency
+                input[13] = 10  // rrs_read_support
+                input[14] = 0.1  // rr1_frequency
+                input[15] = 10  // rr1_read_support
+                input[16] = 0.1  // rpob499_frequency
+                input[17] = 0.1  // etha237_frequency
+                input[18] = ""  // expert_rule_regions_bed
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.looker_report,
+                    process.out.laboratorian_report,
+                    process.out.lims_report,
+                    process.out.coverage_report,
+                    process.out.genome_percent_coverage,
+                    process.out.average_genome_depth,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+
+    test("tbp_parser with stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test_sample' ],
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.results.json"),
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.bam"),
+                    file(params.modules_local_testdata_base_path + "tbp_parser/test_sample.bam.bai")
+                ]
+                input[1] = ""  // config
+                input[2] = ""  // sequencing_method
+                input[3] = ""  // operator
+                input[4] = 10  // min_depth
+                input[5] = 0.1  // min_frequency
+                input[6] = 10  // min_read_support
+                input[7] = 100  // min_percent_coverage
+                input[8] = ""  // coverage_regions_bed
+                input[9] = false  // add_cycloserine_lims
+                input[10] = false  // tbp_parser_debug
+                input[11] = false  // tngs_data
+                input[12] = 0.1  // rrs_frequency
+                input[13] = 10  // rrs_read_support
+                input[14] = 0.1  // rr1_frequency
+                input[15] = 10  // rr1_read_support
+                input[16] = 0.1  // rpob499_frequency
+                input[17] = 0.1  // etha237_frequency
+                input[18] = ""  // expert_rule_regions_bed
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
