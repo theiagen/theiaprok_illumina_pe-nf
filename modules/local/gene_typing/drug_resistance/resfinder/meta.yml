@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "resfinder"
+## TODO nf-core: Add a description of the module and list keywords
+description: write your description here
+keywords:
+  - sort
+  - example
+  - genomics
+tools:
+  - "resfinder":
+      ## TODO nf-core: Add a description and other details for the software below
+      description: "ResFinder identifies acquired antimicrobial resistance genes in total or partial sequenced isolates of bacteria."
+      homepage: "https://bitbucket.org/genomicepidemiology/resfinder/src/master/README.md"
+      documentation: "https://bitbucket.org/genomicepidemiology/resfinder/src/master/README.md"
+      tool_dev_url: "https://bitbucket.org/genomicepidemiology/resfinder"
+      doi: ""
+      licence: ["Apache-2.0"]
+      identifier: biotools:resfinder
+
+## TODO nf-core: Add a description of all of the variables used as input
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+
+    - assembly:
+        # TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
+        type: file
+        description: sequence file
+        pattern: "*.{fasta-like,fasta}"
+        ontologies:
+          - edam: "http://edamontology.org/data_2044" # Sequence
+          - edam: "http://edamontology.org/format_2546" # FASTA-like
+          - edam: "http://edamontology.org/format_1929" # FASTA
+
+## TODO nf-core: Add a description of all of the variables used as output
+output:
+  - sequence_report:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.{binary}":
+          # TODO nf-core: Update the information obtained from bio.tools and make sure that it is correct
+          type: file
+          description: sequence_report file
+          pattern: "*.{binary}"
+          ontologies:
+            - edam: "http://edamontology.org/data_2955" # Sequence report
+            - edam: "http://edamontology.org/format_2333" # Binary format
+
+  - versions:
+      - "versions.yml":
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+
+authors:
+  - "@thanhleviet"
+maintainers:
+  - "@thanhleviet"
