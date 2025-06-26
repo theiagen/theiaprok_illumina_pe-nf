@@ -36,6 +36,10 @@ process KAPTIVE {
     tuple val(meta), path("OTHER_GENES_IN_LOCUS_OC"), emit: oc_other_inside_genes
     tuple val(meta), path("NUM_OTHER_OUTSIDE_OC"), emit: oc_other_outside_count
     tuple val(meta), path("OTHER_GENES_OUT_LOCUS_OC"), emit: oc_other_outside_genes
+    path "versions.yml", emit: versions
+
+    when:
+    task.ext.prefix || task.ext.stub || task.ext.skip
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"

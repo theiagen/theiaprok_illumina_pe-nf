@@ -1,0 +1,145 @@
+{
+    "merlin_magic - Escherichia coli typing": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli_results_tab.tsv:md5,ce2cce637d6c95936e6554095a0e3795"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli.tsv:md5,ba923d7c7ee7d1047466aafc9a9df208"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli_shigatyper_summary.tsv:md5,1df89bc25d651b53dbea933e57ab019b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli_shigeifinder.tsv:md5,472db92264776d500d2b747fccc2a911"
+                ]
+            ],
+            [
+                
+            ],
+            [
+                [
+                    {
+                        "id": "test_ecoli",
+                        "single_end": false
+                    },
+                    "test_ecoli_results_tab.tsv:md5,bcb7f27deceee8ba2a356d38c01624e8"
+                ]
+            ],
+            [
+                "versions.yml:md5,25d2cb230fe9d151e405df5cff72f681",
+                "versions.yml:md5,6492955cbea78b17cebcaf15dc764e19",
+                "versions.yml:md5,745644c713937fa7ec9634b4e43eb98d",
+                "versions.yml:md5,7c44509bda17d78f449d26836edf9065",
+                "versions.yml:md5,9b3a99c7dc7eb35f1789c9c0c9943485"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T18:16:34.46758566"
+    },
+    "merlin_magic - Klebsiella pneumoniae typing": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_klebsiella"
+                    },
+                    "test_klebsiella_kleborate_out.tsv:md5,5f6b1617ae2cfee7d9d695ac7c12b7a0"
+                ]
+            ],
+            [
+                "versions.yml:md5,8769bab6c9d9c0b4d8957b77c88e88a1"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T18:19:49.962990474"
+    },
+    "merlin_magic - Streptococcus pneumoniae with PopPUNK": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T18:17:12.463474739"
+    },
+    "merlin_magic - Staphylococcus aureus typing": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.tsv:md5,5b06284592add43608712ea5ff4e688d"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.staphopia-sccmec.summary.tsv:md5,fb2ec39fe2552dc95c9db3e30728e489"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.agrvate.tsv:md5,44d0729953a7ad362d923701898fbdaa"
+                ]
+            ],
+            [
+                "versions.yml:md5,294cf1111622f5a6c8c6477b5ab733db",
+                "versions.yml:md5,cdff81f1b602a59eff400a58bdfa2b57",
+                "versions.yml:md5,f4f2ea87ac803b71e12f4711cefc8648"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-06-26T18:16:56.050672149"
+    }
+}

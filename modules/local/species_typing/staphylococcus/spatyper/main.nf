@@ -12,6 +12,7 @@ process SPATYPER {
     tuple val(meta), path("*.tsv"), emit: tsv
     tuple val(meta), path("REPEATS"), emit: repeats
     tuple val(meta), path("TYPE"), emit: type
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when

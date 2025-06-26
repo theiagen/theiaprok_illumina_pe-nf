@@ -1,0 +1,249 @@
+nextflow_workflow {
+
+    name "Test Subworkflow MERLIN_MAGIC"
+    script "../main.nf"
+    workflow "MERLIN_MAGIC"
+
+    test("merlin_magic - Escherichia coli typing") {
+        when {
+            params {
+                assembly_only = false
+                paired_end = true
+                ont_data = false
+                call_stxtyper = true
+                call_shigeifinder_reads_input = false
+                ectyper_o_min_percent_identity = 90
+                ectyper_h_min_percent_identity = 95
+                ectyper_o_min_percent_coverage = 90
+                ectyper_h_min_percent_coverage = 50
+                virulencefinder_database = "virulence_ecoli"
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_ecoli', single_end:false ],
+                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/escherichia_coli/genome/genome.fa", checkIfExists: true),
+                    [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/escherichia_coli/illumina/Ecoli_10K_methylated_R1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/escherichia_coli/illumina/Ecoli_10K_methylated_R2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = "Escherichia"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.serotypefinder_results,
+                    workflow.out.ectyper_results,
+                    workflow.out.shigatyper_results,
+                    workflow.out.shigeifinder_results,
+                    workflow.out.stxtyper_results,
+                    workflow.out.virulencefinder_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("merlin_magic - Staphylococcus aureus typing") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/494/545/GCF_022494545.1_ASM2249454v1/GCF_022494545.1_ASM2249454v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        when {
+            params {
+                assembly_only = true
+                spatyper_do_enrich = false
+                agrvate_typing_only = false
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> 
+                    [meta, fasta, []]
+                }
+                input[1] = "Staphylococcus aureus"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.spatyper_results,
+                    workflow.out.staphopiasccmec_results,
+                    workflow.out.agrvate_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("merlin_magic - Streptococcus pneumoniae with PopPUNK") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_spneumo'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        when {
+            params {
+                assembly_only = false
+                paired_end = true
+                ont_data = false
+                call_poppunk = true
+                pbptyper_min_percent_identity = 95
+                pbptyper_min_percent_coverage = 95
+                poppunk_gps_db_url = "https://gps-project.cog.sanger.ac.uk/GPS_v6.tar.gz"
+                poppunk_gps_external_clusters_url = "https://gps-project.cog.sanger.ac.uk/GPS_v6_external_clusters.csv"
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> 
+                    [meta, fasta, [
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/streptococcus_pneumoniae/illumina/fastq/test_1.fastq.gz", checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + "genomics/prokaryotes/streptococcus_pneumoniae/illumina/fastq/test_2.fastq.gz", checkIfExists: true)
+                    ]]
+                }
+                input[1] = "Streptococcus pneumoniae"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.seroba_results,
+                    workflow.out.pbptyper_results,
+                    workflow.out.poppunk_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("merlin_magic - Klebsiella pneumoniae typing") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_klebsiella'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/869/665/GCF_022869665.1_ASM2286966v1/GCF_022869665.1_ASM2286966v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        when {
+            params {
+                assembly_only = true
+                kleborate_skip_resistance = false
+                kleborate_skip_kaptive = false
+                kleborate_min_percent_identity = 90.0
+                kleborate_min_percent_coverage = 80.0
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> 
+                    [meta, fasta, []]
+                }
+                input[1] = "Klebsiella pneumoniae"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.kleborate_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("merlin_magic - AMR Search enabled") {
+
+        when {
+            params {
+                assembly_only = true
+                run_amr_search = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_amr', single_end:false ],
+                    file("https://github.com/nf-core/test-datasets/raw/refs/heads/modules/data/genomics/prokaryotes/escherichia_coli/genome/genome.fa", checkIfExists: true),
+                    []
+                ])
+                input[1] = "Staphylococcus aureus"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.amr_search_results,
+                    workflow.out.spatyper_results,
+                    workflow.out.staphopiasccmec_results,
+                    workflow.out.agrvate_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+    test("merlin_magic - Assembly only mode") {
+
+        when {
+            params {
+                assembly_only = true
+                call_stxtyper = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_assembly_only', single_end:false ],
+                    file("https://github.com/nf-core/test-datasets/raw/refs/heads/modules/data/genomics/prokaryotes/escherichia_coli/genome/genome.fa", checkIfExists: true),
+                    []
+                ])
+                input[1] = "Escherichia"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.serotypefinder_results,
+                    workflow.out.ectyper_results,
+                    workflow.out.shigeifinder_results,
+                    workflow.out.virulencefinder_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
+}

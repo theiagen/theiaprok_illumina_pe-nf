@@ -56,7 +56,8 @@ nextflow_process {
                     process.out.oc_other_inside_count, 
                     process.out.oc_other_inside_genes, 
                     process.out.oc_other_outside_count, 
-                    process.out.oc_other_outside_genes
+                    process.out.oc_other_outside_genes,
+                    process.out.versions
                 ).match() }
             )
         }
