@@ -1,0 +1,100 @@
+name: "midas"
+description: A tool to estimate bacterial species abundance
+keywords:
+  - bacteria
+  - metagenomic
+  - abundance
+tools:
+  - "midas":
+      description: "An integrated pipeline for estimating strain-level genomic variation
+        from metagenomic data"
+      homepage: "https://github.com/snayfach/MIDAS"
+      documentation: "https://github.com/snayfach/MIDAS"
+      tool_dev_url: "https://github.com/snayfach/MIDAS"
+      doi: "10.1101/gr.201863.115"
+      licence: ["GPL v3"]
+      identifier: biotools:midashla
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - reads:
+        type: file
+        description: Reads in FASTQ format (single-end or paired-end)
+        pattern: "*.{fastq,fastq.gz,fq,fq.gz}"
+  - - midas_db:
+        type: file
+        description: A compressed database formatted for MIDAS
+        pattern: "*.{tar.gz}"
+output:
+  - species_profile:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*/species/*_species_profile.tsv":
+          type: file
+          description: Species abundance profile from MIDAS
+          pattern: "*/species/*_species_profile.tsv"
+  - log_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*/species/*_log.txt":
+          type: file
+          description: Log file from MIDAS species analysis
+          pattern: "*/species/*_log.txt"
+  - primary_genus_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "PRIMARY_GENUS.txt":
+          type: file
+          description: Primary genus identification file
+          pattern: "PRIMARY_GENUS.txt"
+  - secondary_genus_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "SECONDARY_GENUS.txt":
+          type: file
+          description: Secondary genus identification file
+          pattern: "SECONDARY_GENUS.txt"
+  - secondary_genus_abundance_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "SECONDARY_GENUS_ABUNDANCE.txt":
+          type: file
+          description: Secondary genus abundance file
+          pattern: "SECONDARY_GENUS_ABUNDANCE.txt"
+  - secondary_genus_coverage_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "SECONDARY_GENUS_COVERAGE.txt":
+          type: file
+          description: Secondary genus coverage file
+          pattern: "SECONDARY_GENUS_COVERAGE.txt"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@rpetit3"
+maintainers:
+  - "@rpetit3"

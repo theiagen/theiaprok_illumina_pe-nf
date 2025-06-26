@@ -1,0 +1,104 @@
+name: "kraken2"
+description: A system for assigning taxonomic labels to short DNA reads
+keywords:
+  - kraken2
+  - bacteria
+  - classification
+  - taxonomic
+tools:
+  - "kraken2":
+      description: "A system for assigning taxonomic labels to short DNA reads"
+      homepage: "https://ccb.jhu.edu/software/kraken2/"
+      documentation: "https://github.com/DerrickWood/kraken2/wiki"
+      tool_dev_url: "https://github.com/DerrickWood/kraken2"
+      doi: "10.1186/s13059-019-1891-0"
+      licence: ["MIT"]
+      identifier: biotools:kraken2
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - reads:
+        type: file
+        description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively
+        pattern: "*.{fastq,fastq.gz,fq,fq.gz}"
+  - - kraken2_db:
+        type: file
+        description: Kraken2 database
+        pattern: "*.{tar.gz}"
+  - - kraken2_args:
+        type: string
+        description: Additional arguments for Kraken2
+        pattern: "*"
+  - - classified_out:
+        type: string
+        description: Output filename for classified reads
+        pattern: "*"
+  - - unclassified_out:
+        type: string
+        description: Output filename for unclassified reads
+        pattern: "*"
+output:
+  - kraken2_report:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.report.txt":
+          type: file
+          description: Kraken2 taxonomic report
+          pattern: "*.report.txt"
+  - kraken2_classified_report:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.classifiedreads.txt.gz":
+          type: file
+          description: Kraken2 classified reads with taxonomic assignments
+          pattern: "*.classifiedreads.txt.gz"
+  - kraken2_unclassified_reads:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.unclassified_*.fastq.gz":
+          type: file
+          description: Unclassified reads in FastQ format
+          pattern: "*.unclassified_*.fastq.gz"
+  - kraken2_classified_reads:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.classified_*.fastq.gz":
+          type: file
+          description: Classified reads in FastQ format
+          pattern: "*.classified_*.fastq.gz"
+  - kraken2_percent_human_file:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "PERCENT_HUMAN.txt":
+          type: file
+          description: File containing percentage of human reads
+          pattern: "PERCENT_HUMAN.txt"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@joseespinosa"
+  - "@drpatelh"
+maintainers:
+  - "@joseespinosa"
+  - "@drpatelh"

@@ -1,0 +1,91 @@
+name: "kmerfinder"
+description: A tool for rapid bacterial species identification using k-mer analysis
+keywords:
+  - kmerfinder
+  - bacteria
+  - species identification
+  - k-mer
+  - assembly
+tools:
+  - "kmerfinder":
+      description: "A tool for rapid bacterial species identification using k-mer analysis"
+      homepage: "https://bitbucket.org/genomicepidemiology/kmerfinder"
+      documentation: "https://bitbucket.org/genomicepidemiology/kmerfinder"
+      tool_dev_url: "https://bitbucket.org/genomicepidemiology/kmerfinder"
+      doi: "10.1128/JCM.00008-18"
+      licence: ["Apache-2.0"]
+      identifier: biotools:kmerfinder
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - assembly:
+        type: file
+        description: Bacterial assembly in FASTA format
+        pattern: "*.{fasta,fa,fna}"
+  - - kmerfinder_db:
+        type: file
+        description: KmerFinder database (compressed)
+        pattern: "*.{tar.gz}"
+output:
+  - kmerfinder_results_tsv:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*_kmerfinder.tsv":
+          type: file
+          description: KmerFinder results in TSV format
+          pattern: "*_kmerfinder.tsv"
+  - kmerfinder_top_hit:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "TOP_HIT":
+          type: file
+          description: Top species hit from KmerFinder analysis
+          pattern: "TOP_HIT"
+  - kmerfinder_query_coverage:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "QC_METRIC":
+          type: file
+          description: Query coverage metric from KmerFinder
+          pattern: "QC_METRIC"
+  - kmerfinder_template_coverage:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "TEMPLATE_COVERAGE":
+          type: file
+          description: Template coverage metric from KmerFinder
+          pattern: "TEMPLATE_COVERAGE"
+  - kmerfinder_database:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "DATABASE":
+          type: file
+          description: Database name used for KmerFinder analysis
+          pattern: "DATABASE"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@author"
+maintainers:
+  - "@maintainer"
