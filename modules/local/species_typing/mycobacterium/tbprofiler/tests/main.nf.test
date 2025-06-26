@@ -1,0 +1,73 @@
+nextflow_process {
+    name "Test Process TBPROFILER"
+    script "../main.nf"
+    process "TBPROFILER"
+    
+    test("tbprofiler test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                    file(params.modules_local_testdata_base_path + "SRX11523932_1.fastq", checkIfExists: true),
+                    file(params.modules_local_testdata_base_path + "SRX11523932_2.fastq", checkIfExists: true)
+                    ]
+                ])
+                input[1] = false
+                params.tbprofiler_variant_caller = "gatk"
+                params.tbprofiler_variant_calling_params = ""
+                params.tbprofiler_min_depth = 10
+                params.tbprofiler_min_af = 0.1
+                params.tbprofiler_custom_db = ""
+                params.tbprofiler_run_custom_db = false
+                params.tbprofiler_run_cdph_db = false
+                params.tbprofiler_mapper = "bwa"
+                params.tbprofiler_args = ""
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.cleaned_reads,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    
+    test("tbprofiler - stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [
+                    file(params.modules_local_testdata_base_path + "SRX11523932_1.fastq", checkIfExists: true),
+                    file(params.modules_local_testdata_base_path + "SRX11523932_2.fastq", checkIfExists: true)
+                    ]
+                ])
+                input[1] = false
+                params.tbprofiler_variant_caller = "gatk"
+                params.tbprofiler_variant_calling_params = ""
+                params.tbprofiler_min_depth = 10
+                params.tbprofiler_min_af = 0.1
+                params.tbprofiler_custom_db = ""
+                params.tbprofiler_run_custom_db = false
+                params.tbprofiler_run_cdph_db = false
+                params.tbprofiler_mapper = "bwa"
+                params.tbprofiler_args = ""
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
