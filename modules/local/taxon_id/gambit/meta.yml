@@ -1,0 +1,115 @@
+name: "gambit"
+description: Genomic Approximation Method for Bacterial Identification and Tracking
+keywords:
+  - gambit
+  - bacteria
+  - identification
+  - genomic
+  - taxonomy
+tools:
+  - "gambit":
+      description: "Genomic Approximation Method for Bacterial Identification and Tracking"
+      homepage: "https://github.com/jlumpe/gambit"
+      documentation: "https://gambit-genomics.readthedocs.io/"
+      tool_dev_url: "https://github.com/jlumpe/gambit"
+      doi: "10.1371/journal.pone.0277575"
+      licence: ["AGPL-3.0"]
+      identifier: biotools:gambit
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - assembly:
+        type: file
+        description: Bacterial assembly in FASTA format
+        pattern: "*.{fasta,fa,fna}"
+  - - gambit_db_genomes:
+        type: file
+        description: GAMBIT database genomes file
+        pattern: "*.{h5,hdf5}"
+  - - gambit_db_signatures:
+        type: file
+        description: GAMBIT database signatures file
+        pattern: "*.{h5,hdf5}"
+output:
+  - gambit_report:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*_gambit.json":
+          type: file
+          description: GAMBIT analysis report in JSON format
+          pattern: "*_gambit.json"
+  - gambit_closest:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*_gambit_closest.csv":
+          type: file
+          description: GAMBIT closest matches in CSV format
+          pattern: "*_gambit_closest.csv"
+  - predicted_taxon:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "PREDICTED_TAXON":
+          type: file
+          description: Predicted taxonomic classification
+          pattern: "PREDICTED_TAXON"
+  - predicted_taxon_rank:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "PREDICTED_TAXON_RANK":
+          type: file
+          description: Rank of the predicted taxonomic classification
+          pattern: "PREDICTED_TAXON_RANK"
+  - next_taxon:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "NEXT_TAXON":
+          type: file
+          description: Next best taxonomic match
+          pattern: "NEXT_TAXON"
+  - next_taxon_rank:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "NEXT_TAXON_RANK":
+          type: file
+          description: Rank of the next best taxonomic match
+          pattern: "NEXT_TAXON_RANK"
+  - merlin_tag:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "MERLIN_TAG":
+          type: file
+          description: MERLIN tag from GAMBIT analysis
+          pattern: "MERLIN_TAG"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
+authors:
+  - "@jlumpe"
+maintainers:
+  - "@jlumpe"
