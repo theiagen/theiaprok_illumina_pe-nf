@@ -13,6 +13,8 @@ include { KLEBORATE                    } from '../../../../modules/local/species
 include { LEGSTA                       } from '../../../../modules/local/species_typing/legionella/legsta/main'
 include { LISSERO                      } from '../../../../modules/local/species_typing/listeria/lissero/main'
 include { CLOCKWORK_DECON_READS        } from '../../../../modules/local/species_typing/mycobacterium/clockwork/main'
+include { TBPROFILER                   } from '../../../../modules/local/species_typing/mycobacterium/tbprofiler/main'
+include { TBP_PARSER                   } from '../../../../modules/local/species_typing/mycobacterium/tbp_parser/main'
 include { MENINGOTYPE                  } from '../../../../modules/local/species_typing/neisseria/meningotype/main'
 include { NGMASTER                     } from '../../../../modules/local/species_typing/neisseria/ngmaster/main'
 include { PASTY                        } from '../../../../modules/local/species_typing/pseudomonas/pasty/main'
@@ -62,6 +64,7 @@ workflow MERLIN_MAGIC {
     ch_meningotype_results = Channel.empty()
     ch_pasty_results = Channel.empty()
     ch_clockwork_results = Channel.empty()
+    ch_tbprofiler_results = Channel.empty()
     ch_legsta_results = Channel.empty()
     ch_spatyper_results = Channel.empty()
     ch_staphopiasccmec_results = Channel.empty()
@@ -274,7 +277,34 @@ workflow MERLIN_MAGIC {
             ch_tb_reads = ch_reads
         }
         
-        // Need to add tb-profiler when ready
+        TBPROFILER (
+            ch_tb_reads,
+            params.ont_data ?: false, // Set to true if ONT data is used, ie. used in TheiaProk-ONT
+        )
+        ch_tbprofiler_results = TBPROFILER.out.tbparser_inputs
+        ch_versions = ch_versions.mix(TBPROFILER.out.versions)
+
+        TBP_PARSER (
+            ch_tbprofiler_results,
+            params.tbp_parser_config ?: "", // YAML config file for TBP_Parser
+            params.tbp_parser_sequencing_method ?: "", // Fills out seq_method in TBP_Parser output
+            params.tbp_parser_operator ?: "",
+            params.tbp_parser_min_depth ?: 10,
+            params.tbp_parser_min_frequency ?: 0.1,
+            params.tbp_parser_min_read_support ?: 10,
+            params.tbp_parser_min_percent_coverage ?: 100,
+            params.tbp_parser_coverage_regions_bed ?: "",
+            params.tbp_parser_add_cycloserine_lims ?: false,
+            params.tbp_parser_debug ?: true,
+            params.tbp_parser_tngs ?: false,
+            params.tbp_parser_rrs_frequncy ?: 0.1,
+            params.tbp_parser_rrs_read_support ?: 10,
+            params.tbp_parser_rr1_frequency ?: 0.1,
+            params.tbp_parser_rr1_read_support ?: 10,
+            params.tbp_parser_rpob499_frequency ?: 0.1,
+            params.tbp_parser_etha237_frequency ?: 0.1,
+            params.tbp_parser_expert_rule_regions_bed ?: ""
+        )
     }
     
     // Legionella pneumophila typing
@@ -457,6 +487,8 @@ workflow MERLIN_MAGIC {
     }
     
     emit:
+    // We can remove all emits from MERLIN_MAGIC as the individual modules handle their own publishing
+    // The only one we would necessarily need to emit is versions
     amr_search_results         = ch_amr_search_results
     abricate_results           = ch_abricate_results
     kaptive_results            = ch_kaptive_results

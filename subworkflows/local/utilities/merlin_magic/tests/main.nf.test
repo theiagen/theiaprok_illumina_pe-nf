@@ -4,6 +4,43 @@ nextflow_workflow {
     script "../main.nf"
     workflow "MERLIN_MAGIC"
 
+    // Currently utilizes local test data, needs to be replaced with remote data
+    test("merlin_magic - Mycobacterium tuberculosis typing") {
+        when {
+            params {
+                assembly_only = false
+                paired_end = true
+                ont_data = false
+                call_tbprofiler = true
+                call_stxtyper = false
+                call_shigeifinder_reads_input = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_mtb', single_end:false ],
+                    file("$projectDir/../nf-test-data/tbprofiler_tests_data/TexasAM1_filtered_contigs.fasta", checkIfExists: true),
+                    [
+                        file("$projectDir/../nf-test-data/tbprofiler_tests_data/SRX11523932_1.fastq.gz", checkIfExists: true),
+                        file("$projectDir/../nf-test-data/tbprofiler_tests_data/SRX11523932_2.fastq.gz", checkIfExists: true)
+                    ]
+                ])
+                input[1] = "Mycobacterium tuberculosis"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.tbprofiler_results,
+                    workflow.out.tbp_parser_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+
     test("merlin_magic - Escherichia coli typing") {
         when {
             params {
