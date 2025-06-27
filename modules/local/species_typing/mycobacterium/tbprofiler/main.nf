@@ -11,9 +11,7 @@ process TBPROFILER {
     output:
     tuple val(meta), path("results/*.results.csv"), emit: csv
     tuple val(meta), path("results/*.results.txt"), emit: txt
-    tuple val(meta), path("results/*.results.json"), emit: json
-    tuple val(meta), path("bam/*.bam"), emit: bam
-    tuple val(meta), path("bam/*.bam.bai"), emit: bai
+    tuple val(meta), path("results/*.results.json"), path("bam/*.bam"), path("bam/*.bam.bai"), emit: tbparser_inputs
     tuple val(meta), path("vcf/*.targets.csq.merged.vcf"), optional: true, emit: vcf
     tuple val(meta), path("MAIN_LINEAGE.txt"), emit: main_lineage
     tuple val(meta), path("SUB_LINEAGE.txt"), emit: sub_lineage
@@ -23,6 +21,7 @@ process TBPROFILER {
     tuple val(meta), path("RESISTANCE_GENES.txt"), emit: resistance_genes
     tuple val(meta), path("MEDIAN_DEPTH.txt"), emit: median_depth
     tuple val(meta), path("PCT_READS_MAPPED.txt"), emit: pct_reads_mapped
+    path "versions.yml", emit: versions
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
