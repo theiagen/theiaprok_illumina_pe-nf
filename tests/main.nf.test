@@ -1,0 +1,61 @@
+nextflow_pipeline {
+    name "Test TheiaProk Illumina PE pipeline"
+    script "../main.nf"
+    tag "pipeline"
+    tag "theiaprok"
+    
+    test("TheiaProk: Minimum input test") {
+        when {
+            params {
+                // Use minimal parameters for testing
+                outdir = "$outputDir"
+                skip_screen = true  // Skip screening for test data
+                perform_characterization = true
+                genome_annotation = "prokka"
+                call_plasmidfinder = false  // Disable to speed up test
+                call_ani = false
+                call_kmerfinder = false
+                call_resfinder = false
+                call_abricate = false
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.trace.succeeded().size() >= 10 },  // At least 10 tasks should succeed
+                
+            )
+        }
+    }
+    
+    test("TheiaProk: Simple input expanded functionality") {
+        when {
+            params {
+                outdir = "$outputDir"
+                min_reads = 1000  // Lower threshold for test data
+                min_basepairs = 100000  // Lower threshold for test data
+                min_coverage = 2  // Lower coverage threshold
+                perform_characterization = true
+                genome_annotation = "prokka"
+                
+                // Enable some characterization tools
+                call_plasmidfinder = true
+                call_ani = false  // Disable ANI for speed
+                call_kmerfinder = false
+                call_resfinder = false
+                call_abricate = true
+                abricate_db = "vfdb"
+            }
+        }
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.trace.succeeded().size() >= 15 }
+
+            )
+        }
+    }
+    
+}
