@@ -62,24 +62,34 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-25T18:39:55.889800257"
+        "timestamp": "2025-06-29T12:23:49.95581034"
     },
     "POPPUNK - test": {
         "content": [
             [
-                
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "GPSC.txt:md5,0f3dde9cbeb30baa9ebb6b19367535a2"
+                ]
             ],
             [
-                
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "GPS_DB_NAME:md5,714d311914f0130572e8f9d0a42be9ce"
+                ]
             ],
             [
-                
+                "versions.yml:md5,531092b9c7ba01c441ff748497effa7a"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-25T18:39:41.514434383"
+        "timestamp": "2025-06-29T12:23:38.435583054"
     }
 }

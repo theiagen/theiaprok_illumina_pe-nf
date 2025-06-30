@@ -11,10 +11,16 @@ nextflow_process {
                 script "../../fetch/main.nf"
                 process {
                     """
-                    input[0] = "https://gps-project.cog.sanger.ac.uk/GPS_v9.tar.gz"
-                    input[1] = "https://gps-project.cog.sanger.ac.uk/GPS_v9_external_clusters.csv"
+                    input[0] = "https://raw.githubusercontent.com/theiagen/test-datasets/poppunk/data/strep.tar.gz"
+                    input[1] = "https://raw.githubusercontent.com/theiagen/test-datasets/poppunk/data/GPS_v9_external_clusters.csv"
                     """
                 }
+                // process {
+                //     """
+                //     input[0] = "https://gps-project.cog.sanger.ac.uk/GPS_v9.tar.gz"
+                //     input[1] = "https://gps-project.cog.sanger.ac.uk/GPS_v9_external_clusters.csv"
+                //     """
+                // }
             }
             
             run("GUNZIP") {
@@ -34,7 +40,7 @@ nextflow_process {
                 """
                 input[0] = GUNZIP.out.gunzip
                 input[1] = POPPUNK_DATABASE.out.database
-                input[2] = POPPUNK_DATABASE.out.ext_clusters
+                input[2] = "https://raw.githubusercontent.com/theiagen/test-datasets/poppunk/data/GPS_v9_external_clusters.csv"
                 input[3] = POPPUNK_DATABASE.out.db_info
                 """
             }
@@ -58,8 +64,8 @@ nextflow_process {
                 script "../../fetch/main.nf"
                 process {
                     """
-                    input[0] = "https://gps-project.cog.sanger.ac.uk/GPS_v9.tar.gz"
-                    input[1] = "https://gps-project.cog.sanger.ac.uk/GPS_v9_external_clusters.csv"
+                    input[0] = "https://raw.githubusercontent.com/theiagen/test-datasets/poppunk/data/strep.tar.gz"
+                    input[1] = "https://raw.githubusercontent.com/theiagen/test-datasets/poppunk/data/GPS_v9_external_clusters.csv"
                     """
                 }
             }

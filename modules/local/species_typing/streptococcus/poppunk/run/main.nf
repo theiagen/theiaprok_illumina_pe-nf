@@ -2,7 +2,8 @@ process POPPUNK {
     tag "$meta.id"
     label "process_medium"
 
-    container "us-docker.pkg.dev/general-theiagen/staphb/poppunk:2.4.0"
+    // container "us-docker.pkg.dev/general-theiagen/staphb/poppunk:2.4.0"
+    container 'community.wave.seqera.io/library/poppunk:2.4.0--e909346af4c3d6fe'
 
     input:
     tuple val(meta), path(assembly)
@@ -30,7 +31,9 @@ process POPPUNK {
     
     # Determine the database name
     GPS_DB_NAME=\$(grep "^Database:" ${gps_db_info} | cut -d' ' -f2)
+
     echo "\${GPS_DB_NAME}" > GPS_DB_NAME.txt
+
 
     # Run poppunk
     poppunk_assign \\
@@ -48,10 +51,10 @@ process POPPUNK {
         
         # If GPSC is "NA", overwrite with helpful message
         if [[ "\$(cat GPSC.txt)" == "NA" ]]; then
-            echo "Potential novel GPS Cluster identified, please email globalpneumoseq@gmail.com to have novel clusters added to the database and a GPSC cluster name assigned after you have checked for low level contamination which may contribute to biased accessory distances." > GPSC.txt
+            echo "Potential novel GPS Cluster identified, please email globalpneumoseq@gmail.com to have novel clusters added to the database and a GPSC cluster name assigned after you have checked for low level contamination which may contribute to biased accessory distances." >> GPSC.txt
         fi
     else
-        echo "poppunk failed" > GPSC.txt
+        echo "poppunk failed" >> GPSC.txt
     fi
 
     cat <<-END_VERSIONS > versions.yml
