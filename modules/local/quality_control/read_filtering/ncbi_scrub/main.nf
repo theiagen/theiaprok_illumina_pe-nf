@@ -20,8 +20,6 @@ process NCBI_SCRUB_PE {
     if (reads.size() != 2) {
         error "NCBI_SCRUB_PE requires exactly two reads (forward and reverse). Found: ${reads.size()} reads."
     }
-    def read1 = reads[0]
-    def read2 = reads[1] 
     def prefix = task.ext.prefix ?: "${meta.id}"
     
     """
@@ -29,7 +27,7 @@ process NCBI_SCRUB_PE {
     date | tee DATE
     
     # detect compression and define cat command
-    if [[ "${read1}" == *.gz ]]; then
+    if [[ "${reads[0]}" == *.gz ]]; then
         echo "DEBUG: Gzipped input reads detected"
         cat_command="zcat"
     else
@@ -37,8 +35,8 @@ process NCBI_SCRUB_PE {
     fi
     
     # Count the number of reads in each file
-    read1_count=\$(\$cat_command ${read1} | wc -l | awk '{print \$1/4}')
-    read2_count=\$(\$cat_command ${read2} | wc -l | awk '{print \$1/4}')
+    read1_count=\$(\$cat_command ${reads[0]} | wc -l | awk '{print \$1/4}')
+    read2_count=\$(\$cat_command ${reads[1]} | wc -l | awk '{print \$1/4}')
     echo "DEBUG: Number of reads in read1: \$read1_count"
     echo "DEBUG: Number of reads in read2: \$read2_count"
     
@@ -52,8 +50,8 @@ process NCBI_SCRUB_PE {
     # paste command takes 4 lines at a time and merges them into a single line with tabs
     # tr substitutes the tab separators from paste into new lines, effectively interleaving the reads and keeping the FASTQ format
     echo "DEBUG: Interleaving reads with paste..."
-    paste <(\$cat_command ${read1} | paste - - - -) <(\$cat_command ${read2} | paste - - - -) | tr '\\t' '\\n' > interleaved.fastq
-    
+    paste <(\$cat_command ${reads[0]} | paste - - - -) <(\$cat_command ${reads[1]} | paste - - - -) | tr '\\t' '\\n' > interleaved.fastq
+
     # dehost reads
     # -x Remove spots instead of default 'N' replacement.
     # -s Input is (collated) interleaved paired-end(read) file AND you wish both reads masked or removed.
