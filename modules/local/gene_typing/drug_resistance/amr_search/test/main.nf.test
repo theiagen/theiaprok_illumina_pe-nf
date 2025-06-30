@@ -4,14 +4,24 @@ nextflow_process {
     process "AMR_SEARCH"
     
     test("amr search test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_amr'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/494/545/GCF_022494545.1_ASM2249454v1/GCF_022494545.1_ASM2249454v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
         when {
             process {
                 """
-                input[0] = [
-                    [ id:'test_sample' ],
-                    file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz", checkIfExists: true)
-                ]
-                input[1] = "485" // amr_search_database
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "1280" // amr_search_database
                 """
             }
         }

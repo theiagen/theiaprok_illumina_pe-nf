@@ -14,7 +14,7 @@ process POPPUNK {
     output:
     tuple val(meta), path("GPSC.txt")                                       , emit: gps_cluster
     tuple val(meta), path("*_poppunk/*poppunk_external_clusters.csv")       , emit: external_cluster_csv, optional: true
-    tuple val(meta), path("GPS_DB_NAME")                                    , emit: gps_db_version
+    tuple val(meta), path("GPS_DB_NAME.txt")                                , emit: gps_db_version
     path "versions.yml"                                                     , emit: versions
 
     when:
@@ -31,7 +31,9 @@ process POPPUNK {
     
     # Determine the database name
     GPS_DB_NAME=\$(grep "^Database:" ${gps_db_info} | cut -d' ' -f2)
-    echo "\${GPS_DB_NAME}" > GPS_DB_NAME
+
+    echo "\${GPS_DB_NAME}" > GPS_DB_NAME.txt
+
 
     # Run poppunk
     poppunk_assign \\
@@ -40,7 +42,7 @@ process POPPUNK {
         --distances ${gps_database}/"\${GPS_DB_NAME}"/"\${GPS_DB_NAME}".dists \\
         --query ${prefix}_poppunk_input.tsv \\
         --output ${prefix}_poppunk \\
-        --external-clustering ${gps_external_clusters_csv} \\
+        --external-clustering ${gps_external_clusters_csv}/"\${GPS_DB_NAME}"_external_clusters.csv \\
         ${args}
     
     # Parse output CSV for GPSC (Global Pneumococcal Sequence Cluster)
