@@ -3,6 +3,7 @@ process AMR_SEARCH {
     label "process_low"
 
     container "us-docker.pkg.dev/general-theiagen/theiagen/amrsearch:0.2.1"
+    containerOptions '--entrypoint=""'
 
     input:
     tuple val(meta), path(assembly_fasta)
@@ -20,24 +21,25 @@ process AMR_SEARCH {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def database = amr_search_database ?: "485"
-    
     """
-    # Extract base name without path or extension
-    input_base=\$(basename ${assembly_fasta}})
-    input_base=\${input_base%.*}
-    echo "DEBUG: input_base = \${input_base}"
-
+    # Unzip the assembly if necessary
+    REAL_FILE=\$(readlink -f "${assembly_fasta}")
+    if [[ "\${REAL_FILE}" == *.gz ]] || [[ "\$(file -b "\${REAL_FILE}")" == *"gzip"* ]] || [[ "\$(file -b --mime-type "\${REAL_FILE}")" == "application/gzip" ]]; then
+        zcat "\${REAL_FILE}" > assembly.fa
+    else
+        ln -sf "\${REAL_FILE}" assembly.fa
+    fi
     # Run the tool
     java -jar /paarsnp/paarsnp.jar \
-        -i ${assembly_fasta} \
+        -i assembly.fa \
         -s ${database}
 
     # Move the output file from the input directory to the working directory
-    mv \$(dirname ${assembly_fasta})/\${input_base}_paarsnp.jsn ./${prefix}_paarsnp_results.json
+    ln -sf assembly_paarsnp.jsn ./${prefix}_paarsnp_results.json
 
     # Script housed within the image; https://github.com/theiagen/theiagen_docker_builds/tree/awh-amrsearch-image/amrsearch/0.0.20
     python3 /scripts/parse_amr_json.py \
-        ./${prefix}_paarsnp_results.jsn \
+        ./${prefix}_paarsnp_results.json \
         ${prefix}
 
       
