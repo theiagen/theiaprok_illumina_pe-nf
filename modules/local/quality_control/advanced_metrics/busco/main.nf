@@ -10,8 +10,7 @@ process BUSCO {
 
     output:
     tuple val(meta), path("*_busco-summary.txt"), optional: true, emit: busco_report
-    tuple val(meta), path("DATABASE"), emit: busco_database
-    tuple val(meta), path("BUSCO_RESULTS"), emit: busco_results
+    tuple val(meta), path("*_value.txt"), emit: busco_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -36,16 +35,16 @@ process BUSCO {
         # cut out the database name and date it was created
         # sed is to remove extra comma and to add parentheses around the date and remove all tabs
         # finally write to a file called DATABASE
-        cat ${prefix}/short_summary.specific.*.${prefix}.txt | grep "dataset is:" | cut -d' ' -f 6,9 | sed 's/,//; s/ / (/; s/\$/)/; s|[\\t]||g' | tee DATABASE
+        cat ${prefix}/short_summary.specific.*.${prefix}.txt | grep "dataset is:" | cut -d' ' -f 6,9 | sed 's/,//; s/ / (/; s/\$/)/; s|[\\t]||g' | tee BUSCO_DATABASE_value.txt
         
         # extract the results string; strip off all tab and space characters; write to a file called BUSCO_RESULTS
-        cat ${prefix}/short_summary.specific.*.${prefix}.txt | grep "C:" | sed 's|[\\t]||g; s| ||g' | tee BUSCO_RESULTS
+        cat ${prefix}/short_summary.specific.*.${prefix}.txt | grep "C:" | sed 's|[\\t]||g; s| ||g' | tee BUSCO_RESULTS_value.txt
         
         # rename final output file to predictable name
         cp -v ${prefix}/short_summary.specific.*.${prefix}.txt ${prefix}_busco-summary.txt
     else
-        echo "BUSCO FAILED" | tee BUSCO_RESULTS
-        echo "NA" > DATABASE
+        echo "BUSCO FAILED" | tee BUSCO_RESULTS_value.txt
+        echo "NA" > DATABASE_value.txt
     fi
 
     cat <<-END_VERSIONS > versions.yml
@@ -57,8 +56,8 @@ process BUSCO {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    echo "bacteria_odb10 (2020-03-06)" > DATABASE
-    echo "C:95.5%[S:94.1%,D:1.4%],F:2.1%,M:2.4%,n:124" > BUSCO_RESULTS
+    echo "bacteria_odb10 (2020-03-06)" > BUSCO_DATABASE_value.txt
+    echo "C:95.5%[S:94.1%,D:1.4%],F:2.1%,M:2.4%,n:124" > BUSCO_RESULTS_value.txt
     touch ${prefix}_busco-summary.txt
 
     cat <<-END_VERSIONS > versions.yml

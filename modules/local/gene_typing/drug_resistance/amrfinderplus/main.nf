@@ -12,18 +12,7 @@ process AMRFINDER_PLUS_NUC {
     tuple val(meta), path("*_amrfinder_amr.tsv"), emit: amrfinderplus_amr_report
     tuple val(meta), path("*_amrfinder_stress.tsv"), emit: amrfinderplus_stress_report
     tuple val(meta), path("*_amrfinder_virulence.tsv"), emit: amrfinderplus_virulence_report
-    tuple val(meta), path("AMR_CORE_GENES"), emit: amrfinderplus_amr_core_genes
-    tuple val(meta), path("AMR_PLUS_GENES"), emit: amrfinderplus_amr_plus_genes
-    tuple val(meta), path("STRESS_GENES"), emit: amrfinderplus_stress_genes
-    tuple val(meta), path("VIRULENCE_GENES"), emit: amrfinderplus_virulence_genes
-    tuple val(meta), path("AMR_CLASSES"), emit: amrfinderplus_amr_classes
-    tuple val(meta), path("AMR_SUBCLASSES"), emit: amrfinderplus_amr_subclasses
-    tuple val(meta), path("BETA_LACTAM_GENES"), emit: amrfinderplus_amr_betalactam_genes
-    tuple val(meta), path("BETA_LACTAM_BETA_LACTAM_GENES"), emit: amrfinderplus_amr_betalactam_betalactam_genes
-    tuple val(meta), path("BETA_LACTAM_CARBAPENEM_GENES"), emit: amrfinderplus_amr_betalactam_carbapenem_genes
-    tuple val(meta), path("BETA_LACTAM_CEPHALOSPORIN_GENES"), emit: amrfinderplus_amr_betalactam_cephalosporin_genes
-    tuple val(meta), path("BETA_LACTAM_CEPHALOTHIN_GENES"), emit: amrfinderplus_amr_betalactam_cephalothin_genes
-    tuple val(meta), path("BETA_LACTAM_METHICILLIN_GENES"), emit: amrfinderplus_amr_betalactam_methicillin_genes
+    tuple val(meta), path("*_values.txt"), emit: amrfinderplus_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -190,20 +179,20 @@ process AMRFINDER_PLUS_NUC {
     fi 
 
     # create final output strings
-    echo "\${amr_core_genes}" > AMR_CORE_GENES
-    echo "\${amr_plus_genes}" > AMR_PLUS_GENES
-    echo "\${stress_genes}" > STRESS_GENES
-    echo "\${virulence_genes}" > VIRULENCE_GENES
-    echo "\${amr_classes}" > AMR_CLASSES
-    echo "\${amr_subclasses}" > AMR_SUBCLASSES
+    echo "\${amr_core_genes}" > AMR_CORE_GENES_values.txt
+    echo "\${amr_plus_genes}" > AMR_PLUS_GENES_values.txt
+    echo "\${stress_genes}" > STRESS_GENES_values.txt
+    echo "\${virulence_genes}" > VIRULENCE_GENES_values.txt
+    echo "\${amr_classes}" > AMR_CLASSES_values.txt
+    echo "\${amr_subclasses}" > AMR_SUBCLASSES_values.txt
   
     # if separate_betalactam_genes is true, create final output strings (if false, these values will be blank)
-    echo "\${betalactam_genes}" > BETA_LACTAM_GENES
-    echo "\${betalactam_betalactam_genes}" > BETA_LACTAM_BETA_LACTAM_GENES
-    echo "\${betalactam_carbapenem_genes}" > BETA_LACTAM_CARBAPENEM_GENES
-    echo "\${betalactam_cephalosporin_genes}" > BETA_LACTAM_CEPHALOSPORIN_GENES
-    echo "\${betalactam_cephalothin_genes}" > BETA_LACTAM_CEPHALOTHIN_GENES
-    echo "\${betalactam_methicillin_genes}" > BETA_LACTAM_METHICILLIN_GENES
+    echo "\${betalactam_genes}" > BETA_LACTAM_GENES_values.txt
+    echo "\${betalactam_betalactam_genes}" > BETA_LACTAM_BETA_LACTAM_GENES_values.txt
+    echo "\${betalactam_carbapenem_genes}" > BETA_LACTAM_CARBAPENEM_GENES_values.txt
+    echo "\${betalactam_cephalosporin_genes}" > BETA_LACTAM_CEPHALOSPORIN_GENES_values.txt
+    echo "\${betalactam_cephalothin_genes}" > BETA_LACTAM_CEPHALOTHIN_GENES_values.txt
+    echo "\${betalactam_methicillin_genes}" > BETA_LACTAM_METHICILLIN_GENES_values.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -219,18 +208,18 @@ process AMRFINDER_PLUS_NUC {
     echo "na" > "${prefix}_amrfinder_amr.tsv"
     echo "na" > "${prefix}_amrfinder_stress.tsv"
     echo "na" > "${prefix}_amrfinder_virulence.tsv"
-    echo "na" > AMR_CORE_GENES
-    echo "na" > AMR_PLUS_GENES
-    echo "na" > STRESS_GENES
-    echo "na" > VIRULENCE_GENES
-    echo "na" > AMR_CLASSES
-    echo "na" > AMR_SUBCLASSES
-    echo "na" > BETA_LACTAM_GENES
-    echo "na" > BETA_LACTAM_BETA_LACTAM_GENES
-    echo "na" > BETA_LACTAM_CARBAPENEM_GENES
-    echo "na" > BETA_LACTAM_CEPHALOSPORIN_GENES
-    echo "na" > BETA_LACTAM_CEPHALOTHIN_GENES
-    echo "na" > BETA_LACTAM_METHICILLIN_GENES
+    echo "na" > AMR_CORE_GENES_values.txt
+    echo "na" > AMR_PLUS_GENES_values.txt
+    echo "na" > STRESS_GENES_values.txt
+    echo "na" > VIRULENCE_GENES_values.txt
+    echo "na" > AMR_CLASSES_values.txt
+    echo "na" > AMR_SUBCLASSES_values.txt
+    echo "na" > BETA_LACTAM_GENES_values.txt
+    echo "na" > BETA_LACTAM_BETA_LACTAM_GENES_values.txt
+    echo "na" > BETA_LACTAM_CARBAPENEM_GENES_values.txt
+    echo "na" > BETA_LACTAM_CEPHALOSPORIN_GENES_values.txt
+    echo "na" > BETA_LACTAM_CEPHALOTHIN_GENES_values.txt
+    echo "na" > BETA_LACTAM_METHICILLIN_GENES_values.txt
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

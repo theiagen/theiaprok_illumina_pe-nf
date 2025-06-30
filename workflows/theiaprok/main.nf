@@ -19,6 +19,7 @@ include { PROKKA } from '../../modules/nf-core/prokka/main'
 include { BAKTA_BAKTA as BAKTA } from '../../modules/nf-core/bakta/bakta/main'
 include { PLASMIDFINDER } from '../../modules/local/gene_typing/plasmid_detection/plasmidfinder/main'
 include { ABRICATE } from '../../modules/local/gene_typing/drug_resistance/abricate/main'
+include { UTILITY_JSON_BUILDER } from '../../modules/local/utilities/json_builder/main'
 
 workflow THEIAPROK_ILLUMINA_PE {
     
@@ -56,6 +57,7 @@ workflow THEIAPROK_ILLUMINA_PE {
     ch_read_screen_raw = Channel.empty()
     ch_read_screen_clean = Channel.empty()
     ch_estimated_genome_length = Channel.empty()
+    ch_value_outputs = Channel.empty()
     
     if (!skip_screen) {
         RAW_CHECK_READS (
@@ -195,6 +197,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         false  // eukaryote = false for bacteria
     )
     ch_versions = ch_versions.mix(BUSCO.out.versions)
+    ch_value_outputs = BUSCO.out.busco_value_results
 
     if (perform_characterization) {
         GAMBIT (
@@ -236,7 +239,8 @@ workflow THEIAPROK_ILLUMINA_PE {
             ch_amrfinder_input.map { meta, assembly, organism -> organism }
         )
         ch_versions = ch_versions.mix(AMRFINDER_PLUS_NUC.out.versions)
-        
+        ch_value_outputs = ch_value_outputs.mix(AMRFINDER_PLUS_NUC.out.amrfinderplus_value_results)
+
         if (call_resfinder) {
             RESFINDER (
                 ch_amrfinder_input.map { meta, assembly, organism -> [meta, assembly] },
@@ -326,12 +330,22 @@ workflow THEIAPROK_ILLUMINA_PE {
         ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
     }
     
+    ch_value_outputs = ch_value_outputs
+        .groupTuple() // Group by sample ID to ensure unique entries
+        .map { id, files -> tuple(id, files.flatten().unique()) } // Flatten and deduplicate files
+
+    // Collect all value outputs for the JSON builder
+    UTILITY_JSON_BUILDER (
+        ch_value_outputs
+    )
+
     emit:
     // Key outputs
     assembly = ch_assembly
     clean_reads = ch_clean_reads
     read_screen_raw = ch_read_screen_raw
     read_screen_clean = ch_read_screen_clean
+    value_json = UTILITY_JSON_BUILDER.out.value_json_output
     
     // QUAST outputs
     quast_report = QUAST.out.report
@@ -342,7 +356,7 @@ workflow THEIAPROK_ILLUMINA_PE {
     
     // BUSCO outputs
     busco_report = BUSCO.out.busco_report
-    busco_results = BUSCO.out.busco_results
+    busco_results = BUSCO.out.busco_value_results
     
     // Versions
     versions = ch_versions
