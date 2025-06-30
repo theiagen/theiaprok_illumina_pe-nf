@@ -5,7 +5,7 @@ process BBDUK {
     container "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
 
     input:
-    tuple val(meta), path(trimmed_reads)
+    tuple val(meta), path(reads)
     path adapters
     path phix
 
@@ -20,11 +20,9 @@ process BBDUK {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    if (trimmed_reads.size() != 2) {
-        error "BBDUK requires exactly two input reads, but found ${trimmed_reads.size()}."
+    if (reads.size() != 2) {
+        error "BBDUK requires exactly two input reads, but found ${reads.size()}."
     }
-    def read1_trimmed = trimmed_reads[0]
-    def read2_trimmed = trimmed_reads[1]
     def bbduk_adapters = adapters ?: ""
     def bbduk_phix = phix ?: ""
     
@@ -52,8 +50,8 @@ process BBDUK {
     
     # Repair reads to ensure proper pairing
     repair.sh \\
-        in1=${read1_trimmed} \\
-        in2=${read2_trimmed} \\
+        in1=${reads[0]} \\
+        in2=${reads[1]} \\
         out1=${prefix}.paired_1.fastq.gz \\
         out2=${prefix}.paired_2.fastq.gz
     

@@ -27,8 +27,6 @@ process TRIMMOMATIC_PE {
     if (reads.size() != 2) {
         error "TRIMMOMATIC_PE requires exactly two reads (forward and reverse). Found: ${reads.size()} reads."
     }
-    def read1 = reads[0]
-    def read2 = reads[1]
     def min_length = trimmomatic_min_length ?: 75
     def window_size = trimmomatic_window_size ?: 4
     def quality_score = trimmomatic_quality_trim_score ?: 30
@@ -42,9 +40,9 @@ process TRIMMOMATIC_PE {
     # if trimmomatic base crop is defined (-n means not empty), determine average readlength of the input reads
     if [ -n "${base_crop}" ]; then
         # determine the average read length of the input reads
-        read_length_r1=\$(zcat ${read1} | awk '{if(NR%4==2) {bases+=length(\$0)} } END {print bases/(NR/4)}')
-        read_length_r2=\$(zcat ${read2} | awk '{if(NR%4==2) {bases+=length(\$0)} } END {print bases/(NR/4)}')
-        
+        read_length_r1=\$(zcat ${reads[0]} | awk '{if(NR%4==2) {bases+=length(\$0)} } END {print bases/(NR/4)}')
+        read_length_r2=\$(zcat ${reads[1]} | awk '{if(NR%4==2) {bases+=length(\$0)} } END {print bases/(NR/4)}')
+
         # take the average of the two read lengths and remove the end base crop
         avg_readlength=\$(python3 -c "print(int(((\$read_length_r1 + \$read_length_r2) / 2) - ${base_crop}))")
         
@@ -57,7 +55,7 @@ process TRIMMOMATIC_PE {
     trimmomatic PE \\
         ${trim_args} \\
         -threads ${task.cpus} \\
-        ${read1} ${read2} \\
+        ${reads[0]} ${reads[1]} \\
         -baseout ${prefix}.fastq.gz \\
         \${CROPPING_VAR} \\
         SLIDINGWINDOW:${window_size}:${quality_score} \\
