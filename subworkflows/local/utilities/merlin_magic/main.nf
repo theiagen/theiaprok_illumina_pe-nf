@@ -34,76 +34,29 @@ include { SRST2_VIBRIO                 } from '../../../../modules/local/species
 include { VIBECHECK_VIBRIO             } from '../../../../modules/local/species_typing/vibrio/vibecheck_vibrio/main'
 include { TS_MLST                      } from '../../../../modules/local/species_typing/multi/ts_mlst/main'
 
+// New Subworkflows 
+include { ACINETOBACTER_SPECIES } from '../../../local/species/acinetobacter_baumannii/main'
+
 workflow MERLIN_MAGIC {
     
     take:
-    ch_samples          // channel: [ val(meta), path(assembly), path(reads) ]
-    merlin_tag          // string
+    ch_samples          // channel: [ val(meta), path(assembly), path(reads), val(species) ]
     
     main:
     
-    ch_versions = Channel.empty()
+    ch_samples_by_species = ch_samples.branch {
+        acinetobacter: it[3] == "Acinetobacter baumannii" || 
+                       it[3] == "Acinetobacter" || 
+                       it[3] == "Acinetobacter spp."
+    }
+
+    ACINETOBACTER_SPECIES(ch_samples_by_species.acinetobacter)
+
     
-    // Initialize output channels
-    ch_abricate_results = Channel.empty()
-    ch_amr_search_results = Channel.empty()
-    ch_kaptive_results = Channel.empty()
-    ch_serotypefinder_results = Channel.empty()
-    ch_ectyper_results = Channel.empty()
-    ch_shigatyper_results = Channel.empty()
-    ch_shigeifinder_results = Channel.empty()
-    ch_stxtyper_results = Channel.empty()
-    ch_virulencefinder_results = Channel.empty()
-    ch_sonneityper_results = Channel.empty()
-    ch_lissero_results = Channel.empty()
-    ch_sistr_results = Channel.empty()
-    ch_seqsero2_results = Channel.empty()
-    ch_genotyphi_results = Channel.empty()
-    ch_kleborate_results = Channel.empty()
-    ch_ngmaster_results = Channel.empty()
-    ch_meningotype_results = Channel.empty()
-    ch_pasty_results = Channel.empty()
-    ch_clockwork_results = Channel.empty()
-    ch_tbprofiler_results = Channel.empty()
-    ch_legsta_results = Channel.empty()
-    ch_spatyper_results = Channel.empty()
-    ch_staphopiasccmec_results = Channel.empty()
-    ch_agrvate_results = Channel.empty()
-    ch_seroba_results = Channel.empty()
-    ch_pbptyper_results = Channel.empty()
-    ch_poppunk_results = Channel.empty()
-    ch_emmtyper_results = Channel.empty()
-    ch_emmtypingtool_results = Channel.empty()
-    ch_hicap_results = Channel.empty()
-    ch_srst2_vibrio_results = Channel.empty()
-    ch_vibecheck_results = Channel.empty()
-    
-    // Create assembly and reads channels
+    // Create assembly and reads channels - REMOVE FOR REFACTOR
     ch_assembly = ch_samples.map { meta, assembly, reads -> [meta, assembly] }
     ch_reads = ch_samples.map { meta, assembly, reads -> [meta, reads] }
         .filter { meta, reads -> reads && reads.size() > 0 }
-    
-    // Acinetobacter baumannii typing
-    if (merlin_tag == "Acinetobacter baumannii") {
-        KAPTIVE (
-            ch_assembly,
-            params.kaptive_start_end_margin ?: 10,
-            params.kaptive_min_percent_coverage ?: 90.0,
-            params.kaptive_min_percent_identity ?: 80.0,
-            params.kaptive_low_gene_percent_identity ?: 95.0
-        )
-        ch_kaptive_results = KAPTIVE.out.k_table
-        ch_versions = ch_versions.mix(KAPTIVE.out.versions)
-        
-        ABRICATE (
-            ch_assembly,
-            "AcinetobacterPlasmidTyping",
-            params.abricate_abaum_min_percent_identity ?: 95,
-            params.abricate_abaum_min_percent_coverage
-        )
-        ch_abricate_results = ABRICATE.out.results
-        ch_versions = ch_versions.mix(ABRICATE.out.versions)
-    }
     
     // STX typer - special case: auto-run on Escherichia/Shigella, optional on others
     if (merlin_tag == "Escherichia" || merlin_tag == "Shigella sonnei" || params.call_stxtyper == true) {
