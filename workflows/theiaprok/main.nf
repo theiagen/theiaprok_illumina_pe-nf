@@ -356,8 +356,13 @@ workflow THEIAPROK_ILLUMINA_PE {
                     log.info "Sample ${meta.id} has merlin_tag: '${final_tag}'"
                     [[meta, assembly, reads], final_tag]
                 }
+                .view { sample_data, tag -> "MERLIN input: ${sample_data[0].id} -> tag='${tag}'" }
                 .filter { sample_data, tag ->
-                    tag && tag != "" && tag != "unknown"
+                    def pass = tag && tag != "" && tag != "unknown"
+                    if (!pass) {
+                        log.warn "Sample ${sample_data[0].id} filtered out: tag='${tag}'"
+                    }
+                    return pass
                 }
             
             ch_merlin_input.multiMap { sample_data, tag ->
