@@ -1,0 +1,52 @@
+nextflow_workflow {
+    name "Test Subworkflow SALMONELLA_SPECIES"
+    script "../main.nf"
+    workflow "SALMONELLA_SPECIES_TYPING"
+
+    test("salmonella_species - salmonella characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_salmonella', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/945/GCF_000006945.2_ASM694v2/GCF_000006945.2_ASM694v2_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [
+                                file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz", checkIfExists: true),
+                                file(params.pipelines_testdata_base_path + "genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz", checkIfExists: true)
+                            ],
+                            "Salmonella"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.sistr_results,
+                    workflow.out.seqsero2_results,
+                    workflow.out.genotyphi_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

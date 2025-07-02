@@ -36,6 +36,7 @@ include { TS_MLST                      } from '../../../../modules/local/species
 // New Subworkflows 
 include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobacter_baumannii/main'
 include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
+include { SALMONELLA_SPECIES_TYPING } from '../../../local/species/salmonella/main'
 
 workflow MERLIN_MAGIC {
     
@@ -49,6 +50,7 @@ workflow MERLIN_MAGIC {
                        it[3] == "Acinetobacter" || 
                        it[3] == "Acinetobacter spp."
         listeria:      it[3] == "Listeria"
+        salmonella:    it[3] == "Salmonella"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -58,10 +60,10 @@ workflow MERLIN_MAGIC {
         LISTERIA_SPECIES_TYPING(ch_samples_by_species.listeria)
     }
 
-    // Create assembly and reads channels - REMOVE FOR REFACTOR
-    ch_assembly = ch_samples.map { meta, assembly, reads -> [meta, assembly] }
-    ch_reads = ch_samples.map { meta, assembly, reads -> [meta, reads] }
-        .filter { meta, reads -> reads && reads.size() > 0 }
+    if (!ch_samples_by_species.salmonella.isEmpty()) {
+        // If not empty, run the Salmonella species typing subworkflow
+        SALMONELLA_SPECIES_TYPING(ch_samples_by_species.salmonella)
+    }
     
     // STX typer - special case: auto-run on Escherichia/Shigella, optional on others
     if (merlin_tag == "Escherichia" || merlin_tag == "Shigella sonnei" || params.call_stxtyper == true) {
@@ -127,50 +129,7 @@ workflow MERLIN_MAGIC {
         ch_versions = ch_versions.mix(SONNEITYPER.out.versions)
     }
     
-    // Salmonella typing path
-    if (merlin_tag == "Salmonella") {
-        SISTR (
-            ch_assembly
-        )
-        ch_sistr_results = SISTR.out.sistr_result
-        ch_versions = ch_versions.mix(SISTR.out.versions)
-        
-        // SeqSero2 - different input based on data type
-        if (params.ont_data || params.assembly_only) {
-            SEQSERO2 (
-                ch_assembly
-            )
-        } else {
-            SEQSERO2 (
-                ch_reads
-            )
-        }
-        ch_seqsero2_results = SEQSERO2.out.seqsero2_report
-        ch_versions = ch_versions.mix(SEQSERO2.out.versions)
-        
-        // GenotypHi for Typhi
-        if (!params.assembly_only) {
-            // Get serotype predictions to check for Typhi
-            ch_typhi_check = SEQSERO2.out.seqsero_serotype
-                .join(SISTR.out.sistr_predicted_serotype)
-                .filter { meta, seqsero_file, sistr_file ->
-                    def seqsero_content = seqsero_file.text.trim()
-                    def sistr_content = sistr_file.text.trim()
-                    seqsero_content == "Typhi" || sistr_content == "Typhi"
-                }
-                .map { meta, seqsero_file, sistr_file -> meta }
-            
-            ch_typhi_reads = ch_reads
-                .join(ch_typhi_check)
-                .map { meta, reads, check -> [meta, reads] }
-            
-            GENOTYPHI (
-                ch_typhi_reads
-            )
-            ch_genotyphi_results = GENOTYPHI.out.genotyphi_report
-            ch_versions = ch_versions.mix(GENOTYPHI.out.versions)
-            }
-    }
+    
     
     // Klebsiella species typing
     if (merlin_tag in ["Klebsiella", "Klebsiella pneumoniae", "Klebsiella variicola", "Klebsiella aerogenes", "Klebsiella oxytoca"]) {
