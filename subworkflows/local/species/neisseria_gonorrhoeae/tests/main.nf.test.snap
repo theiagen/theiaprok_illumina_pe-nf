@@ -1,0 +1,22 @@
+{
+    "neisseria_gonorrhoeae - test": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_sample"
+                    },
+                    "test_sample.ngmaster.tsv:md5,4a9c6bfd0dbd47db52198c39bd18b428"
+                ]
+            ],
+            [
+                "versions.yml:md5,b5a0289d69f6d663696a023e5f10b89a"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-07-02T21:23:51.576298329"
+    }
+}

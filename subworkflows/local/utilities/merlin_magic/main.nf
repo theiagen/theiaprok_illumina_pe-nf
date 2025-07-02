@@ -1,16 +1,5 @@
-include { ABRICATE                     } from '../../../../modules/local/gene_typing/drug_resistance/abricate/main'
 include { AMR_SEARCH                   } from '../../../../modules/local/gene_typing/drug_resistance/amr_search/main'
-include { KAPTIVE                      } from '../../../../modules/local/species_typing/acinobacter/kaptive/main'
-include { SEROTYPEFINDER               } from '../../../../modules/local/species_typing/escherichia_shigella/serotypefinder/main'
-include { SHIGEIFINDER                 } from '../../../../modules/local/species_typing/escherichia_shigella/shigeifinder/main'
-include { SHIGATYPER                   } from '../../../../modules/local/species_typing/escherichia_shigella/shigatyper/main'
-include { SONNEITYPER                  } from '../../../../modules/local/species_typing/escherichia_shigella/sonneityping/main'
-include { STXTYPER                     } from '../../../../modules/local/species_typing/escherichia_shigella/stxtyper/main'
-include { VIRULENCEFINDER              } from '../../../../modules/local/species_typing/escherichia_shigella/virulencefinder/main'
-include { ECTYPER                      } from '../../../../modules/local/species_typing/escherichia_shigella/ectyper/main'
 include { HICAP                        } from '../../../../modules/local/species_typing/haemophilus/hicap/main'
-include { KLEBORATE                    } from '../../../../modules/local/species_typing/klebsiella/kleborate/main'
-include { LEGSTA                       } from '../../../../modules/local/species_typing/legionella/legsta/main'
 include { MENINGOTYPE                  } from '../../../../modules/local/species_typing/neisseria/meningotype/main'
 include { NGMASTER                     } from '../../../../modules/local/species_typing/neisseria/ngmaster/main'
 include { PASTY                        } from '../../../../modules/local/species_typing/pseudomonas/pasty/main'
@@ -36,6 +25,8 @@ include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
 include { SALMONELLA_SPECIES_TYPING } from '../../../local/species/salmonella/main'
 include { ESCHERICHIA_SHIGELLA_TYPING } from '../../../local/species/ecoli_shigella/main'
 include { MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING } from '../../../local/species/mycobacterium/main'
+include { KLEBSIELLA_TYPING } from '../../../local/species/klebsiella/main'
+include { NEISSERIA_GONORRHOEAE_TYPING } from '../../../local/species/neisseria_gonorrhoeae/main'
 
 workflow MERLIN_MAGIC {
     
@@ -59,6 +50,7 @@ workflow MERLIN_MAGIC {
                         it[3] == "Klebsiella variicola" || 
                         it[3] == "Klebsiella aerogenes" || 
                         it[3] == "Klebsiella oxytoca"
+        neisseria_gonorrhoeae: it[3] == "Neisseria gonorrhoeae"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -90,18 +82,16 @@ workflow MERLIN_MAGIC {
     // Figured parsing the channel here is simpler, we can revert to doing it in the workflow if we want
     if (!ch_samples_by_species.klebsiella.isEmpty()) {
         // Klebsiella species typing
-        KLEBORATE (
+        KLEBSIELLA_TYPING (
             ch_samples_by_species.klebsiella.map { meta, assembly, reads, species -> [meta, assembly] }
         )
     }
     
     // Neisseria gonorrhoeae typing
-    if (merlin_tag == "Neisseria gonorrhoeae") {
-        NGMASTER (
-            ch_assembly
+    if (!ch_samples_by_species.neisseria_gonorrhoeae.isEmpty()) {
+        NEISSERIA_GONORRHOEAE_TYPING (
+            ch_samples_by_species.neisseria_gonorrhoeae.map { meta, assembly, reads, species -> [meta, assembly] }
         )
-        ch_ngmaster_results = NGMASTER.out.ngmast_report
-        ch_versions = ch_versions.mix(NGMASTER.out.versions)
     }
     
     // Neisseria meningitidis typing
