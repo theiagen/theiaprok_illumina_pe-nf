@@ -1,6 +1,6 @@
 include { KAPTIVE  } from '../../../../modules/local/species_typing/acinobacter/kaptive/main'
 include { ABRICATE } from '../../../../modules/local/gene_typing/drug_resistance/abricate/main'
-workflow ACINETOBACTER_SPECIES {
+workflow ACINETOBACTER_SPECIES_TYPING {
 
     take:
     ch_acinetobacter // Channel of tuples [meta, assembly, reads, species]

@@ -35,7 +35,7 @@ include { VIBECHECK_VIBRIO             } from '../../../../modules/local/species
 include { TS_MLST                      } from '../../../../modules/local/species_typing/multi/ts_mlst/main'
 
 // New Subworkflows 
-include { ACINETOBACTER_SPECIES } from '../../../local/species/acinetobacter_baumannii/main'
+include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobacter_baumannii/main'
 
 workflow MERLIN_MAGIC {
     
@@ -50,9 +50,8 @@ workflow MERLIN_MAGIC {
                        it[3] == "Acinetobacter spp."
     }
 
-    ACINETOBACTER_SPECIES(ch_samples_by_species.acinetobacter)
+    ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
 
-    
     // Create assembly and reads channels - REMOVE FOR REFACTOR
     ch_assembly = ch_samples.map { meta, assembly, reads -> [meta, assembly] }
     ch_reads = ch_samples.map { meta, assembly, reads -> [meta, reads] }
