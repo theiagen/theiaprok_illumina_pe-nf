@@ -11,7 +11,6 @@ include { ECTYPER                      } from '../../../../modules/local/species
 include { HICAP                        } from '../../../../modules/local/species_typing/haemophilus/hicap/main'
 include { KLEBORATE                    } from '../../../../modules/local/species_typing/klebsiella/kleborate/main'
 include { LEGSTA                       } from '../../../../modules/local/species_typing/legionella/legsta/main'
-include { LISSERO                      } from '../../../../modules/local/species_typing/listeria/lissero/main'
 include { CLOCKWORK_DECON_READS        } from '../../../../modules/local/species_typing/mycobacterium/clockwork/main'
 include { TBPROFILER                   } from '../../../../modules/local/species_typing/mycobacterium/tbprofiler/main'
 include { TBP_PARSER                   } from '../../../../modules/local/species_typing/mycobacterium/tbp_parser/main'
@@ -36,6 +35,7 @@ include { TS_MLST                      } from '../../../../modules/local/species
 
 // New Subworkflows 
 include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobacter_baumannii/main'
+include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
 
 workflow MERLIN_MAGIC {
     
@@ -48,9 +48,15 @@ workflow MERLIN_MAGIC {
         acinetobacter: it[3] == "Acinetobacter baumannii" || 
                        it[3] == "Acinetobacter" || 
                        it[3] == "Acinetobacter spp."
+        listeria:      it[3] == "Listeria"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
+
+    if (!ch_samples_by_species.listeria.isEmpty()) {
+        // If not empty, run the LISTERIA_SPECIES_TYPING subworkflow
+        LISTERIA_SPECIES_TYPING(ch_samples_by_species.listeria)
+    }
 
     // Create assembly and reads channels - REMOVE FOR REFACTOR
     ch_assembly = ch_samples.map { meta, assembly, reads -> [meta, assembly] }
@@ -119,17 +125,6 @@ workflow MERLIN_MAGIC {
         )
         ch_sonneityper_results = SONNEITYPER.out.sonneityping_final_report
         ch_versions = ch_versions.mix(SONNEITYPER.out.versions)
-    }
-    
-    // Listeria typing path
-    if (merlin_tag == "Listeria") {
-        LISSERO (
-            ch_assembly,
-            params.lissero_min_percent_identity ?: 95.0,
-            params.lissero_min_percent_coverage ?: 95.0
-        )
-        ch_lissero_results = LISSERO.out.lissero_results
-        ch_versions = ch_versions.mix(LISSERO.out.versions)
     }
     
     // Salmonella typing path

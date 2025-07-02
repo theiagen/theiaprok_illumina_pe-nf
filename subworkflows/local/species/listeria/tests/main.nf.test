@@ -1,0 +1,50 @@
+nextflow_workflow {
+    name "Test Subworkflow LISTERIA_SPECIES"
+    script "../main.nf"
+    workflow "LISTERIA_SPECIES_TYPING"
+
+    test("listeria_species - listeria characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_listeria', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/848/505/GCF_002848505.1_ASM284850v1/GCF_002848505.1_ASM284850v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [
+                                file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/20012105104_R1.fastq.gz", checkIfExists: true),
+                                file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/20012105104_R2.fastq.gz", checkIfExists: true)
+                            ],
+                            "Listeria"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.lissero_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}
