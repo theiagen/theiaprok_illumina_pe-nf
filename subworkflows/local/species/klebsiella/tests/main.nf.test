@@ -1,0 +1,29 @@
+nextflow_workflow {
+
+    name "Test Subworkflow KLEBSIELLA_TYPING"
+    script "../main.nf"
+    workflow "KLEBSIELLA_TYPING"
+
+    test("klebsiella_typing - characterization") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_klebsiella', single_end:false ],
+                    file("https://raw.githubusercontent.com/theiagen/test-datasets/refs/heads/kleborate_typing/data/302749_filtered_contigs.fasta"),
+                    "Klebsiella pneumoniae"
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.kleborate_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

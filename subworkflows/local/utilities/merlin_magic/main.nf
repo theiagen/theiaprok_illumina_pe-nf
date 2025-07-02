@@ -54,6 +54,11 @@ workflow MERLIN_MAGIC {
                         it[3] == "Shigella sonnei" || 
                         it[3] == "Escherichia coli"
         mycobacterium:  it[3] == "Mycobacterium tuberculosis"
+        klebsiella:   it[3] == "Klebsiella" || 
+                        it[3] == "Klebsiella pneumoniae" || 
+                        it[3] == "Klebsiella variicola" || 
+                        it[3] == "Klebsiella aerogenes" || 
+                        it[3] == "Klebsiella oxytoca"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -81,14 +86,13 @@ workflow MERLIN_MAGIC {
     if (!ch_mtb_with_reads.isEmpty()) {
         MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING(ch_mtb_with_reads)
     }
-    
-    // Klebsiella species typing
-    if (merlin_tag in ["Klebsiella", "Klebsiella pneumoniae", "Klebsiella variicola", "Klebsiella aerogenes", "Klebsiella oxytoca"]) {
+
+    // Figured parsing the channel here is simpler, we can revert to doing it in the workflow if we want
+    if (!ch_samples_by_species.klebsiella.isEmpty()) {
+        // Klebsiella species typing
         KLEBORATE (
-            ch_assembly
+            ch_samples_by_species.klebsiella.map { meta, assembly, reads, species -> [meta, assembly] }
         )
-        ch_kleborate_results = KLEBORATE.out.kleborate_report
-        ch_versions = ch_versions.mix(KLEBORATE.out.versions)
     }
     
     // Neisseria gonorrhoeae typing
