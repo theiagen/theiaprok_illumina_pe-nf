@@ -44,11 +44,21 @@ process FASTQC {
         ${read2} \\
         ${args}
     
-    # Rename output files to include prefix
-    mv ${read1_name}_fastqc.html ${prefix}_R1_fastqc.html
-    mv ${read1_name}_fastqc.zip ${prefix}_R1_fastqc.zip
-    mv ${read2_name}_fastqc.html ${prefix}_R2_fastqc.html
-    mv ${read2_name}_fastqc.zip ${prefix}_R2_fastqc.zip
+    # Only rename if the output name differs from desired name
+    # Tracking original behavior for now
+    if [ "${read1_name}_fastqc.html" != "${prefix}_R1_fastqc.html" ]; then
+        mv ${read1_name}_fastqc.html ${prefix}_R1_fastqc.html
+    fi
+    if [ "${read1_name}_fastqc.zip" != "${prefix}_R1_fastqc.zip" ]; then
+        mv ${read1_name}_fastqc.zip ${prefix}_R1_fastqc.zip
+    fi
+    if [ "${read2_name}_fastqc.html" != "${prefix}_R2_fastqc.html" ]; then
+        mv ${read2_name}_fastqc.html ${prefix}_R2_fastqc.html
+    fi
+    if [ "${read2_name}_fastqc.zip" != "${prefix}_R2_fastqc.zip" ]; then
+        mv ${read2_name}_fastqc.zip ${prefix}_R2_fastqc.zip
+    fi
+
     
     # Extract sequence counts
     read1_seqs=\$(grep "Total Sequences" ${read1_name}_fastqc/fastqc_data.txt | cut -f 2)

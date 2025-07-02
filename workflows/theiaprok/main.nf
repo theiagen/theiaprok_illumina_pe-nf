@@ -204,13 +204,38 @@ workflow THEIAPROK_ILLUMINA_PE {
         )
         ch_versions = ch_versions.mix(GAMBIT.out.versions)
         
-        // Get organism for downstream analysis
-        ch_organism = ch_assembly
+        // Get organism/merlin tag with better handling
+        ch_organism_and_tag = ch_assembly
             .join(GAMBIT.out.predicted_taxon, by: 0, remainder: true)
-            .map { meta, assembly, taxon ->
+            .join(GAMBIT.out.merlin_tag, by: 0, remainder: true)
+            .map { meta, assembly, taxon, merlin_tag_file ->
+                // Extract organism from taxon
                 def organism = params.expected_taxon ?: taxon ?: ""
-                [meta, organism]
+                
+                // Extract merlin_tag from file or use taxon
+                def merlin_tag = ""
+                if (params.expected_taxon) {
+                    merlin_tag = params.expected_taxon
+                } else if (merlin_tag_file && merlin_tag_file.exists() && merlin_tag_file.size() > 0) {
+                    try {
+                        merlin_tag = merlin_tag_file.text.trim()
+                    } catch (Exception e) {
+                        log.warn "Could not read merlin_tag file for ${meta.id}: ${e.message}"
+                        // Fall back to taxon
+                        merlin_tag = taxon ?: ""
+                    }
+                } else {
+                    // If no merlin_tag file, use the taxon as merlin_tag
+                    merlin_tag = taxon ?: ""
+                }
+                
+                log.info "Sample ${meta.id}: organism='${organism}', merlin_tag='${merlin_tag}'"
+                [meta, organism, merlin_tag]
             }
+        
+        // Split organism and merlin_tag for different uses
+        ch_organism = ch_organism_and_tag.map { meta, organism, merlin_tag -> [meta, organism] }
+         
         
         if (call_ani) {
             ANI_MUMMER (
@@ -260,7 +285,6 @@ workflow THEIAPROK_ILLUMINA_PE {
         )
         ch_versions = ch_versions.mix(TS_MLST.out.versions)
         
-        // Genome annotation
         if (genome_annotation == "prokka") {
             PROKKA (
                 ch_assembly,
@@ -310,20 +334,49 @@ workflow THEIAPROK_ILLUMINA_PE {
             )
             ch_versions = ch_versions.mix(ABRICATE.out.versions)
         }
-        
-        ch_merlin_input = ch_assembly
-            .join(ch_clean_reads, by: 0)
-            .join(GAMBIT.out.merlin_tag, by: 0, remainder: true)
-            .map { meta, assembly, reads, merlin_tag ->
-                def tag = params.expected_taxon ?: merlin_tag ?: ""
-                [meta, assembly, reads, tag]
-            }
-        
-        MERLIN_MAGIC (
-            ch_merlin_input.map { meta, assembly, reads, tag -> [meta, assembly, reads] },
-            ch_merlin_input.map { meta, assembly, reads, tag -> tag }
-        )
-        ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
+
+        // This is probably the less efficient way to do this,
+        // It would probably be better to pass the tag within the list of inputs
+        // To the merlin magic subworkflow, and that would handle each organism
+        // path to trigger, but this is modeled from the WDL implementation
+        // and I don't want to change it too much right now.
+       if (params.run_merlin_magic ?: true) {
+            // Create channel with sample data and merlin_tag for each sample
+            ch_merlin_input = ch_assembly
+                .join(ch_clean_reads, by: 0)
+                .join(GAMBIT.out.merlin_tag, by: 0, remainder: true)
+                .map { meta, assembly, reads, tag_file ->
+                    // Extract the merlin tag
+                    def merlin_tag = ""
+                    if (tag_file && tag_file.exists()) {
+                        merlin_tag = tag_file.text.trim()
+                    }
+                    def final_tag = params.expected_taxon ?: merlin_tag ?: ""
+                    
+                    log.info "Sample ${meta.id} has merlin_tag: '${final_tag}'"
+                    [[meta, assembly, reads], final_tag]
+                }
+                .view { sample_data, tag -> "MERLIN input: ${sample_data[0].id} -> tag='${tag}'" }
+                .filter { sample_data, tag ->
+                    def pass = tag && tag != "" && tag != "unknown"
+                    if (!pass) {
+                        log.warn "Sample ${sample_data[0].id} filtered out: tag='${tag}'"
+                    }
+                    return pass
+                }
+            
+            ch_merlin_input.multiMap { sample_data, tag ->
+                samples: sample_data
+                tags: tag
+            }.set { ch_merlin_ready }
+            
+            MERLIN_MAGIC(
+                ch_merlin_ready.samples,
+                ch_merlin_ready.tags
+            )
+            
+            ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
+        }
     }
     
     emit:

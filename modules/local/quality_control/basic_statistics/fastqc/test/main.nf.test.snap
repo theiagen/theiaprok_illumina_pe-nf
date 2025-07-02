@@ -6,7 +6,7 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_R1_fastqc.html:md5,486ad4a0df6218d0d68b52e174671f74"
+                    "test_sample_R1_fastqc.html:md5,1114d9a3c470feb2fef84eb882e6c239"
                 ]
             ],
             [
@@ -14,7 +14,7 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_R1_fastqc.zip:md5,880f7d557082e6fdda2f92a8cdf0a376"
+                    "test_sample_R1_fastqc.zip:md5,8ab833fd8e099b07cc1027ac19023ef4"
                 ]
             ],
             [
@@ -22,7 +22,7 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_R2_fastqc.html:md5,282db1d244d50c7bf9b491f9a45cc84a"
+                    "test_sample_R2_fastqc.html:md5,704fa1cda178c522916151b8f0bc1efb"
                 ]
             ],
             [
@@ -30,7 +30,7 @@
                     {
                         "id": "test_sample"
                     },
-                    "test_sample_R2_fastqc.zip:md5,f1483f86e66ef223a7ea67d0167ccd07"
+                    "test_sample_R2_fastqc.zip:md5,761ed146ac860d0f5abdbc26da831512"
                 ]
             ],
             [
@@ -63,9 +63,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T16:30:45.448878"
+        "timestamp": "2025-07-01T16:40:53.509979858"
     },
     "fastqc - stub": {
         "content": [
@@ -192,8 +192,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.4"
         },
-        "timestamp": "2025-06-17T16:30:57.587586"
+        "timestamp": "2025-07-01T16:41:02.377922684"
     }
 }
