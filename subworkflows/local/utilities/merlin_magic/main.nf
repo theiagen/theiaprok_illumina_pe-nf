@@ -37,6 +37,7 @@ include { TS_MLST                      } from '../../../../modules/local/species
 include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobacter_baumannii/main'
 include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
 include { SALMONELLA_SPECIES_TYPING } from '../../../local/species/salmonella/main'
+include { ESCHERICHIA_SHIGELLA_TYPING } from '../../../local/species/ecoli_shigella/main'
 
 workflow MERLIN_MAGIC {
     
@@ -51,6 +52,9 @@ workflow MERLIN_MAGIC {
                        it[3] == "Acinetobacter spp."
         listeria:      it[3] == "Listeria"
         salmonella:    it[3] == "Salmonella"
+        ecoli_shigella: it[3] == "Escherichia" || 
+                        it[3] == "Shigella sonnei" || 
+                        it[3] == "Escherichia coli"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -65,71 +69,10 @@ workflow MERLIN_MAGIC {
         SALMONELLA_SPECIES_TYPING(ch_samples_by_species.salmonella)
     }
     
-    // STX typer - special case: auto-run on Escherichia/Shigella, optional on others
-    if (merlin_tag == "Escherichia" || merlin_tag == "Shigella sonnei" || params.call_stxtyper == true) {
-        STXTYPER (
-            ch_assembly
-        )
-        ch_stxtyper_results = STXTYPER.out.stxtyper_report
-        ch_versions = ch_versions.mix(STXTYPER.out.stxtyper_version)
+    if (!ch_samples_by_species.ecoli_shigella.isEmpty()) {
+        // If not empty, run the Escherichia/Shigella species typing subworkflow
+        ESCHERICHIA_SHIGELLA_TYPING(ch_samples_by_species.ecoli_shigella)
     }
-    
-    // Escherichia and Shigella species typing
-    if (merlin_tag == "Escherichia" || merlin_tag == "Shigella sonnei") {
-        SEROTYPEFINDER (
-            ch_assembly
-        )
-        ch_serotypefinder_results = SEROTYPEFINDER.out.serotypefinder_report
-        ch_versions = ch_versions.mix(SEROTYPEFINDER.out.versions)
-        
-        ECTYPER (
-            ch_assembly,
-            params.ectyper_o_min_percent_identity ?: 90,
-            params.ectyper_h_min_percent_identity ?: 95,
-            params.ectyper_o_min_percent_coverage ?: 90,
-            params.ectyper_h_min_percent_coverage ?: 50,
-            params.ectyper_verify ?: false,
-            params.ectyper_print_alleles ?: false
-        )
-        ch_ectyper_results = ECTYPER.out.ectyper_results
-        ch_versions = ch_versions.mix(ECTYPER.out.versions)
-        
-        if (!params.assembly_only && params.paired_end && !params.ont_data) {
-            SHIGATYPER (
-                ch_reads,
-                params.ont_data ?: false
-            )
-            ch_shigatyper_results = SHIGATYPER.out.shigatyper_summary
-            ch_versions = ch_versions.mix(SHIGATYPER.out.versions)
-        }
-        
-        SHIGEIFINDER (
-            ch_assembly
-        )
-        ch_shigeifinder_results = SHIGEIFINDER.out.shigeifinder_report
-        ch_versions = ch_versions.mix(SHIGEIFINDER.out.versions)
-        
-        VIRULENCEFINDER (
-            ch_assembly,
-            params.virulencefinder_database ?: "virulence_ecoli",
-            params.virulencefinder_min_percent_coverage ?: 0.60,
-            params.virulencefinder_min_percent_identity ?: 0.80
-        )
-        ch_virulencefinder_results = VIRULENCEFINDER.out.virulence_report
-        ch_versions = ch_versions.mix(VIRULENCEFINDER.out.versions)
-    }
-    
-    // Shigella sonnei specific typing
-    if (merlin_tag == "Shigella sonnei" && !params.assembly_only) {
-        SONNEITYPER (
-            ch_reads,
-            params.ont_data ?: false
-        )
-        ch_sonneityper_results = SONNEITYPER.out.sonneityping_final_report
-        ch_versions = ch_versions.mix(SONNEITYPER.out.versions)
-    }
-    
-    
     
     // Klebsiella species typing
     if (merlin_tag in ["Klebsiella", "Klebsiella pneumoniae", "Klebsiella variicola", "Klebsiella aerogenes", "Klebsiella oxytoca"]) {
