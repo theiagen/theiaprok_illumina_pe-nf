@@ -2,7 +2,7 @@ nextflow_workflow {
 
     name "Test Subworkflow ACINETOBACTER_SPECIES"
     script "../main.nf"
-    workflow "ACINETOBACTER_SPECIES"
+    workflow "ACINETOBACTER_SPECIES_TYPING"
 
     // Currently utilizes local test data, needs to be replaced with remote data
     test("acinetobacter_species - abaumannii characterization") {

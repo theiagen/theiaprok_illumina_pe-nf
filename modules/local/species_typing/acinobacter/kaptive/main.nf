@@ -38,7 +38,7 @@ process KAPTIVE {
     path "versions.yml", emit: versions
 
     when:
-    task.ext.prefix || task.ext.stub || task.ext.skip
+    task.ext.when == null || task.ext.when
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
