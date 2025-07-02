@@ -9,17 +9,7 @@ process NGMASTER {
 
     output:
     tuple val(meta), path("*.ngmaster.tsv")      , emit: ngmast_report
-    tuple val(meta), path("NGMAST_SEQUENCE_TYPE"), emit: ngmast_sequence_type
-    tuple val(meta), path("NGMAST_PORB")         , emit: ngmast_porb_allele
-    tuple val(meta), path("NGMAST_TBPB")         , emit: ngmast_tbpb_allele
-    tuple val(meta), path("NGSTAR_SEQUENCE_TYPE"), emit: ngstar_sequence_type
-    tuple val(meta), path("NGSTAR_PENA")         , emit: ngstar_pena_allele
-    tuple val(meta), path("NGSTAR_MTRR")         , emit: ngstar_mtrr_allele
-    tuple val(meta), path("NGSTAR_PORB")         , emit: ngstar_porb_allele
-    tuple val(meta), path("NGSTAR_PONA")         , emit: ngstar_pona_allele
-    tuple val(meta), path("NGSTAR_GYRA")         , emit: ngstar_gyra_allele
-    tuple val(meta), path("NGSTAR_PARC")         , emit: ngstar_parc_allele
-    tuple val(meta), path("NGSTAR_23S")          , emit: ngstar_23s_allele
+    tuple val(meta), path("*_value_results.txt") , emit: ngmast_value_results
     path "versions.yml"                          , emit: versions
 
     when:
@@ -41,17 +31,17 @@ process NGMASTER {
     
     # parse output TSV
     # first one is tricky since MLSTs are in the 3rd column, separated by a /
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$3}' | cut -d '/' -f 1 | tee NGMAST_SEQUENCE_TYPE
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$3}' | cut -d '/' -f 2 | tee NGSTAR_SEQUENCE_TYPE
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$4}' | tee NGMAST_PORB
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$5}' | tee NGMAST_TBPB
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$6}' | tee NGSTAR_PENA
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$7}' | tee NGSTAR_MTRR
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$8}' | tee NGSTAR_PORB
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$9}' | tee NGSTAR_PONA
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$10}' | tee NGSTAR_GYRA
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$11}' | tee NGSTAR_PARC
-    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$12}' | tee NGSTAR_23S
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$3}' | cut -d '/' -f 1 | tee NGMAST_SEQUENCE_TYPE_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$3}' | cut -d '/' -f 2 | tee NGSTAR_SEQUENCE_TYPE_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$4}' | tee NGMAST_PORB_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$5}' | tee NGMAST_TBPB_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$6}' | tee NGSTAR_PENA_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$7}' | tee NGSTAR_MTRR_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$8}' | tee NGSTAR_PORB_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$9}' | tee NGSTAR_PONA_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$10}' | tee NGSTAR_GYRA_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$11}' | tee NGSTAR_PARC_value.txt
+    tail -n 1 ${prefix}.ngmaster.tsv | awk '{print \$12}' | tee NGSTAR_23S_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -63,17 +53,17 @@ process NGMASTER {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.ngmaster.tsv
-    touch NGMAST_SEQUENCE_TYPE
-    touch NGMAST_PORB
-    touch NGMAST_TBPB
-    touch NGSTAR_SEQUENCE_TYPE
-    touch NGSTAR_PENA
-    touch NGSTAR_MTRR
-    touch NGSTAR_PORB
-    touch NGSTAR_PONA
-    touch NGSTAR_GYRA
-    touch NGSTAR_PARC
-    touch NGSTAR_23S
+    touch NGMAST_SEQUENCE_TYPE_value.txt
+    touch NGMAST_PORB_value.txt
+    touch NGMAST_TBPB_value.txt
+    touch NGSTAR_SEQUENCE_TYPE_value.txt
+    touch NGSTAR_PENA_value.txt
+    touch NGSTAR_MTRR_value.txt
+    touch NGSTAR_PORB_value.txt
+    touch NGSTAR_PONA_value.txt
+    touch NGSTAR_GYRA_value.txt
+    touch NGSTAR_PARC_value.txt
+    touch NGSTAR_23S_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

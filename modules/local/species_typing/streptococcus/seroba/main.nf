@@ -8,9 +8,7 @@ process SEROBA {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("SEROTYPE")                           , emit: seroba_serotype
-    tuple val(meta), path("ARIBA_SEROTYPE")                     , emit: seroba_ariba_serotype
-    tuple val(meta), path("ARIBA_IDENTITY")                     , emit: seroba_ariba_identity
+    tuple val(meta), path("*_value.txt"), emit: seroba_value_results
     tuple val(meta), path("detailed_serogroup_info.txt")        , emit: seroba_details, optional: true
     path "versions.yml"                                         , emit: versions
 
@@ -36,16 +34,16 @@ process SEROBA {
         ${args}
     
     # Check for serotype grouping & contamination flag
-    cut -f2 ${prefix}/pred.tsv > SEROTYPE
+    cut -f2 ${prefix}/pred.tsv > SEROTYPE_value.txt
     
     # Check for detailed serogroup information
     if [ -f ${prefix}/detailed_serogroup_info.txt ]; then 
-        grep "Serotype predicted by ariba" ${prefix}/detailed_serogroup_info.txt | cut -f2 | sed 's/://' > ARIBA_SEROTYPE
-        grep "assembly from ariba" ${prefix}/detailed_serogroup_info.txt | cut -f2 | sed 's/://' > ARIBA_IDENTITY
+        grep "Serotype predicted by ariba" ${prefix}/detailed_serogroup_info.txt | cut -f2 | sed 's/://' > ARIBA_SEROTYPE_value.txt
+        grep "assembly from ariba" ${prefix}/detailed_serogroup_info.txt | cut -f2 | sed 's/://' > ARIBA_IDENTITY_value.txt
     else 
         # If the details do not exist, output blanks to ariba columns
-        echo "" > ARIBA_SEROTYPE
-        echo "" > ARIBA_IDENTITY
+        echo "" > ARIBA_SEROTYPE_value.txt
+        echo "" > ARIBA_IDENTITY_value.txt
     fi
 
     if [ -f ${prefix}/detailed_serogroup_info.txt ]; then
@@ -62,9 +60,9 @@ process SEROBA {
     stub:
     """
     touch detailed_serogroup_info.txt
-    echo "unknown" > SEROTYPE
-    echo "" > ARIBA_SEROTYPE
-    echo "" > ARIBA_IDENTITY
+    echo "unknown" > SEROTYPE_value.txt
+    echo "" > ARIBA_SEROTYPE_value.txt
+    echo "" > ARIBA_IDENTITY_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

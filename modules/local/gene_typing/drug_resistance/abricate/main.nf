@@ -12,7 +12,7 @@ process ABRICATE {
 
     output:
     tuple val(meta), path("*_abricate_hits.tsv"), emit: results
-    tuple val(meta), path("ABRICATE_GENES.txt"), emit: genes_file
+    tuple val(meta), path("ABRICATE_GENES_values.txt"), emit: genes_file
     tuple val(meta), val(database), emit: database_used
     path "versions.yml", emit: versions
 
@@ -46,7 +46,7 @@ process ABRICATE {
        abricate_genes="No genes detected by ABRicate"
     fi
     # create final output strings
-    echo "\${abricate_genes}" > ABRICATE_GENES.txt
+    echo "\${abricate_genes}" > ABRICATE_GENES_values.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -58,7 +58,7 @@ process ABRICATE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_abricate_hits.tsv
-    echo "No genes detected by ABRicate" > ABRICATE_GENES.txt
+    echo "No genes detected by ABRicate" > ABRICATE_GENES_values.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

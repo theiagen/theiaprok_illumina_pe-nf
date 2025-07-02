@@ -9,7 +9,7 @@ process SEROTYPEFINDER {
     
     output:
     tuple val(meta), path ("*_results_tab.tsv"), emit: serotypefinder_report
-    tuple val(meta), path ("STF_SEROTYPE"), emit: serotypefinder_serotype
+    tuple val(meta), path ("STF_SEROTYPE.txt"), emit: serotypefinder_serotype
     path "versions.yml", emit: versions
     
     script:
@@ -38,6 +38,7 @@ process SEROTYPEFINDER {
     
     parse_serotypefinder.py --input ${prefix}_results_tab.tsv
 
+    mv STF_SEROTYPE STF_SEROTYPE.txt
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python3 --version | cut -d' ' -f2)

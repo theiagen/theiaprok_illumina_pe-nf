@@ -13,10 +13,8 @@ process GAMBIT {
     output:
     tuple val(meta), path("*_gambit.json"), emit: gambit_report
     tuple val(meta), path("*_gambit_closest.csv"), emit: gambit_closest
+    tuple val(meta), path("*_value.txt"), emit: gambit_value_results
     tuple val(meta), path("PREDICTED_TAXON"), emit: predicted_taxon
-    tuple val(meta), path("PREDICTED_TAXON_RANK"), emit: predicted_taxon_rank
-    tuple val(meta), path("NEXT_TAXON"), emit: next_taxon
-    tuple val(meta), path("NEXT_TAXON_RANK"), emit: next_taxon_rank
     tuple val(meta), path("MERLIN_TAG"), emit: merlin_tag
     path "versions.yml", emit: versions
 
@@ -46,12 +44,18 @@ process GAMBIT {
      gambit_db_dir="/gambit-db" 
      gambit_db_version="unmodified from gambit container: ~{docker}"
     fi
-    
+
     # Run Gambit first
     gambit -d \${gambit_db_dir} query -f json -o ${report_path} ${assembly} -c ${task.cpus}
 
     # Parse the Gambit report
     gambit_report_parser.py ${report_path} ${prefix}
+
+    cp PREDICTED_TAXON PREDICTED_TAXON_value.txt
+    mv PREDICTED_TAXON_RANK PREDICTED_TAXON_RANK_value.txt
+    mv NEXT_TAXON NEXT_TAXON_value.txt
+    mv NEXT_TAXON_RANK NEXT_TAXON_RANK_value.txt
+    cp MERLIN_TAG MERLIN_TAG_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

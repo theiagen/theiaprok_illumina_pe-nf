@@ -10,10 +10,7 @@ process KMERFINDER_BACTERIA {
 
     output:
     tuple val(meta), path("*_kmerfinder.tsv"), emit: kmerfinder_results_tsv
-    tuple val(meta), path("TOP_HIT"),           emit: kmerfinder_top_hit
-    tuple val(meta), path("QC_METRIC"),         emit: kmerfinder_query_coverage
-    tuple val(meta), path("TEMPLATE_COVERAGE"), emit: kmerfinder_template_coverage
-    tuple val(meta), path("DATABASE"),          emit: kmerfinder_database
+    tuple val(meta), path("*_value.txt"), emit: kmerfinder_value_results
     path("versions.yml"), emit: versions
 
     when:
@@ -54,13 +51,13 @@ process KMERFINDER_BACTERIA {
         fi
       mv -v ${prefix}/results.txt ${prefix}_kmerfinder.tsv
     fi
-    echo \$PF | tee TOP_HIT
-    echo \$QC | tee QC_METRIC
-    echo \$TC | tee TEMPLATE_COVERAGE
+    echo \$PF | tee TOP_HIT_value.txt
+    echo \$QC | tee QC_METRIC_value.txt
+    echo \$TC | tee TEMPLATE_COVERAGE_value.txt
 
     # extract database name
     DB=\$(basename ${kmerfinder_db} | sed 's/\\.tar\\.gz\$//')
-    echo \$DB | tee DATABASE
+    echo \$DB | tee DATABASE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

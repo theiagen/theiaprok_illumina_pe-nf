@@ -13,14 +13,7 @@ process TBPROFILER {
     tuple val(meta), path("results/*.results.txt"), emit: txt
     tuple val(meta), path("results/*.results.json"), path("bam/*.bam"), path("bam/*.bam.bai"), emit: tbparser_inputs
     tuple val(meta), path("vcf/*.targets.csq.merged.vcf"), optional: true, emit: vcf
-    tuple val(meta), path("MAIN_LINEAGE.txt"), emit: main_lineage
-    tuple val(meta), path("SUB_LINEAGE.txt"), emit: sub_lineage
-    tuple val(meta), path("DR_TYPE.txt"), emit: dr_type
-    tuple val(meta), path("NUM_DR_VARIANTS.txt"), emit: num_dr_variants
-    tuple val(meta), path("NUM_OTHER_VARIANTS.txt"), emit: num_other_variants
-    tuple val(meta), path("RESISTANCE_GENES.txt"), emit: resistance_genes
-    tuple val(meta), path("MEDIAN_DEPTH.txt"), emit: median_depth
-    tuple val(meta), path("PCT_READS_MAPPED.txt"), emit: pct_reads_mapped
+    tuple val(meta), path("*_value.txt"), emit: tbprofiler_value_results
     path "versions.yml", emit: versions
 
     script:
@@ -91,6 +84,15 @@ process TBPROFILER {
     fi
 
     parse_tbprofiler.py --input_file ${prefix}.txt
+
+    mv MAIN_LINEAGE.txt tbprofiler_MAIN_LINEAGE_value.txt
+    mv SUB_LINEAGE.txt tbprofiler_SUB_LINEAGE_value.txt
+    mv DR_TYPE.txt tbprofiler_DR_TYPE_value.txt
+    mv NUM_DR_VARIANTS.txt tbprofiler_NUM_DR_VARIANTS_value.txt
+    mv NUM_OTHER_VARIANTS.txt tbprofiler_NUM_OTHER_VARIANTS_value.txt
+    mv RESISTANCE_GENES.txt tbprofiler_RESISTANCE_GENES_value.txt
+    mv MEDIAN_DEPTH.txt tbprofiler_MEDIAN_DEPTH_value.txt
+    mv PCT_READS_MAPPED.txt tbprofiler_PCT_READS_MAPPED_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -12,9 +12,8 @@ process POPPUNK {
     path(gps_db_info)
 
     output:
-    tuple val(meta), path("GPSC.txt")                                       , emit: gps_cluster
+    tuple val(meta), path("*_value.txt")                                    , emit: poppunk_value_results
     tuple val(meta), path("*_poppunk/*poppunk_external_clusters.csv")       , emit: external_cluster_csv, optional: true
-    tuple val(meta), path("GPS_DB_NAME.txt")                                , emit: gps_db_version
     path "versions.yml"                                                     , emit: versions
 
     when:
@@ -32,7 +31,7 @@ process POPPUNK {
     # Determine the database name
     GPS_DB_NAME=\$(grep "^Database:" ${gps_db_info} | cut -d' ' -f2)
 
-    echo "\${GPS_DB_NAME}" > GPS_DB_NAME.txt
+    echo "\${GPS_DB_NAME}" > poppunk_GPS_DB_NAME_value.txt
 
 
     # Run poppunk
@@ -47,14 +46,14 @@ process POPPUNK {
     
     # Parse output CSV for GPSC (Global Pneumococcal Sequence Cluster)
     if [ -f ${prefix}_poppunk/${prefix}_poppunk_external_clusters.csv ]; then
-        cut -d ',' -f 2 ${prefix}_poppunk/${prefix}_poppunk_external_clusters.csv | tail -n 1 > GPSC.txt
+        cut -d ',' -f 2 ${prefix}_poppunk/${prefix}_poppunk_external_clusters.csv | tail -n 1 > poppunk_GPSC_value.txt
         
         # If GPSC is "NA", overwrite with helpful message
-        if [[ "\$(cat GPSC.txt)" == "NA" ]]; then
-            echo "Potential novel GPS Cluster identified, please email globalpneumoseq@gmail.com to have novel clusters added to the database and a GPSC cluster name assigned after you have checked for low level contamination which may contribute to biased accessory distances." >> GPSC.txt
+        if [[ "\$(cat poppunk_GPSC_value.txt)" == "NA" ]]; then
+            echo "Potential novel GPS Cluster identified, please email globalpneumoseq@gmail.com to have novel clusters added to the database and a GPSC cluster name assigned after you have checked for low level contamination which may contribute to biased accessory distances." >> poppunk_GPSC_value.txt
         fi
     else
-        echo "poppunk failed" >> GPSC.txt
+        echo "poppunk failed" >> poppunk_GPSC_value.txt
     fi
 
     cat <<-END_VERSIONS > versions.yml

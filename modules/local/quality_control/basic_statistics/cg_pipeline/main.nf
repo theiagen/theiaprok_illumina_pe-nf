@@ -8,17 +8,11 @@ process CG_PIPELINE {
     tuple val(meta), path(reads)
     val genome_length
     val cg_pipe_opts
+    val task_prefix
 
     output:
     tuple val(meta), path('*_readMetrics.tsv'), emit: cg_pipeline_report
-    tuple val(meta), path('DATE.txt'), emit: pipeline_date
-    tuple val(meta), path('R1_MEAN_Q.txt'), emit: r1_mean_q
-    tuple val(meta), path('R2_MEAN_Q.txt'), emit: r2_mean_q
-    tuple val(meta), path('COMBINED_MEAN_Q.txt'), emit: combined_mean_q
-    tuple val(meta), path('R1_MEAN_LENGTH.txt'), emit: r1_mean_readlength
-    tuple val(meta), path('R2_MEAN_LENGTH.txt'), emit: r2_mean_readlength
-    tuple val(meta), path('COMBINED_MEAN_LENGTH.txt'), emit: combined_mean_readlength
-    tuple val(meta), path('EST_COVERAGE.txt'), emit: est_coverage
+    tuple val(meta), path('*.txt'), emit: cg_pipeline_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -61,6 +55,15 @@ process CG_PIPELINE {
     if [[ ! -f R2_MEAN_LENGTH.txt ]] ; then
       echo "0.0" > R2_MEAN_LENGTH.txt
     fi
+
+    mv DATE.txt "${task_prefix}_DATE.txt"
+    mv R1_MEAN_Q.txt "${task_prefix}_R1_MEAN_Q.txt"
+    mv R2_MEAN_Q.txt "${task_prefix}_R2_MEAN_Q.txt"
+    mv COMBINED_MEAN_Q.txt "${task_prefix}_COMBINED_MEAN_Q.txt"
+    mv R1_MEAN_LENGTH.txt "${task_prefix}_R1_MEAN_LENGTH.txt"
+    mv R2_MEAN_LENGTH.txt "${task_prefix}_R2_MEAN_LENGTH.txt"
+    mv COMBINED_MEAN_LENGTH.txt "${task_prefix}_COMBINED_MEAN_LENGTH.txt"
+    mv EST_COVERAGE.txt "${task_prefix}_EST_COVERAGE.txt"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

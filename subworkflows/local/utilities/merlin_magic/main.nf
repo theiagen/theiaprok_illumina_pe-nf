@@ -77,7 +77,8 @@ workflow MERLIN_MAGIC {
     ch_hicap_results = Channel.empty()
     ch_srst2_vibrio_results = Channel.empty()
     ch_vibecheck_results = Channel.empty()
-    
+    ch_merlin_magic_value_results = Channel.empty()
+
     // Create assembly and reads channels
     ch_assembly = ch_samples.map { meta, assembly, reads -> [meta, assembly] }
     ch_reads = ch_samples.map { meta, assembly, reads -> [meta, reads] }
@@ -92,6 +93,7 @@ workflow MERLIN_MAGIC {
             params.kaptive_min_percent_identity ?: 80.0,
             params.kaptive_low_gene_percent_identity ?: 95.0
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(KAPTIVE.out.kaptive_value_results)
         ch_kaptive_results = KAPTIVE.out.k_table
         ch_versions = ch_versions.mix(KAPTIVE.out.versions)
         
@@ -101,6 +103,7 @@ workflow MERLIN_MAGIC {
             params.abricate_abaum_min_percent_identity ?: 95,
             params.abricate_abaum_min_percent_coverage
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(ABRICATE.out.genes_file)
         ch_abricate_results = ABRICATE.out.results
         ch_versions = ch_versions.mix(ABRICATE.out.versions)
     }
@@ -110,6 +113,7 @@ workflow MERLIN_MAGIC {
         STXTYPER (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(STXTYPER.out.stxtyper_value_results)
         ch_stxtyper_results = STXTYPER.out.stxtyper_report
         ch_versions = ch_versions.mix(STXTYPER.out.stxtyper_version)
     }
@@ -119,6 +123,7 @@ workflow MERLIN_MAGIC {
         SEROTYPEFINDER (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SEROTYPEFINDER.out.serotypefinder_serotype)
         ch_serotypefinder_results = SEROTYPEFINDER.out.serotypefinder_report
         ch_versions = ch_versions.mix(SEROTYPEFINDER.out.versions)
         
@@ -131,6 +136,7 @@ workflow MERLIN_MAGIC {
             params.ectyper_verify ?: false,
             params.ectyper_print_alleles ?: false
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(ECTYPER.out.ectyper_predicted_serotype_file)
         ch_ectyper_results = ECTYPER.out.ectyper_results
         ch_versions = ch_versions.mix(ECTYPER.out.versions)
         
@@ -139,6 +145,7 @@ workflow MERLIN_MAGIC {
                 ch_reads,
                 params.ont_data ?: false
             )
+            ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SHIGATYPER.out.shigatyper_value_results)
             ch_shigatyper_results = SHIGATYPER.out.shigatyper_summary
             ch_versions = ch_versions.mix(SHIGATYPER.out.versions)
         }
@@ -146,6 +153,7 @@ workflow MERLIN_MAGIC {
         SHIGEIFINDER (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SHIGEIFINDER.out.shigeifinder_value_results)
         ch_shigeifinder_results = SHIGEIFINDER.out.shigeifinder_report
         ch_versions = ch_versions.mix(SHIGEIFINDER.out.versions)
         
@@ -155,6 +163,7 @@ workflow MERLIN_MAGIC {
             params.virulencefinder_min_percent_coverage ?: 0.60,
             params.virulencefinder_min_percent_identity ?: 0.80
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(VIRULENCEFINDER.out.virulence_factors)
         ch_virulencefinder_results = VIRULENCEFINDER.out.virulence_report
         ch_versions = ch_versions.mix(VIRULENCEFINDER.out.versions)
     }
@@ -165,6 +174,7 @@ workflow MERLIN_MAGIC {
             ch_reads,
             params.ont_data ?: false
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SONNEITYPER.out.sonneityping_value_results)
         ch_sonneityper_results = SONNEITYPER.out.sonneityping_final_report
         ch_versions = ch_versions.mix(SONNEITYPER.out.versions)
     }
@@ -176,6 +186,7 @@ workflow MERLIN_MAGIC {
             params.lissero_min_percent_identity ?: 95.0,
             params.lissero_min_percent_coverage ?: 95.0
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(LISSERO.out.lissero_serotype)
         ch_lissero_results = LISSERO.out.lissero_results
         ch_versions = ch_versions.mix(LISSERO.out.versions)
     }
@@ -185,6 +196,7 @@ workflow MERLIN_MAGIC {
         SISTR (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SISTR.out.sistr_value_results)
         ch_sistr_results = SISTR.out.sistr_result
         ch_versions = ch_versions.mix(SISTR.out.versions)
         
@@ -198,6 +210,7 @@ workflow MERLIN_MAGIC {
                 ch_reads
             )
         }
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SEQSERO2.out.seqsero2_value_results)
         ch_seqsero2_results = SEQSERO2.out.seqsero2_report
         ch_versions = ch_versions.mix(SEQSERO2.out.versions)
         
@@ -220,6 +233,7 @@ workflow MERLIN_MAGIC {
             GENOTYPHI (
                 ch_typhi_reads
             )
+            ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(GENOTYPHI.out.genotyphi_value_results)
             ch_genotyphi_results = GENOTYPHI.out.genotyphi_report
             ch_versions = ch_versions.mix(GENOTYPHI.out.versions)
             }
@@ -230,6 +244,7 @@ workflow MERLIN_MAGIC {
         KLEBORATE (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(KLEBORATE.out.kleborate_value_results)
         ch_kleborate_results = KLEBORATE.out.kleborate_report
         ch_versions = ch_versions.mix(KLEBORATE.out.versions)
     }
@@ -239,6 +254,7 @@ workflow MERLIN_MAGIC {
         NGMASTER (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(NGMASTER.out.ngmast_value_results)
         ch_ngmaster_results = NGMASTER.out.ngmast_report
         ch_versions = ch_versions.mix(NGMASTER.out.versions)
     }
@@ -248,6 +264,7 @@ workflow MERLIN_MAGIC {
         MENINGOTYPE (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(MENINGOTYPE.out.meningotype_value_results)
         ch_meningotype_results = MENINGOTYPE.out.meningotype_report
         ch_versions = ch_versions.mix(MENINGOTYPE.out.versions)
     }
@@ -257,6 +274,7 @@ workflow MERLIN_MAGIC {
         PASTY (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(PASTY.out.pasty_value_results)
         ch_pasty_results = PASTY.out.pasty_summary_tsv
         ch_versions = ch_versions.mix(PASTY.out.versions)
     }
@@ -281,6 +299,7 @@ workflow MERLIN_MAGIC {
             ch_tb_reads,
             params.ont_data ?: false, // Set to true if ONT data is used, ie. used in TheiaProk-ONT
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(TBPROFILER.out.tbprofiler_value_results)
         ch_tbprofiler_results = TBPROFILER.out.tbparser_inputs
         ch_versions = ch_versions.mix(TBPROFILER.out.versions)
 
@@ -305,6 +324,7 @@ workflow MERLIN_MAGIC {
             params.tbp_parser_etha237_frequency ?: 0.1,
             params.tbp_parser_expert_rule_regions_bed ?: ""
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(TBP_PARSER.out.tbp_parser_value_results)
     }
     
     // Legionella pneumophila typing
@@ -312,6 +332,7 @@ workflow MERLIN_MAGIC {
         LEGSTA (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(LEGSTA.out.legsta_predicted_sbt)
         ch_legsta_results = LEGSTA.out.legsta_results
         ch_versions = ch_versions.mix(LEGSTA.out.versions)
     }
@@ -322,18 +343,21 @@ workflow MERLIN_MAGIC {
             ch_assembly,
             params.spatyper_do_enrich ?: false
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SPATYPER.out.spatyper_value_results)
         ch_spatyper_results = SPATYPER.out.tsv
         ch_versions = ch_versions.mix(SPATYPER.out.versions)
         
         STAPHOPIASCCMEC (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(STAPHOPIASCCMEC.out.staphopia_types_and_meca_presence)
         ch_staphopiasccmec_results = STAPHOPIASCCMEC.out.staphopia_results_tsv
         ch_versions = ch_versions.mix(STAPHOPIASCCMEC.out.versions)
         
         AGRVATE (
             ch_assembly
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(AGRVATE.out.agrvate_value_results)
         ch_agrvate_results = AGRVATE.out.agrvate_summary
         ch_versions = ch_versions.mix(AGRVATE.out.versions)
     }
@@ -344,7 +368,7 @@ workflow MERLIN_MAGIC {
             SEROBA (
                 ch_reads
             )
-            ch_seroba_results = SEROBA.out.seroba_serotype
+            ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(SEROBA.out.seroba_value_results)
             ch_versions = ch_versions.mix(SEROBA.out.versions)
         }
         
@@ -354,6 +378,7 @@ workflow MERLIN_MAGIC {
             params.pbptyper_min_percent_identity ?: 95,
             params.pbptyper_min_percent_coverage ?: 95
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(PBPTYPER.out.pbtyper_predicted_1a_2b_2x)
         ch_pbptyper_results = PBPTYPER.out.pbtyper_predicted_tsv
         ch_versions = ch_versions.mix(PBPTYPER.out.versions)
         
@@ -372,7 +397,7 @@ workflow MERLIN_MAGIC {
                 POPPUNK_DATABASE.out.ext_clusters,
                 POPPUNK_DATABASE.out.db_info
             )
-            ch_poppunk_results = POPPUNK.out.gps_cluster
+            ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(POPPUNK.out.poppunk_value_results)
             ch_versions = ch_versions.mix(POPPUNK.out.versions)
         }
     }
@@ -392,6 +417,7 @@ workflow MERLIN_MAGIC {
             params.emmtyper_min_good ?: 15,
             params.emmtyper_max_size ?: 2000
         )
+        ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(EMMTYPER.out.emmtyper_emm_type)
         ch_emmtyper_results = EMMTYPER.out.emmtyper_results
         ch_versions = ch_versions.mix(EMMTYPER.out.versions)
         
@@ -399,6 +425,7 @@ workflow MERLIN_MAGIC {
             EMMTYPINGTOOL (
                 ch_reads
             )
+            ch_merlin_magic_value_results = ch_merlin_magic_value_results.mix(EMMTYPINGTOOL.out.emmtypingtool_emm_type)
             ch_emmtypingtool_results = EMMTYPINGTOOL.out.emmtypingtool_results
             ch_versions = ch_versions.mix(EMMTYPINGTOOL.out.versions)
         }

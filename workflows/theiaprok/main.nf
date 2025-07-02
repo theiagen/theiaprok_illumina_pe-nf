@@ -56,9 +56,9 @@ workflow THEIAPROK_ILLUMINA_PE {
     ch_assembly = Channel.empty()
     ch_read_screen_raw = Channel.empty()
     ch_read_screen_clean = Channel.empty()
-    ch_estimated_genome_length = Channel.empty()
     ch_value_outputs = Channel.empty()
     
+
     if (!skip_screen) {
         RAW_CHECK_READS (
             ch_reads,
@@ -72,7 +72,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             params.genome_length ?: ""
         )
         ch_read_screen_raw = RAW_CHECK_READS.out.read_screen
-        ch_estimated_genome_length = RAW_CHECK_READS.out.est_genome_length
+        ch_value_outputs = RAW_CHECK_READS.out.read_screen_value_results
         ch_versions = ch_versions.mix(RAW_CHECK_READS.out.versions)
         
     ch_reads_to_process = ch_reads
@@ -124,7 +124,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             "theiaprok",
             params.genome_length ?: ""
         )
-        ch_read_screen_clean = CLEAN_CHECK_READS.out.read_screen
+        ch_value_outputs = ch_value_outputs.mix(CLEAN_CHECK_READS.out.read_screen_value_results)
         ch_versions = ch_versions.mix(CLEAN_CHECK_READS.out.versions)
         
         ch_clean_reads_to_process = ch_clean_reads
@@ -175,8 +175,10 @@ workflow THEIAPROK_ILLUMINA_PE {
     CG_PIPELINE_RAW (
         ch_cg_raw_input,
         params.genome_length ?: 3000000,
-        params.cg_pipe_opts ?: ""
+        params.cg_pipe_opts ?: "",
+        "raw"
     )
+    ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_RAW.out.cg_pipeline_value_results)
     ch_versions = ch_versions.mix(CG_PIPELINE_RAW.out.versions)
     
     ch_cg_clean_input = ch_clean_reads
@@ -188,8 +190,10 @@ workflow THEIAPROK_ILLUMINA_PE {
     CG_PIPELINE_CLEAN (
         ch_cg_clean_input,
         params.genome_length ?: 3000000,
-        params.cg_pipe_opts ?: ""
+        params.cg_pipe_opts ?: "",
+        "clean"
     )
+    ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_CLEAN.out.cg_pipeline_value_results)
     ch_versions = ch_versions.mix(CG_PIPELINE_CLEAN.out.versions)
     
     BUSCO (
@@ -197,7 +201,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         false  // eukaryote = false for bacteria
     )
     ch_versions = ch_versions.mix(BUSCO.out.versions)
-    ch_value_outputs = BUSCO.out.busco_value_results
+    ch_value_outputs = ch_value_outputs.mix(BUSCO.out.busco_value_results)
 
     if (perform_characterization) {
         GAMBIT (
@@ -205,6 +209,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             params.gambit_db_genomes,
             params.gambit_db_signatures
         )
+        ch_value_outputs = ch_value_outputs.mix(GAMBIT.out.gambit_value_results)
         ch_versions = ch_versions.mix(GAMBIT.out.versions)
         
         // Get organism for downstream analysis
@@ -220,6 +225,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 ch_assembly,
                 params.ani_ref_genome ?: []
             )
+            ch_value_outputs = ch_value_outputs.mix(ANI_MUMMER.out.txt)
             ch_versions = ch_versions.mix(ANI_MUMMER.out.versions)
         }
         
@@ -228,6 +234,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 ch_assembly,
                 params.kmerfinder_db ?: [],
             )
+            ch_value_outputs = ch_value_outputs.mix(KMERFINDER_BACTERIA.out.kmerfinder_value_results)
             ch_versions = ch_versions.mix(KMERFINDER_BACTERIA.out.versions)
         }
         
@@ -238,15 +245,16 @@ workflow THEIAPROK_ILLUMINA_PE {
             ch_amrfinder_input.map { meta, assembly, organism -> [meta, assembly] },
             ch_amrfinder_input.map { meta, assembly, organism -> organism }
         )
-        ch_versions = ch_versions.mix(AMRFINDER_PLUS_NUC.out.versions)
         ch_value_outputs = ch_value_outputs.mix(AMRFINDER_PLUS_NUC.out.amrfinderplus_value_results)
-
+        ch_versions = ch_versions.mix(AMRFINDER_PLUS_NUC.out.versions)
+        
         if (call_resfinder) {
             RESFINDER (
                 ch_amrfinder_input.map { meta, assembly, organism -> [meta, assembly] },
                 params.resfinder_db_point ?: [],
                 params.resfinder_db_res ?: []
             )
+            ch_value_outputs = ch_value_outputs.mix(RESFINDER.out.resfinder_predicted_resistance)
             ch_versions = ch_versions.mix(RESFINDER.out.versions)
         }
 
@@ -262,6 +270,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             params.mlst_min_percent_coverage ?: 10,
             params.mlst_minscore ?: 50
         )
+        ch_value_outputs = ch_value_outputs.mix(TS_MLST.out.ts_mlst_value_results)
         ch_versions = ch_versions.mix(TS_MLST.out.versions)
         
         // Genome annotation
@@ -302,6 +311,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 params.plasmidfinder_min_percent_coverage ?: 0.60,
                 params.plasmidfinder_min_percent_identity ?: 0.90
             )
+            ch_value_outputs = ch_value_outputs.mix(PLASMIDFINDER.out.plasmidfinder_plasmids)
             ch_versions = ch_versions.mix(PLASMIDFINDER.out.versions)
         }
         
@@ -312,6 +322,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 params.abricate_min_percent_identity ?: 80,
                 params.abricate_min_percent_coverage ?: 80
             )
+            ch_value_outputs = ch_value_outputs.mix(ABRICATE.out.genes_file)
             ch_versions = ch_versions.mix(ABRICATE.out.versions)
         }
         

@@ -10,10 +10,8 @@ process SEQSERO2 {
 
     output:
     tuple val(meta), path("*_SeqSero_result.tsv")       , emit: seqsero2_report
-    tuple val(meta), path("PREDICTED_ANTIGENIC_PROFILE"), emit: seqsero_antigenic_profile
-    tuple val(meta), path("PREDICTED_SEROTYPE")         , emit: seqsero_serotype
-    tuple val(meta), path("CONTAMINATION")              , emit: seqser_contamination, optional: true
-    tuple val(meta), path("NOTE")                       , emit: seqsero_note
+    tuple val(meta), path("*_value_results.txt")        , emit: seqsero2_value_results
+    tuple val(meta), path("PREDICTED_SEROTYPE")         , emit: seqsero2_serotype
     path "versions.yml"                                 , emit: versions
 
     when:
@@ -58,6 +56,11 @@ process SEQSERO2 {
 
     # Copy and rename the main report file
     cp ${prefix}_seqsero2_output_dir/SeqSero_result.tsv ${prefix}_SeqSero_result.tsv
+
+    mv PREDICTED_ANTIGENIC_PROFILE seqsero2_PREDICTED_ANTIGENIC_PROFILE_value.txt
+    cp PREDICTED_SEROTYPE seqsero2_PREDICTED_SEROTYPE_value.txt
+    mv CONTAMINATION seqsero2_CONTAMINATION_value.txt
+    mv NOTE seqsero2_NOTE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -10,11 +10,7 @@ process AGRVATE {
     output:
     tuple val(meta), path("*.agrvate.tsv")    , emit: agrvate_summary
     tuple val(meta), path("*.agrvate.tar.gz") , emit: agrvate_results
-    tuple val(meta), path("AGR_GROUP")        , emit: agrvate_agr_group
-    tuple val(meta), path("AGR_MATCH_SCORE")  , emit: agrvate_agr_match_score
-    tuple val(meta), path("AGR_CANONICAL")    , emit: agrvate_agr_canonical
-    tuple val(meta), path("AGR_MULTIPLE")     , emit: agrvate_agr_multiple
-    tuple val(meta), path("AGR_NUM_FRAMESHIFTS"), emit: agrvate_agr_num_frameshifts
+    tuple val(meta), path("AGR_*")            , emit: agrvate_value_results
     path "versions.yml"                       , emit: versions
 
     when:
