@@ -11,9 +11,6 @@ include { ECTYPER                      } from '../../../../modules/local/species
 include { HICAP                        } from '../../../../modules/local/species_typing/haemophilus/hicap/main'
 include { KLEBORATE                    } from '../../../../modules/local/species_typing/klebsiella/kleborate/main'
 include { LEGSTA                       } from '../../../../modules/local/species_typing/legionella/legsta/main'
-include { CLOCKWORK_DECON_READS        } from '../../../../modules/local/species_typing/mycobacterium/clockwork/main'
-include { TBPROFILER                   } from '../../../../modules/local/species_typing/mycobacterium/tbprofiler/main'
-include { TBP_PARSER                   } from '../../../../modules/local/species_typing/mycobacterium/tbp_parser/main'
 include { MENINGOTYPE                  } from '../../../../modules/local/species_typing/neisseria/meningotype/main'
 include { NGMASTER                     } from '../../../../modules/local/species_typing/neisseria/ngmaster/main'
 include { PASTY                        } from '../../../../modules/local/species_typing/pseudomonas/pasty/main'
@@ -38,6 +35,7 @@ include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobac
 include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
 include { SALMONELLA_SPECIES_TYPING } from '../../../local/species/salmonella/main'
 include { ESCHERICHIA_SHIGELLA_TYPING } from '../../../local/species/ecoli_shigella/main'
+include { MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING } from '../../../local/species/mycobacterium/main'
 
 workflow MERLIN_MAGIC {
     
@@ -55,6 +53,7 @@ workflow MERLIN_MAGIC {
         ecoli_shigella: it[3] == "Escherichia" || 
                         it[3] == "Shigella sonnei" || 
                         it[3] == "Escherichia coli"
+        mycobacterium:  it[3] == "Mycobacterium tuberculosis"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -72,6 +71,15 @@ workflow MERLIN_MAGIC {
     if (!ch_samples_by_species.ecoli_shigella.isEmpty()) {
         // If not empty, run the Escherichia/Shigella species typing subworkflow
         ESCHERICHIA_SHIGELLA_TYPING(ch_samples_by_species.ecoli_shigella)
+    }
+
+    ch_mtb_with_reads = ch_samples_by_species.mycobacterium
+        .filter { meta, assembly, reads, species -> 
+            reads && !reads.isEmpty() 
+        }
+
+    if (!ch_mtb_with_reads.isEmpty()) {
+        MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING(ch_mtb_with_reads)
     }
     
     // Klebsiella species typing
@@ -108,52 +116,6 @@ workflow MERLIN_MAGIC {
         )
         ch_pasty_results = PASTY.out.pasty_summary_tsv
         ch_versions = ch_versions.mix(PASTY.out.versions)
-    }
-    
-    // Mycobacterium tuberculosis typing
-    if (merlin_tag == "Mycobacterium tuberculosis" && !params.assembly_only) {
-        // Clockwork decontamination for paired-end, non-ONT data
-        if (params.paired_end && !params.ont_data) {
-            CLOCKWORK_DECON_READS (
-                ch_reads
-            )
-            ch_clockwork_results = CLOCKWORK_DECON_READS.out.cleaned_reads
-            ch_versions = ch_versions.mix(CLOCKWORK_DECON_READS.out.versions)
-            
-            // Use cleaned reads for downstream analysis
-            ch_tb_reads = CLOCKWORK_DECON_READS.out.cleaned_reads
-        } else {
-            ch_tb_reads = ch_reads
-        }
-        
-        TBPROFILER (
-            ch_tb_reads,
-            params.ont_data ?: false, // Set to true if ONT data is used, ie. used in TheiaProk-ONT
-        )
-        ch_tbprofiler_results = TBPROFILER.out.tbparser_inputs
-        ch_versions = ch_versions.mix(TBPROFILER.out.versions)
-
-        TBP_PARSER (
-            ch_tbprofiler_results,
-            params.tbp_parser_config ?: "", // YAML config file for TBP_Parser
-            params.tbp_parser_sequencing_method ?: "", // Fills out seq_method in TBP_Parser output
-            params.tbp_parser_operator ?: "",
-            params.tbp_parser_min_depth ?: 10,
-            params.tbp_parser_min_frequency ?: 0.1,
-            params.tbp_parser_min_read_support ?: 10,
-            params.tbp_parser_min_percent_coverage ?: 100,
-            params.tbp_parser_coverage_regions_bed ?: "",
-            params.tbp_parser_add_cycloserine_lims ?: false,
-            params.tbp_parser_debug ?: true,
-            params.tbp_parser_tngs ?: false,
-            params.tbp_parser_rrs_frequncy ?: 0.1,
-            params.tbp_parser_rrs_read_support ?: 10,
-            params.tbp_parser_rr1_frequency ?: 0.1,
-            params.tbp_parser_rr1_read_support ?: 10,
-            params.tbp_parser_rpob499_frequency ?: 0.1,
-            params.tbp_parser_etha237_frequency ?: 0.1,
-            params.tbp_parser_expert_rule_regions_bed ?: ""
-        )
     }
     
     // Legionella pneumophila typing
