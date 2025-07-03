@@ -11,7 +11,8 @@ include { PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING } from '../../../local/species/p
 include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main'
 include { STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING } from '../../species/staphylococcus_aureus/main'
 include { STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING } from '../../species/streptococcus_pneumoniae/main'
-include { STREPTOCOCCUS_PYOGENES_SPECIES_TYPING } from '../../species/streptococcus_pyogenes/main' 
+include { STREPTOCOCCUS_PYOGENES_SPECIES_TYPING } from '../../species/streptococcus_pyogenes/main'
+include { HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING } from '../../species/haemophilus_influenzae/main'
 
 workflow MERLIN_MAGIC {
     
@@ -42,6 +43,7 @@ workflow MERLIN_MAGIC {
         staphylococcus_aureus: it[3] == "Staphylococcus aureus"
         streptococcus_pneumoniae: it[3] == "Streptococcus pneumoniae"
         streptococcus_pyogenes: it[3] == "Streptococcus pyogenes"
+        haemophilus_influenzae: it[3] == "Haemophilus influenzae"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -128,19 +130,13 @@ workflow MERLIN_MAGIC {
         )
     }
 
-    // Haemophilus influenzae typing path
-    if (merlin_tag == "Haemophilus influenzae") {
-        HICAP (
-            ch_assembly,
-            params.hicap_min_gene_percent_coverage ?: 0.80,
-            params.hicap_min_gene_percent_identity ?: 0.70,
-            params.hicap_min_broken_gene_percent_identity ?: 0.80,
-            params.hicap_broken_gene_length ?: 60
+    // Haemophilus influenzae typing
+    if (!ch_samples_by_species.haemophilus_influenzae.isEmpty()) {
+        HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING (
+            ch_samples_by_species.haemophilus_influenzae.map { meta, assembly, reads, species -> [meta, assembly] }
         )
-        ch_hicap_results = HICAP.out.hicap_results_tsv
-        ch_versions = ch_versions.mix(HICAP.out.versions)
     }
-    
+
     // Vibrio typing path
     if (merlin_tag == "Vibrio" || merlin_tag == "Vibrio cholerae") {
         if (!params.assembly_only && !params.ont_data) {
