@@ -11,9 +11,8 @@ workflow STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING {
     main:
 
     ch_versions = Channel.empty()
-    ch_seroba_results = Channel.empty()
     ch_pbptyper_results = Channel.empty()
-    ch_poppunk_results = Channel.empty()
+    ch_value_results = Channel.empty()
 
     // Extract reads and assembly
     ch_reads = ch_streptococcus.map { meta, assembly, reads, species -> [meta, reads] }
@@ -23,7 +22,7 @@ workflow STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING {
         SEROBA (
             ch_reads
         )
-        ch_seroba_results = SEROBA.out.seroba_serotype
+        ch_value_results = ch_value_results.mix(SEROBA.out.seroba_value_results)
         ch_versions = ch_versions.mix(SEROBA.out.versions)
     }
     
@@ -51,14 +50,12 @@ workflow STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING {
             POPPUNK_DATABASE.out.ext_clusters,
             POPPUNK_DATABASE.out.db_info
         )
-        ch_poppunk_results = POPPUNK.out.gps_cluster
+        ch_value_results = ch_value_results.mix(POPPUNK.out.poppunk_value_results)
         ch_versions = ch_versions.mix(POPPUNK.out.versions)
     }
 
     emit:
-    seroba_results = ch_seroba_results
-    pbptyper_results = ch_pbptyper_results
-    poppunk_results = ch_poppunk_results
-    
+    pbtyper_results = ch_pbptyper_results
+    value_results = ch_value_results
     versions = ch_versions
 }

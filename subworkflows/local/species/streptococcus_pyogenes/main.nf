@@ -10,6 +10,7 @@ workflow STREPTOCOCCUS_PYOGENES_SPECIES_TYPING {
     ch_versions = Channel.empty()
     ch_emmtyper_results = Channel.empty()
     ch_emmtypingtool_results = Channel.empty()
+    ch_value_results = Channel.empty()
 
     ch_samples_assembly = ch_samples.map { sample ->
         def (meta, assembly, reads, species) = sample
@@ -33,6 +34,7 @@ workflow STREPTOCOCCUS_PYOGENES_SPECIES_TYPING {
         params.emmtyper_min_good ?: 15,
         params.emmtyper_max_size ?: 2000
     )
+    ch_value_results = ch_value_results.mix(EMMTYPER.out.emmtyper_emm_type)
     ch_emmtyper_results = EMMTYPER.out.emmtyper_results
     ch_versions = ch_versions.mix(EMMTYPER.out.versions)
     
@@ -40,6 +42,7 @@ workflow STREPTOCOCCUS_PYOGENES_SPECIES_TYPING {
         EMMTYPINGTOOL (
             ch_samples_reads
         )
+        ch_value_results = ch_value_results.mix(EMMTYPINGTOOL.out.emmtypingtool_emm_type)
         ch_emmtypingtool_results = EMMTYPINGTOOL.out.emmtypingtool_results
         ch_versions = ch_versions.mix(EMMTYPINGTOOL.out.versions)
     }
@@ -47,5 +50,6 @@ workflow STREPTOCOCCUS_PYOGENES_SPECIES_TYPING {
     emit:
     emmtyper_results = ch_emmtyper_results 
     emmtypingtool_results = ch_emmtypingtool_results 
+    value_results = ch_value_results
     versions = ch_versions 
 }

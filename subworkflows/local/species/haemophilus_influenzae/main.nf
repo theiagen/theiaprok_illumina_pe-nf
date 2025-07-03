@@ -15,6 +15,7 @@ workflow HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING {
     )
 
     emit:
+    value_results = HICAP.out.hicap_value_results
     hicap_results = HICAP.out.hicap_results_tsv
     versions = HICAP.out.versions
 }

@@ -24,6 +24,7 @@ workflow MERLIN_MAGIC {
     main:
 
     ch_versions = Channel.empty()
+    ch_value_results = Channel.empty()
     
     ch_samples_by_species = ch_samples.branch {
         acinetobacter: it[3] == "Acinetobacter baumannii" || 
@@ -53,70 +54,97 @@ workflow MERLIN_MAGIC {
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
+    ch_value_results = ch_value_results.mix(ACINETOBACTER_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(ACINETOBACTER_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
 
     LISTERIA_SPECIES_TYPING(ch_samples_by_species.listeria)
+    ch_value_results = ch_value_results.mix(LISTERIA_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(LISTERIA_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     SALMONELLA_SPECIES_TYPING(ch_samples_by_species.salmonella)
+    ch_value_results = ch_value_results.mix(SALMONELLA_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(SALMONELLA_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     ESCHERICHIA_SHIGELLA_TYPING(ch_samples_by_species.ecoli_shigella)
+    ch_value_results = ch_value_results.mix(ESCHERICHIA_SHIGELLA_TYPING.out.value_results)
     ch_versions = ch_versions.mix(ESCHERICHIA_SHIGELLA_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Prepare MTB with reads filter
     ch_mtb_with_reads = ch_samples_by_species.mycobacterium
         .filter { meta, assembly, reads, species ->
             reads && !(reads instanceof List ? reads.isEmpty() : reads.toString().isEmpty())
         }
     MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING(ch_mtb_with_reads)
+    ch_value_results = ch_value_results.mix(MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Klebsiella species typing
     KLEBSIELLA_TYPING (
         ch_samples_by_species.klebsiella.map { meta, assembly, reads, species -> [meta, assembly] }
     )
+    ch_value_results = ch_value_results.mix(KLEBSIELLA_TYPING.out.value_results)
     ch_versions = ch_versions.mix(KLEBSIELLA_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Neisseria gonorrhoeae typing
     NEISSERIA_GONORRHOEAE_TYPING (
         ch_samples_by_species.neisseria_gonorrhoeae.map { meta, assembly, reads, species -> [meta, assembly] }
     )
+    ch_value_results = ch_value_results.mix(NEISSERIA_GONORRHOEAE_TYPING.out.value_results)
     ch_versions = ch_versions.mix(NEISSERIA_GONORRHOEAE_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Neisseria meningitidis
     NEISSERIA_MENINGITIDIS_TYPING (
         ch_samples_by_species.neisseria_meningitidis
     )
+    ch_value_results = ch_value_results.mix(NEISSERIA_MENINGITIDIS_TYPING.out.value_results)
     ch_versions = ch_versions.mix(NEISSERIA_MENINGITIDIS_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Pseudomonas aeruginosa
     PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING (
         ch_samples_by_species.pseudomonas_aeruginosa
     )
+    ch_value_results = ch_value_results.mix(PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Legionella pneumophila typing
     LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING (
         ch_samples_by_species.legionella_pneumophila
     )
+    ch_value_results = ch_value_results.mix(LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Staph aureus typing
     STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING (
         ch_samples_by_species.staphylococcus_aureus
     )
+    ch_value_results = ch_value_results.mix(STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Strep pneumoniae typing
     STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING (
         ch_samples_by_species.streptococcus_pneumoniae
     )
+    ch_value_results = ch_value_results.mix(STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Strep pyogenes typing
     STREPTOCOCCUS_PYOGENES_SPECIES_TYPING (
         ch_samples_by_species.streptococcus_pyogenes
     )
+    ch_value_results = ch_value_results.mix(STREPTOCOCCUS_PYOGENES_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(STREPTOCOCCUS_PYOGENES_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
+
     // Haemophilus influenzae typing
     HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING (
         ch_samples_by_species.haemophilus_influenzae.map { meta, assembly, reads, species -> [meta, assembly] }
     )
+    ch_value_results = ch_value_results.mix(HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
 
     VIBRIO_SPECIES_TYPING (
         ch_samples_by_species.vibrio
     )
+    ch_value_results = ch_value_results.mix(VIBRIO_SPECIES_TYPING.out.value_results)
     ch_versions = ch_versions.mix(VIBRIO_SPECIES_TYPING.out.versions.ifEmpty(Channel.empty()))
 
     // AMR Search - conditional based on organism
@@ -128,6 +156,6 @@ workflow MERLIN_MAGIC {
     }
     
     emit:
+    value_results = ch_value_results
     versions = ch_versions
-
 }

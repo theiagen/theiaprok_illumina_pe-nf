@@ -12,6 +12,7 @@ workflow VIBRIO_SPECIES_TYPING {
     ch_assembly = ch_samples.map { meta, assembly, reads, species -> [meta, assembly] }
 
     ch_versions = Channel.empty()
+    ch_value_results = Channel.empty()
     
     // Initialize empty channels for optional outputs
     ch_srst2_vibrio_results = Channel.empty()
@@ -26,6 +27,7 @@ workflow VIBRIO_SPECIES_TYPING {
             params.srst2_min_edge_depth ?: 2,
             params.srst2_gene_max_mismatch ?: 2000
         )
+        ch_value_results = ch_value_results.mix(SRST2_VIBRIO.out.srst2_value_results)
         ch_srst2_vibrio_results = SRST2_VIBRIO.out.srst2_detailed_tsv
         ch_versions = ch_versions.mix(SRST2_VIBRIO.out.versions)
         
@@ -55,11 +57,13 @@ workflow VIBRIO_SPECIES_TYPING {
         params.abricate_vibrio_min_percent_identity ?: 80,
         params.abricate_vibrio_min_percent_coverage ?: 80
     )
+    ch_value_results = ch_value_results.mix(ABRICATE_VIBRIO.out.abricate_value_results)
     ch_versions = ch_versions.mix(ABRICATE_VIBRIO.out.versions)
 
     emit:
     srst2_vibrio_results = ch_srst2_vibrio_results
     vibecheck_results = ch_vibecheck_results
     abricate_results = ABRICATE_VIBRIO.out.abricate_hits
+    value_results = ch_value_results
     versions = ch_versions
 }

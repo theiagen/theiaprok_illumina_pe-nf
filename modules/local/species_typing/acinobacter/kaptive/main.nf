@@ -68,7 +68,7 @@ process KAPTIVE {
     mv -v ${prefix}_kaptive_out_k_table.txt ${prefix}_kaptive_out_k_table.tsv
     mv -v ${prefix}_kaptive_out_oc_table.txt ${prefix}_kaptive_out_oc_table.tsv
     
-    // Move output values to files labelled with prefix for json
+    # Move output values to files labelled with prefix for json
     mv BEST_MATCH_LOCUS_K BEST_MATCH_LOCUS_K_value.txt
     mv BEST_MATCH_TYPE_K BEST_MATCH_TYPE_K_value.txt
     mv MATCH_CONFIDENCE_K MATCH_CONFIDENCE_K_value.txt

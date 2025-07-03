@@ -9,7 +9,7 @@ process SHIGEIFINDER {
 
     output:
     tuple val(meta), path("*_shigeifinder.tsv"), emit: shigeifinder_report
-    tuple val(meta), path("*_value_results.txt"), emit: shigeifinder_value_results
+    tuple val(meta), path("*_value.txt"), emit: shigeifinder_value_results
     path "versions.yml", emit: versions
 
     script:

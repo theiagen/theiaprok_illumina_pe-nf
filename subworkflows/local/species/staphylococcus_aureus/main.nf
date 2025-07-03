@@ -13,6 +13,7 @@ workflow STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING {
     ch_spatyper_results = Channel.empty()
     ch_staphopiasccmec_results = Channel.empty()
     ch_agrvate_results = Channel.empty()
+    ch_value_results = Channel.empty()
 
     // Extract assembly for all tools
     ch_assembly = ch_staphylococcus.map { meta, assembly, reads, species -> [meta, assembly] }
@@ -21,18 +22,21 @@ workflow STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING {
         ch_assembly,
         params.spatyper_do_enrich ?: false
     )
+    ch_value_results = ch_value_results.mix(SPATYPER.out.spatyper_value_results)
     ch_spatyper_results = SPATYPER.out.tsv
     ch_versions = ch_versions.mix(SPATYPER.out.versions)
     
     STAPHOPIASCCMEC (
         ch_assembly
     )
+    ch_value_results = ch_value_results.mix(STAPHOPIASCCMEC.out.staphopia_types_and_meca_presence)
     ch_staphopiasccmec_results = STAPHOPIASCCMEC.out.staphopia_results_tsv
     ch_versions = ch_versions.mix(STAPHOPIASCCMEC.out.versions)
     
     AGRVATE (
         ch_assembly
     )
+    ch_value_results = ch_value_results.mix(AGRVATE.out.agrvate_value_results)
     ch_agrvate_results = AGRVATE.out.agrvate_summary
     ch_versions = ch_versions.mix(AGRVATE.out.versions)
 
@@ -40,6 +44,6 @@ workflow STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING {
     spatyper_results = ch_spatyper_results
     staphopiasccmec_results = ch_staphopiasccmec_results
     agrvate_results = ch_agrvate_results
-    
+    value_results = ch_value_results
     versions = ch_versions
 }

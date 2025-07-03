@@ -188,6 +188,8 @@ workflow READ_QC_TRIM_PE {
     fastp_html_report        = ch_fastp_pe_html_report
     // MIDAS outputs
     midas_species_profile    = ch_midas_species_profile
+    // Value results
+    value_results            = ch_value_results
     // Versions
     versions                 = ch_versions
 }

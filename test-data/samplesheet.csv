@@ -1,2 +1,0 @@
-sample,read1,read2
-test_sample,https://github.com/nf-core/test-datasets/raw/refs/heads/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz,https://github.com/nf-core/test-datasets/raw/refs/heads/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz

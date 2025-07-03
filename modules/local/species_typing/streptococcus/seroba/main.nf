@@ -8,7 +8,7 @@ process SEROBA {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*_value.txt"), emit: seroba_value_results
+    tuple val(meta), path("*_value.txt")                        , emit: seroba_value_results
     tuple val(meta), path("detailed_serogroup_info.txt")        , emit: seroba_details, optional: true
     path "versions.yml"                                         , emit: versions
 

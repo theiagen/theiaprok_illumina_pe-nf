@@ -125,6 +125,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             "theiaprok",
             params.genome_length ?: ""
         )
+        ch_read_screen_clean = CLEAN_CHECK_READS.out.read_screen
         ch_value_outputs = ch_value_outputs.mix(CLEAN_CHECK_READS.out.read_screen_value_results)
         ch_versions = ch_versions.mix(CLEAN_CHECK_READS.out.versions)
         
@@ -377,6 +378,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             MERLIN_MAGIC(
                 ch_merlin_input
             )
+            ch_value_outputs = ch_value_outputs.mix(MERLIN_MAGIC.out.value_results)
         }
             ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
     }

@@ -13,8 +13,7 @@ process HICAP {
 
     output:
     tuple val(meta), path("*.hicap.tsv")      , emit: hicap_results_tsv
-    tuple val(meta), path("hicap_serotype")   , emit: hicap_serotype
-    tuple val(meta), path("hicap_genes")      , emit: hicap_genes
+    tuple val(meta), path("*_value.txt")      , emit: hicap_value_results
     path "versions.yml"                       , emit: versions
 
     when:
@@ -46,12 +45,12 @@ process HICAP {
     
     # If there are no hits for a cap locus, no file is produced
     if [ ! -f ./output_dir/\${filename%.*}.tsv ]; then
-        echo "No_hits" > hicap_serotype
-        echo "No_hits" > hicap_genes
+        echo "No_hits" > hicap_serotype_value.txt
+        echo "No_hits" > hicap_genes_value.txt
         touch ${prefix}.hicap.tsv
     else
-        tail -n1 ./output_dir/\${filename%.*}.tsv | cut -f 2 > hicap_serotype
-        tail -n1 ./output_dir/\${filename%.*}.tsv | cut -f 4 > hicap_genes
+        tail -n1 ./output_dir/\${filename%.*}.tsv | cut -f 2 > hicap_serotype_value.txt
+        tail -n1 ./output_dir/\${filename%.*}.tsv | cut -f 4 > hicap_genes_value.txt
         mv ./output_dir/\${filename%.*}.tsv ${prefix}.hicap.tsv
     fi
 
@@ -65,8 +64,8 @@ process HICAP {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.hicap.tsv
-    echo "a" > hicap_serotype
-    echo "bexA" > hicap_genes
+    echo "a" > hicap_serotype_value.txt
+    echo "bexA" > hicap_genes_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
