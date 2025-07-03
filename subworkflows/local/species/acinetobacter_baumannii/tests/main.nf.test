@@ -1,0 +1,35 @@
+nextflow_workflow {
+
+    name "Test Subworkflow ACINETOBACTER_SPECIES"
+    script "../main.nf"
+    workflow "ACINETOBACTER_SPECIES_TYPING"
+
+    // Currently utilizes local test data, needs to be replaced with remote data
+    test("acinetobacter_species - abaumannii characterization") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_abaum', single_end:false ],
+                    file("gs://fc-c37b6bc6-b033-4ef1-b8aa-b8c1d25524d4/submissions/9b83240f-3549-42f5-8960-d6d04ed6555b/theiaprok_illumina_pe/e21df9da-e052-4eee-b8c5-ddcb57390962/call-digger_denovo/digger_denovo/bdeac325-74cf-4d17-b5a6-dadc2910b58d/call-filter_contigs/cacheCopy/20012105104_filtered_contigs.fasta"),
+                    [
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/20012105104_R1.fastq.gz"),
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/20012105104_R2.fastq.gz")
+                    ],
+                    "Acinetobacter baumannii"
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.kaptive_results,
+                    workflow.out.abricate_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+}

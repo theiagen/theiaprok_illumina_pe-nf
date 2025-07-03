@@ -351,11 +351,6 @@ workflow THEIAPROK_ILLUMINA_PE {
             ch_versions = ch_versions.mix(ABRICATE.out.versions)
         }
 
-        // This is probably the less efficient way to do this,
-        // It would probably be better to pass the tag within the list of inputs
-        // To the merlin magic subworkflow, and that would handle each organism
-        // path to trigger, but this is modeled from the WDL implementation
-        // and I don't want to change it too much right now.
        if (params.run_merlin_magic ?: true) {
             // Create channel with sample data and merlin_tag for each sample
             ch_merlin_input = ch_assembly
@@ -368,31 +363,22 @@ workflow THEIAPROK_ILLUMINA_PE {
                         merlin_tag = tag_file.text.trim()
                     }
                     def final_tag = params.expected_taxon ?: merlin_tag ?: ""
-                    
                     log.info "Sample ${meta.id} has merlin_tag: '${final_tag}'"
-                    [[meta, assembly, reads], final_tag]
+                    return [meta, assembly, reads, final_tag]  // Return the tuple format expected by MERLIN_MAGIC
                 }
-                .view { sample_data, tag -> "MERLIN input: ${sample_data[0].id} -> tag='${tag}'" }
-                .filter { sample_data, tag ->
+                .view { meta, assembly, reads, tag -> "MERLIN input: ${meta.id} -> tag='${tag}'" }
+                .filter { meta, assembly, reads, tag ->
                     def pass = tag && tag != "" && tag != "unknown"
                     if (!pass) {
-                        log.warn "Sample ${sample_data[0].id} filtered out: tag='${tag}'"
+                        log.warn "Sample ${meta.id} filtered out: tag='${tag}'"
                     }
                     return pass
                 }
-            
-            ch_merlin_input.multiMap { sample_data, tag ->
-                samples: sample_data
-                tags: tag
-            }.set { ch_merlin_ready }
-            
             MERLIN_MAGIC(
-                ch_merlin_ready.samples,
-                ch_merlin_ready.tags
+                ch_merlin_input
             )
-            
-            ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
         }
+            ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
     }
     
     ch_value_outputs = ch_value_outputs

@@ -1,0 +1,36 @@
+{
+    "acinetobacter_species - abaumannii characterization": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_abaum",
+                        "single_end": false
+                    },
+                    [
+                        "test_abaum_kaptive_out_k_table.tsv:md5,6e9349d5c35ca638aaeacd92b0e555d6",
+                        "test_abaum_kaptive_out_oc_table.tsv:md5,329f32891b87751a55ed22b74ec953cd"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_abaum",
+                        "single_end": false
+                    },
+                    "test_abaum_abricate_hits.tsv:md5,997119371d441dd564173ebf40abc22b"
+                ]
+            ],
+            [
+                "versions.yml:md5,31954c4f98756807edc0a8ee6a92acb8",
+                "versions.yml:md5,d8399fa5778fcb2afa7b073ad1e2bb3d"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-07-02T19:20:27.907601425"
+    }
+}

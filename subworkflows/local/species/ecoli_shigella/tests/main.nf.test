@@ -1,0 +1,79 @@
+nextflow_workflow {
+
+    name "Test Subworkflow ESCHERICHIA_SHIGELLA_TYPING"
+    script "../main.nf"
+    workflow "ESCHERICHIA_SHIGELLA_TYPING"
+
+    // Currently utilizes local test data, needs to be replaced with remote data
+    test("escherichia_shigella - characterization") {
+        when {
+            params {
+                // Use minimal parameters for testing
+                call_stxtyper = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_ecoli-shigella', single_end:false ],
+                    file("gs://fc-c37b6bc6-b033-4ef1-b8aa-b8c1d25524d4/submissions/9b83240f-3549-42f5-8960-d6d04ed6555b/theiaprok_illumina_pe/88ab6224-07c8-451c-9d75-c440f4b89b6e/call-digger_denovo/digger_denovo/424e44ca-ecad-4652-aefd-f2405b33d086/call-filter_contigs/cacheCopy/19050801924_filtered_contigs.fasta"),
+                    [
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/19050801924-OR-M05181-200429_S10_L001_R1_001.fastq.gz"),
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/19050801924-OR-M05181-200429_S10_L001_R2_001.fastq.gz")
+                    ],
+                    "Escherichia coli"
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.stxtyper_results,
+                    workflow.out.serotypefinder_results,
+                    workflow.out.ectyper_results,
+                    workflow.out.shigeifinder_results,
+                    workflow.out.virulencefinder_results,
+                    workflow.out.shigatyper_results,
+                    workflow.out.sonneityper_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+        test("escherichia_shigella - characterization - no stxtyper") {
+        when {
+            params {
+                // Use minimal parameters for testing
+                call_stxtyper = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_ecoli-shigella', single_end:false ],
+                    file("gs://fc-c37b6bc6-b033-4ef1-b8aa-b8c1d25524d4/submissions/9b83240f-3549-42f5-8960-d6d04ed6555b/theiaprok_illumina_pe/88ab6224-07c8-451c-9d75-c440f4b89b6e/call-digger_denovo/digger_denovo/424e44ca-ecad-4652-aefd-f2405b33d086/call-filter_contigs/cacheCopy/19050801924_filtered_contigs.fasta"),
+                    [
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/19050801924-OR-M05181-200429_S10_L001_R1_001.fastq.gz"),
+                        file("gs://theiagen-large-public-files-rp/terra/theiaprok-files/theiaprok_validation/19050801924-OR-M05181-200429_S10_L001_R2_001.fastq.gz")
+                    ],
+                    "Escherichia coli"
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.serotypefinder_results,
+                    workflow.out.ectyper_results,
+                    workflow.out.shigeifinder_results,
+                    workflow.out.virulencefinder_results,
+                    workflow.out.shigatyper_results,
+                    workflow.out.sonneityper_results,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+}

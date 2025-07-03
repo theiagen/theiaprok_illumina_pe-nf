@@ -1,0 +1,52 @@
+nextflow_workflow {
+    name "Test Subworkflow MYCOBACTERIUM_TUBERCULOSIS_SPECIES"
+    script "../main.nf"
+    workflow "MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING"
+
+    test("mycobacterium_tuberculosis - paired_end characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_mtb', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/195/955/GCF_000195955.2_ASM19595v2/GCF_000195955.2_ASM19595v2_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            params {
+                paired_end = true
+                ont_data = false
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [
+                                file(params.pipelines_testdata_base_path + "genomics/prokaryotes/escherichia_coli/illumina/Ecoli_10K_methylated_R1.fastq.gz", checkIfExists: true),
+                                file(params.pipelines_testdata_base_path + "genomics/prokaryotes/escherichia_coli/illumina/Ecoli_10K_methylated_R2.fastq.gz", checkIfExists: true)
+                            ],
+                            "Mycobacterium tuberculosis"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                ).match() }
+            )
+        }
+    }
+}

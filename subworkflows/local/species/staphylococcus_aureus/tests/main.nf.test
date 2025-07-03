@@ -1,0 +1,96 @@
+nextflow_workflow {
+    name "Test Subworkflow STAPHYLOCOCCUS_AUREUS_SPECIES"
+    script "../main.nf"
+    workflow "STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING"
+
+    test("staphylococcus_aureus - comprehensive typing") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_staph_aureus', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/839/195/GCF_001839195.1_ASM183919v1/GCF_001839195.1_ASM183919v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [],
+                            "Staphylococcus aureus"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.spatyper_results,
+                    workflow.out.staphopiasccmec_results,
+                    workflow.out.agrvate_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("staphylococcus_aureus - spatyper with enrichment") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_staph_enriched', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/001/839/195/GCF_001839195.1_ASM183919v1/GCF_001839195.1_ASM183919v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            params {
+                spatyper_do_enrich = true
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [],
+                            "Staphylococcus aureus"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.spatyper_results,
+                    workflow.out.staphopiasccmec_results,
+                    workflow.out.agrvate_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

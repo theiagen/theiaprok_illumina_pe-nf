@@ -54,11 +54,6 @@ workflow READ_QC_TRIM_PE {
     ch_trimmomatic_stats = Channel.empty()
     ch_fastp_pe_html_report = Channel.empty()
     ch_midas_species_profile = Channel.empty()
-    ch_midas_log_file = Channel.empty()
-    ch_midas_primary_genus = Channel.empty()
-    ch_midas_secondary_genus = Channel.empty()
-    ch_midas_secondary_abundance = Channel.empty()
-    ch_midas_secondary_coverage = Channel.empty()
     ch_kraken2_report = Channel.empty()
     ch_value_results = Channel.empty()
 
@@ -193,13 +188,6 @@ workflow READ_QC_TRIM_PE {
     fastp_html_report        = ch_fastp_pe_html_report
     // MIDAS outputs
     midas_species_profile    = ch_midas_species_profile
-    midas_log_file           = ch_midas_log_file
-    midas_primary_genus      = ch_midas_primary_genus
-    midas_secondary_genus    = ch_midas_secondary_genus
-    midas_secondary_abundance  = ch_midas_secondary_abundance
-    midas_secondary_coverage = ch_midas_secondary_coverage
-    // Value results
-    value_results            = ch_value_results
     // Versions
     versions                 = ch_versions
 }

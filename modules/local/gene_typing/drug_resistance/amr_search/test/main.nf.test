@@ -20,8 +20,40 @@ nextflow_process {
         when {
             process {
                 """
-                input[0] = GUNZIP.out.gunzip
-                input[1] = "1280" // amr_search_database
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> [ meta, fasta, "Staphylococcus aureus" ] }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                {  assert snapshot(
+                    process.out.amr_results_csv,
+                    process.out.amr_results_pdf,
+                    process.out.amr_search_json_output,
+                    process.out.versions
+                    ).match() }
+            )
+        }
+    }
+    test("amr search no species test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_amr'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/494/545/GCF_022494545.1_ASM2249454v1/GCF_022494545.1_ASM2249454v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = GUNZIP.out.gunzip.map { meta, fasta -> [ meta, fasta, "not_a_real_species" ] }
                 """
             }
         }

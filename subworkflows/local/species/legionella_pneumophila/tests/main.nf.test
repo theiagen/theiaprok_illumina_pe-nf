@@ -1,0 +1,47 @@
+nextflow_workflow {
+    name "Test Subworkflow LEGIONELLA_PNEUMOPHILA_SPECIES"
+    script "../main.nf"
+    workflow "LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING"
+
+    test("legionella_pneumophila - legsta characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_legionella', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/082/955/GCF_002082955.2_ASM208295v2/GCF_002082955.2_ASM208295v2_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [],
+                            "Legionella pneumophila"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.legsta_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

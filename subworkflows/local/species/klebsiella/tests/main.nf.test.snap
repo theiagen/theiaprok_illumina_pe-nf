@@ -1,0 +1,23 @@
+{
+    "klebsiella_typing - characterization": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_klebsiella",
+                        "single_end": false
+                    },
+                    "test_klebsiella_kleborate_out.tsv:md5,fa73bd1260fc240b5b4209d60462b6d9"
+                ]
+            ],
+            [
+                "versions.yml:md5,d45d4caf711ddae1eebf72604e316a3b"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.8"
+        },
+        "timestamp": "2025-07-02T21:00:35.257397066"
+    }
+}

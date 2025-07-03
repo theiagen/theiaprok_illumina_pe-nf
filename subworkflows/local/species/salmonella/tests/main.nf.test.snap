@@ -1,0 +1,36 @@
+{
+    "salmonella_species - salmonella characterization": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_salmonella",
+                        "single_end": false
+                    },
+                    "test_salmonella.tsv:md5,987a5643f44a7b3c27f4959db8193155"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_salmonella",
+                        "single_end": false
+                    },
+                    "test_salmonella_SeqSero_result.tsv:md5,b2a31c7c25608c1d34ca46a695e68d47"
+                ]
+            ],
+            [
+                
+            ],
+            [
+                "versions.yml:md5,19f2910e118e21ac364fa6f3376d9797",
+                "versions.yml:md5,c181548419c7b6ef88b0f52f75cf9ac6"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-07-02T20:21:40.669418902"
+    }
+}

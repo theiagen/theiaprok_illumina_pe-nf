@@ -1,0 +1,58 @@
+nextflow_workflow {
+    name "Test Subworkflow STREPTOCOCCUS_PNEUMONIAE_SPECIES"
+    script "../main.nf"
+    workflow "STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING"
+
+    test("streptococcus_pneumoniae - paired_end with seroba") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_spneumoniae', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/013/276/905/GCF_013276905.1_ASM1327690v1/GCF_013276905.1_ASM1327690v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            params {
+                paired_end = true
+                ont_data = false
+                call_poppunk = false
+            }
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [
+                                file("https://github.com/sanger-pathogens/seroba/raw/refs/heads/master/seroba/tests/data/06B_1.fq.gz", checkIfExists: true),
+                                file("https://github.com/sanger-pathogens/seroba/raw/refs/heads/master/seroba/tests/data/06B_2.fq.gz", checkIfExists: true)
+                            ],
+                            "Streptococcus pneumoniae"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.seroba_results,
+                    workflow.out.pbptyper_results,
+                    workflow.out.poppunk_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+
+}
