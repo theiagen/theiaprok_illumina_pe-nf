@@ -83,8 +83,13 @@ process TS_MLST {
           ${args} \\
           >> ${prefix}_2.tsv
 
-        cat ${prefix}_1.tsv ${prefix}_2.tsv > ${prefix}_ts_mlst.tsv
-        cat ${prefix}_novel_mlst_alleles_\${secondary_scheme}.fasta ${prefix}_novel_mlst_alleles.fasta > ${prefix}_novel_mlst_alleles.fasta
+        cat ${prefix}_1.tsv ${prefix}_2.tsv >> ${prefix}_ts_mlst.tsv
+        if [[ -f "${prefix}_novel_mlst_alleles.fasta" && -f "${prefix}_novel_mlst_alleles_2.fasta" ]]; then
+          cat ${prefix}_novel_mlst_alleles.fasta ${prefix}_novel_mlst_alleles_2.fasta > ${prefix}_novel_combined.fasta
+          mv ${prefix}_novel_combined.fasta ${prefix}_novel_mlst_alleles.fasta
+        elif [[ -f "${prefix}_novel_mlst_alleles_2.fasta" ]]; then
+          mv ${prefix}_novel_mlst_alleles_2.fasta ${prefix}_novel_mlst_alleles.fasta
+        fi
       fi
 
     elif [[ "${taxonomy_val}" == "Escherichia" || "${taxonomy_val}" == "Escherichia coli" || "${taxonomy_val}" == "Escherichia_coli" ]]; then
@@ -121,7 +126,12 @@ process TS_MLST {
             echo -e "Filename\\tPubMLST_Scheme_name\\tSequence_Type_(ST)\\tAllele_IDs" > ${prefix}_ts_mlst.tsv
 
             cat ${prefix}_1.tsv ${prefix}_2.tsv >> ${prefix}_ts_mlst.tsv
-            cat ${prefix}_novel_mlst_alleles.fasta ${prefix}_novel_mlst_alleles_2.fasta > ${prefix}_novel_mlst_alleles.fasta
+            if [[ -f "${prefix}_novel_mlst_alleles.fasta" && -f "${prefix}_novel_mlst_alleles_2.fasta" ]]; then
+              cat ${prefix}_novel_mlst_alleles.fasta ${prefix}_novel_mlst_alleles_2.fasta > ${prefix}_novel_combined.fasta
+              mv ${prefix}_novel_combined.fasta ${prefix}_novel_mlst_alleles.fasta
+            elif [[ -f "${prefix}_novel_mlst_alleles_2.fasta" ]]; then
+              mv ${prefix}_novel_mlst_alleles_2.fasta ${prefix}_novel_mlst_alleles.fasta
+            fi
           else
             echo -e "Filename\\tPubMLST_Scheme_name\\tSequence_Type_(ST)\\tAllele_IDs" > ${prefix}_ts_mlst.tsv
             cat ${prefix}_1.tsv >> ${prefix}_ts_mlst.tsv
