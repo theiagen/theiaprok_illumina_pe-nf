@@ -31,6 +31,7 @@ include { NEISSERIA_MENINGITIDIS_TYPING } from '../../../local/species/neisseria
 include { PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING } from '../../../local/species/pseudomonas/main'
 include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main'
 include { STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING } from '../../species/staphylococcus_aureus/main'
+include { STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING } from '../../species/streptococcus_pneumoniae/main.nf'
 
 workflow MERLIN_MAGIC {
     
@@ -59,7 +60,7 @@ workflow MERLIN_MAGIC {
         pseudomonas_aeruginosa: it[3] == "Pseudomonas aeruginosa"
         legionella_pneumophila: it[3] == "Legionella pneumophila"
         staphylococcus_aureus: it[3] == "Staphylococcus aureus"
-
+        streptococcus_pneumoniae: it[3] == "Streptococcus pneumoniae"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -134,45 +135,13 @@ workflow MERLIN_MAGIC {
     }
 
 
-    // Streptococcus pneumoniae typing path
-    if (merlin_tag == "Streptococcus pneumoniae") {
-        if (params.paired_end && !params.ont_data) {
-            SEROBA (
-                ch_reads
-            )
-            ch_seroba_results = SEROBA.out.seroba_serotype
-            ch_versions = ch_versions.mix(SEROBA.out.versions)
-        }
-        
-        PBPTYPER (
-            ch_assembly,
-            params.pbptyper_database ?: [],  // database - empty for default - can change
-            params.pbptyper_min_percent_identity ?: 95,
-            params.pbptyper_min_percent_coverage ?: 95
+    // Strep pnuemoniea typing
+    if (!ch_samples_by_species.streptococcus_pneumoniae.isEmpty()) {
+        STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING (
+            ch_samples_by_species.streptococcus_pneumoniae
         )
-        ch_pbptyper_results = PBPTYPER.out.pbtyper_predicted_tsv
-        ch_versions = ch_versions.mix(PBPTYPER.out.versions)
-        
-        if (params.call_poppunk) {
-            // Fetch PopPUNK GPS database
-            POPPUNK_DATABASE (
-                params.poppunk_gps_db_url ?: "https://gps-project.cog.sanger.ac.uk/GPS_6.tar.gz",
-                params.poppunk_gps_external_clusters_url ?: "https://gps-project.cog.sanger.ac.uk/GPS_v6_external_clusters.csv"
-            )
-            ch_versions = ch_versions.mix(POPPUNK_DATABASE.out.versions)
-            
-            // Run PopPUNK with fetched database
-            POPPUNK (
-                ch_assembly,
-                POPPUNK_DATABASE.out.database,
-                POPPUNK_DATABASE.out.ext_clusters,
-                POPPUNK_DATABASE.out.db_info
-            )
-            ch_poppunk_results = POPPUNK.out.gps_cluster
-            ch_versions = ch_versions.mix(POPPUNK.out.versions)
-        }
     }
-    
+
     // Streptococcus pyogenes typing path
     if (merlin_tag == "Streptococcus pyogenes") {
         EMMTYPER (
@@ -286,31 +255,6 @@ workflow MERLIN_MAGIC {
     // We can remove all emits from MERLIN_MAGIC as the individual modules handle their own publishing
     // The only one we would necessarily need to emit is versions
     amr_search_results         = ch_amr_search_results
-    abricate_results           = ch_abricate_results
-    kaptive_results            = ch_kaptive_results
-    serotypefinder_results     = ch_serotypefinder_results
-    ectyper_results            = ch_ectyper_results
-    shigatyper_results         = ch_shigatyper_results
-    shigeifinder_results       = ch_shigeifinder_results
-    stxtyper_results           = ch_stxtyper_results
-    virulencefinder_results    = ch_virulencefinder_results
-    sonneityper_results        = ch_sonneityper_results
-    lissero_results            = ch_lissero_results
-    sistr_results              = ch_sistr_results
-    seqsero2_results           = ch_seqsero2_results
-    genotyphi_results          = ch_genotyphi_results
-    kleborate_results          = ch_kleborate_results
-    ngmaster_results           = ch_ngmaster_results
-    meningotype_results        = ch_meningotype_results
-    pasty_results              = ch_pasty_results
-    clockwork_results          = ch_clockwork_results
-    legsta_results             = ch_legsta_results
-    spatyper_results           = ch_spatyper_results
-    staphopiasccmec_results    = ch_staphopiasccmec_results
-    agrvate_results            = ch_agrvate_results
-    seroba_results             = ch_seroba_results
-    pbptyper_results           = ch_pbptyper_results
-    poppunk_results            = ch_poppunk_results
     emmtyper_results           = ch_emmtyper_results
     emmtypingtool_results      = ch_emmtypingtool_results
     hicap_results              = ch_hicap_results
