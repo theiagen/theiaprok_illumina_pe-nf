@@ -13,6 +13,8 @@ include { STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING } from '../../species/staphylococ
 include { STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING } from '../../species/streptococcus_pneumoniae/main'
 include { STREPTOCOCCUS_PYOGENES_SPECIES_TYPING } from '../../species/streptococcus_pyogenes/main'
 include { HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING } from '../../species/haemophilus_influenzae/main'
+include { VIBRIO_SPECIES_TYPING } from '../../species/vibrio/main'
+include { AMR_SEARCH } from '../../../../modules/local/gene_typing/drug_resistance/amr_search/main'
 
 workflow MERLIN_MAGIC {
     
@@ -44,6 +46,8 @@ workflow MERLIN_MAGIC {
         streptococcus_pneumoniae: it[3] == "Streptococcus pneumoniae"
         streptococcus_pyogenes: it[3] == "Streptococcus pyogenes"
         haemophilus_influenzae: it[3] == "Haemophilus influenzae"
+        vibrio: it[3] == "Vibrio" || 
+                 it[3] == "Vibrio cholerae"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -137,82 +141,22 @@ workflow MERLIN_MAGIC {
         )
     }
 
-    // Vibrio typing path
-    if (merlin_tag == "Vibrio" || merlin_tag == "Vibrio cholerae") {
-        if (!params.assembly_only && !params.ont_data) {
-            SRST2_VIBRIO (
-                ch_reads,
-                params.srst2_min_percent_coverage ?: 80,
-                params.srst2_max_divergence ?: 20,
-                params.srst2_min_depth ?: 5,
-                params.srst2_min_edge_depth ?: 2,
-                params.srst2_gene_max_mismatch ?: 2000
-            )
-            ch_srst2_vibrio_results = SRST2_VIBRIO.out.srst2_detailed_tsv
-            ch_versions = ch_versions.mix(SRST2_VIBRIO.out.versions)
-            
-            // VibeCheck for O1 serogroup
-            if (params.paired_end) {
-                ch_o1_reads = ch_reads
-                    .join(SRST2_VIBRIO.out.srst2_serogroup)
-                    .filter { meta, reads, srst2_serogroup -> 
-                        def serogroup_content = srst2_serogroup.text.trim()
-                        serogroup_content == "O1" 
-                    }
-                    .map { meta, reads, srst2_serogroup -> [meta, reads] }
-
-                VIBECHECK_VIBRIO (
-                    ch_o1_reads,
-                    params.vibecheck_vibrio_barcodes ?: [] // lineage_barcodes - would need to be provided
-                )
-                ch_vibecheck_results = VIBECHECK_VIBRIO.out.report
-                ch_versions = ch_versions.mix(VIBECHECK_VIBRIO.out.versions)
-            }
-        }
-        
-        // Abricate for Vibrio path
-        ABRICATE (
-            ch_assembly,
-            "vibrio",  // Vibrio database string
-            params.abricate_vibrio_min_percent_identity ?: 80,
-            params.abricate_vibrio_min_percent_coverage ?: 80
+    // Vibrio typing 
+    if (!ch_samples_by_species.vibrio.isEmpty()) {
+        VIBRIO_SPECIES_TYPING (
+            ch_samples_by_species.vibrio
         )
-        ch_versions = ch_versions.mix(ABRICATE.out.versions)
     }
     
     // AMR Search - conditional based on organism
-    if (params.run_amr_search) {
-        // Define taxon code mapping
-        def taxon_code_map = [
-            "Neisseria gonorrhoeae": "485",
-            "Staphylococcus aureus": "1280", 
-            "Typhi": "90370",
-            "Salmonella typhi": "90370",
-            "Streptococcus pneumoniae": "1313",
-            "Klebsiella": "570",
-            "Klebsiella pneumoniae": "573",
-            "Candida auris": "498019",
-            "Candidozyma auris": "498019",
-            "Vibrio cholerae": "666"
-        ]
-        
-        if (merlin_tag in taxon_code_map.keySet()) {
-            AMR_SEARCH (
-                ch_assembly,
-                taxon_code_map[merlin_tag]
-            )
-            ch_amr_search_results = AMR_SEARCH.out.amr_results_csv
-            ch_versions = ch_versions.mix(AMR_SEARCH.out.versions)
-        }
+    if (params.run_amr_search) {}
+        AMR_SEARCH (
+            ch_samples_by_species.map { meta, assembly, reads, species -> [meta, assembly, species] }
+        )
+        ch_amr_search_results = AMR_SEARCH.out.amr_results_csv
+        ch_versions = ch_versions.mix(AMR_SEARCH.out.versions)
     }
-    
-    emit:
     // We can remove all emits from MERLIN_MAGIC as the individual modules handle their own publishing
     // The only one we would necessarily need to emit is versions
-    amr_search_results         = ch_amr_search_results
-    hicap_results              = ch_hicap_results
-    srst2_vibrio_results       = ch_srst2_vibrio_results
-    vibecheck_results          = ch_vibecheck_results
-    
-    versions                   = ch_versions
+
 }
