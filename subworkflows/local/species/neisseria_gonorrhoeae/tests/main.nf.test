@@ -1,0 +1,38 @@
+nextflow_workflow {
+
+    name "Test Subworkflow NEISSERIA_GONORRHOEAE_TYPING"
+    script "../main.nf"
+    workflow "NEISSERIA_GONORRHOEAE_TYPING"
+
+    test("neisseria_gonorrhoeae - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/019/048/825/GCF_019048825.1_ASM1904882v1/GCF_019048825.1_ASM1904882v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.ngmast_report,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

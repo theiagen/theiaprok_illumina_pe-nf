@@ -1,0 +1,37 @@
+nextflow_workflow {
+    name "Test Subworkflow HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING"
+    script "../main.nf"
+    workflow "HAEMOPHILUS_INFLUENZAE_SPECIES_TYPING"
+
+    test("haemophilus_influenzae_species_typing - test") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = [
+                        [id:'test_sample'],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/020/736/045/GCF_020736045.1_ASM2073604v1/GCF_020736045.1_ASM2073604v1_genomic.fna.gz', checkIfExists: true)
+                    ]
+                    """
+                }
+            }
+        }
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.hicap_results_tsv, 
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

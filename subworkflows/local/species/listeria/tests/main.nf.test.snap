@@ -1,0 +1,38 @@
+{
+    "listeria_species - listeria characterization": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_listeria",
+                        "single_end": false
+                    },
+                    "test_listeria.tsv:md5,adb40955c2632cd74698b848faa9f59b"
+                ]
+            ],
+            [
+                "versions.yml:md5,d38c0c5e9635f599d864eeb8d1e5f1d2"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-07-02T19:51:17.232013654"
+    },
+    "acinetobacter_species - abaumannii characterization": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.4"
+        },
+        "timestamp": "2025-07-02T19:47:01.949198489"
+    }
+}

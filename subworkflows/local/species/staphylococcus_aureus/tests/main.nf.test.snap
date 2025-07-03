@@ -1,0 +1,84 @@
+{
+    "staphylococcus_aureus - comprehensive typing": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_staph_aureus",
+                        "single_end": false
+                    },
+                    "test_staph_aureus.tsv:md5,3043d68e3a27de197bf0334d58fbd85b"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_staph_aureus",
+                        "single_end": false
+                    },
+                    "test_staph_aureus.staphopia-sccmec.summary.tsv:md5,fa2f9b997dcb27e4969fe695abc7ad32"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_staph_aureus",
+                        "single_end": false
+                    },
+                    "test_staph_aureus.agrvate.tsv:md5,6e87b5fc3b52f82f19c47ae8a0af41ba"
+                ]
+            ],
+            [
+                "versions.yml:md5,3a12190cba221f3981e468a75492b33f",
+                "versions.yml:md5,4d893c7d995bea1572c9b8620c8af535",
+                "versions.yml:md5,fa79ee0840e41ba0d5be60ff591652cb"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-07-02T21:11:40.115162"
+    },
+    "staphylococcus_aureus - spatyper with enrichment": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test_staph_enriched",
+                        "single_end": false
+                    },
+                    "test_staph_enriched.tsv:md5,a698352823875171696e5e7ed7015c13"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_staph_enriched",
+                        "single_end": false
+                    },
+                    "test_staph_enriched.staphopia-sccmec.summary.tsv:md5,fa2f9b997dcb27e4969fe695abc7ad32"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test_staph_enriched",
+                        "single_end": false
+                    },
+                    "test_staph_enriched.agrvate.tsv:md5,6e87b5fc3b52f82f19c47ae8a0af41ba"
+                ]
+            ],
+            [
+                "versions.yml:md5,3a12190cba221f3981e468a75492b33f",
+                "versions.yml:md5,4d893c7d995bea1572c9b8620c8af535",
+                "versions.yml:md5,fa79ee0840e41ba0d5be60ff591652cb"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-07-02T21:11:57.580372"
+    }
+}

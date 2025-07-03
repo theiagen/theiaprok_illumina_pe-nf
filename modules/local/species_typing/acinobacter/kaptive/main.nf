@@ -12,8 +12,7 @@ process KAPTIVE {
     val low_gene_percent_identity
 
     output:
-    tuple val(meta), path("*_kaptive_out_k_table.tsv"), emit: k_table
-    tuple val(meta), path("*_kaptive_out_oc_table.tsv"), emit: oc_table
+    tuple val(meta), path("*.tsv"),            emit: tables
     tuple val(meta), path("BEST_MATCH_LOCUS_K"), emit: k_match
     tuple val(meta), path("BEST_MATCH_TYPE_K"), emit: k_type
     tuple val(meta), path("MATCH_CONFIDENCE_K"), emit: k_confidence
@@ -39,7 +38,7 @@ process KAPTIVE {
     path "versions.yml", emit: versions
 
     when:
-    task.ext.prefix || task.ext.stub || task.ext.skip
+    task.ext.when == null || task.ext.when
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"

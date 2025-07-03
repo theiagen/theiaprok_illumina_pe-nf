@@ -1,0 +1,653 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com///nextflow_schema.json",
+    "title": " pipeline parameters",
+    "description": "",
+    "type": "object",
+    "$defs": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "required": ["input", "outdir"],
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+                    "fa_icon": "fas fa-folder-open",
+                    "default": "./results"
+                }
+            }
+        },
+        "generic_options": {
+            "title": "Generic options",
+            "type": "object",
+            "fa_icon": "fas fa-file-import",
+            "description": "Less common options for the pipeline, typically set in a config file.",
+            "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
+            "properties": {
+                "version": {
+                    "type": "boolean",
+                    "description": "Display version and exit.",
+                    "fa_icon": "fas fa-question-circle",
+                    "hidden": true
+                },
+                "validate_params": {
+                    "type": "boolean",
+                    "description": "Boolean whether to validate parameters against the schema at runtime",
+                    "default": true,
+                    "fa_icon": "fas fa-check-square",
+                    "hidden": true
+                },
+                "trace_report_suffix": {
+                    "type": "string",
+                    "fa_icon": "far calendar",
+                    "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
+                    "hidden": true
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
+        }
+    ],
+    "properties": {
+        "samplename": {
+            "type": "string"
+        },
+        "read1": {
+            "type": "string"
+        },
+        "read2": {
+            "type": "string"
+        },
+        "paired_end": {
+            "type": "boolean",
+            "default": true
+        },
+        "ont_data": {
+            "type": "boolean"
+        },
+        "assembly_only": {
+            "type": "boolean"
+        },
+        "skip_screen": {
+            "type": "boolean"
+        },
+        "min_reads": {
+            "type": "integer",
+            "default": 7472
+        },
+        "min_basepairs": {
+            "type": "integer",
+            "default": 2241820
+        },
+        "min_genome_length": {
+            "type": "integer",
+            "default": 100000
+        },
+        "max_genome_length": {
+            "type": "integer",
+            "default": 18040666
+        },
+        "min_coverage": {
+            "type": "integer",
+            "default": 10
+        },
+        "min_proportion": {
+            "type": "integer",
+            "default": 40
+        },
+        "genome_length": {
+            "type": "string"
+        },
+        "trim_min_length": {
+            "type": "integer",
+            "default": 50
+        },
+        "trim_quality_min_score": {
+            "type": "integer",
+            "default": 20
+        },
+        "trim_window_size": {
+            "type": "integer",
+            "default": 4
+        },
+        "read_processing": {
+            "type": "string",
+            "default": "trimmomatic"
+        },
+        "read_qc": {
+            "type": "string",
+            "default": "fastqc"
+        },
+        "workflow_series": {
+            "type": "string",
+            "default": "theiaprok"
+        },
+        "call_midas": {
+            "type": "boolean"
+        },
+        "call_kraken": {
+            "type": "boolean",
+            "default": true
+        },
+        "adapters": {
+            "type": "string"
+        },
+        "phix": {
+            "type": "string"
+        },
+        "trimmomatic_args": {
+            "type": "string",
+            "default": "-phred33"
+        },
+        "fastp_args": {
+            "type": "string",
+            "default": "--detect_adapter_for_pe -g -5 20 -3 20"
+        },
+        "assembler": {
+            "type": "string",
+            "default": "skesa"
+        },
+        "min_contig_length": {
+            "type": "integer",
+            "default": 200
+        },
+        "kmers": {
+            "type": "string"
+        },
+        "assembler_options": {
+            "type": "string"
+        },
+        "cg_pipe_opts": {
+            "type": "string"
+        },
+        "quast_min_contig_length": {
+            "type": "integer",
+            "default": 500
+        },
+        "spades_type": {
+            "type": "string",
+            "default": "isolate"
+        },
+        "call_pilon": {
+            "type": "boolean"
+        },
+        "pilon_min_mapping_quality": {
+            "type": "integer",
+            "default": 60
+        },
+        "pilon_min_base_quality": {
+            "type": "integer",
+            "default": 3
+        },
+        "pilon_min_depth": {
+            "type": "number",
+            "default": 0.25
+        },
+        "pilon_fix": {
+            "type": "string",
+            "default": "bases"
+        },
+        "run_filter_contigs": {
+            "type": "boolean",
+            "default": true
+        },
+        "filter_contigs_min_length": {
+            "type": "integer",
+            "default": 200
+        },
+        "filter_contigs_min_coverage": {
+            "type": "integer",
+            "default": 2
+        },
+        "filter_contigs_skip_length_filter": {
+            "type": "boolean"
+        },
+        "filter_contigs_skip_coverage_filter": {
+            "type": "boolean"
+        },
+        "filter_contigs_skip_homopolymer_filter": {
+            "type": "boolean"
+        },
+        "perform_characterization": {
+            "type": "boolean",
+            "default": true
+        },
+        "call_ani": {
+            "type": "boolean"
+        },
+        "call_kmerfinder": {
+            "type": "boolean"
+        },
+        "call_resfinder": {
+            "type": "boolean"
+        },
+        "call_plasmidfinder": {
+            "type": "boolean",
+            "default": true
+        },
+        "call_abricate": {
+            "type": "boolean"
+        },
+        "abricate_db": {
+            "type": "string",
+            "default": "vfdb"
+        },
+        "genome_annotation": {
+            "type": "string",
+            "default": "prokka"
+        },
+        "bakta_db": {
+            "type": "string",
+            "default": "full"
+        },
+        "expected_taxon": {
+            "type": "string"
+        },
+        "midas_db": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/midas/midas_db_v1.2.tar.gz"
+        },
+        "kraken_db": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/kraken2/terra_databases_kraken2_kraken2.kalamari_5.1.tar"
+        },
+        "kmerfinder_db": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/kmerfinder/kmerfinder_bacteria_20230911.tar.gz"
+        },
+        "gambit_db_genomes": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/gambit/gambit-metadata-2.0.1-20250505.gdb"
+        },
+        "gambit_db_signatures": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/gambit/gambit-signatures-2.0.1-20250505.gs"
+        },
+        "bakta_db_path": {
+            "type": "string",
+            "default": "s3://tgn-latch-dev-database-2025/bakta/"
+        },
+        "resfinder_db_res": {
+            "type": "string"
+        },
+        "resfinder_db_point": {
+            "type": "string"
+        },
+        "plasmidfinder_db": {
+            "type": "string"
+        },
+        "plasmidfinder_db_path": {
+            "type": "string"
+        },
+        "plasmidfinder_method_path": {
+            "type": "string"
+        },
+        "amrfinder_min_percent_identity": {
+            "type": "number",
+            "default": 0.9
+        },
+        "amrfinder_min_percent_coverage": {
+            "type": "number",
+            "default": 0.5
+        },
+        "amrfinder_detailed_drug_class": {
+            "type": "boolean"
+        },
+        "amrfinder_hide_point_mutations": {
+            "type": "boolean"
+        },
+        "amrfinder_separate_betalactam_genes": {
+            "type": "boolean"
+        },
+        "resfinder_organism": {
+            "type": "string"
+        },
+        "resfinder_acquired": {
+            "type": "boolean"
+        },
+        "resfinder_min_percent_coverage": {
+            "type": "number",
+            "default": 0.5
+        },
+        "resfinder_min_percent_identity": {
+            "type": "number",
+            "default": 0.9
+        },
+        "resfinder_call_pointfinder": {
+            "type": "boolean"
+        },
+        "plasmidfinder_min_percent_coverage": {
+            "type": "number",
+            "default": 0.6
+        },
+        "plasmidfinder_min_percent_identity": {
+            "type": "number",
+            "default": 0.9
+        },
+        "mlst_nopath": {
+            "type": "boolean"
+        },
+        "mlst_scheme": {
+            "type": "string"
+        },
+        "mlst_min_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "mlst_min_percent_coverage": {
+            "type": "integer",
+            "default": 10
+        },
+        "mlst_minscore": {
+            "type": "integer",
+            "default": 50
+        },
+        "stxtyper_enable_debugging": {
+            "type": "boolean"
+        },
+        "call_stxtyper": {
+            "type": "boolean"
+        },
+        "call_poppunk": {
+            "type": "boolean"
+        },
+        "run_amr_search": {
+            "type": "boolean"
+        },
+        "run_merlin_magic": {
+            "type": "boolean",
+            "default": true
+        },
+        "kaptive_start_end_margin": {
+            "type": "integer",
+            "default": 10
+        },
+        "kaptive_min_percent_coverage": {
+            "type": "integer",
+            "default": 90
+        },
+        "kaptive_min_percent_identity": {
+            "type": "integer",
+            "default": 80
+        },
+        "kaptive_low_gene_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "abricate_abaum_min_percent_identity": {
+            "type": "integer",
+            "default": 80
+        },
+        "abricate_abaum_min_percent_coverage": {
+            "type": "integer",
+            "default": 80
+        },
+        "lissero_min_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "lissero_min_percent_coverage": {
+            "type": "integer",
+            "default": 95
+        },
+        "ectyper_o_min_percent_identity": {
+            "type": "integer",
+            "default": 90
+        },
+        "ectyper_h_min_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "ectyper_o_min_percent_coverage": {
+            "type": "integer",
+            "default": 90
+        },
+        "ectyper_h_min_percent_coverage": {
+            "type": "integer",
+            "default": 50
+        },
+        "ectyper_verify": {
+            "type": "boolean"
+        },
+        "ectyper_print_alleles": {
+            "type": "boolean"
+        },
+        "virulencefinder_database": {
+            "type": "string",
+            "default": "virulence_ecoli"
+        },
+        "virulencefinder_min_percent_coverage": {
+            "type": "number",
+            "default": 0.60
+        },
+        "virulencefinder_min_percent_identity": {
+            "type": "number",
+            "default": 0.90
+        },
+        "tbp_parser_config": {
+            "type": "string"
+        },
+        "tbp_parser_sequencing_method": {
+            "type": "string"
+        },
+        "tbp_parser_operator": {
+            "type": "string"
+        },
+        "tbp_parser_min_depth": {
+            "type": "integer",
+            "default": 10
+        },
+        "tbp_parser_min_frequency": {
+            "type": "number",
+            "default": 0.1
+        },
+        "tbp_parser_min_read_support": {
+            "type": "integer",
+            "default": 10
+        },
+        "tbp_parser_min_percent_coverage": {
+            "type": "integer",
+            "default": 100
+        },
+        "tbp_parser_coverage_regions_bed": {
+            "type": "string"
+        },
+        "tbp_parser_add_cycloserine_lims": {
+            "type": "boolean"
+        },
+        "tbp_parser_debug": {
+            "type": "boolean",
+            "default": true
+        },
+        "tbp_parser_tngs": {
+            "type": "boolean"
+        },
+        "tbp_parser_rrs_frequncy": {
+            "type": "number",
+            "default": 0.1
+        },
+        "tbp_parser_rrs_read_support": {
+            "type": "integer",
+            "default": 10
+        },
+        "tbp_parser_rr1_frequency": {
+            "type": "number",
+            "default": 0.1
+        },
+        "tbp_parser_rr1_read_support": {
+            "type": "integer",
+            "default": 10
+        },
+        "tbp_parser_rpob499_frequency": {
+            "type": "number",
+            "default": 0.1
+        },
+        "tbp_parser_etha237_frequency": {
+            "type": "number",
+            "default": 0.1
+        },
+        "tbp_parser_expert_rule_regions_bed": {
+            "type": "string"
+        },
+        "spatyper_do_enrich": {
+            "type": "boolean"
+        },
+        "pbptyper_database": {
+            "type": "string",
+            "default": "[]"
+        },
+        "pbptyper_min_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "pbptyper_min_percent_coverage": {
+            "type": "integer",
+            "default": 95
+        },
+        "poppunk_gps_db_url": {
+            "type": "string",
+            "default": "https://gps-project.cog.sanger.ac.uk/GPS_6.tar.gz"
+        },
+        "poppunk_gps_external_clusters_url": {
+            "type": "string",
+            "default": "https://gps-project.cog.sanger.ac.uk/GPS_v6_external_clusters.csv"
+        },
+        "emmtyper_wf": {
+            "type": "string",
+            "default": "blast"
+        },
+        "emmtyper_cluster_distance": {
+            "type": "integer",
+            "default": 500
+        },
+        "emmtyper_min_percent_identity": {
+            "type": "integer",
+            "default": 95
+        },
+        "emmtyper_culling_limit": {
+            "type": "integer",
+            "default": 5
+        },
+        "emmtyper_mismatch": {
+            "type": "integer",
+            "default": 4
+        },
+        "emmtyper_align_diff": {
+            "type": "integer",
+            "default": 5
+        },
+        "emmtyper_gap": {
+            "type": "integer",
+            "default": 2
+        },
+        "emmtyper_min_perfect": {
+            "type": "integer",
+            "default": 15
+        },
+        "emmtyper_min_good": {
+            "type": "integer",
+            "default": 15
+        },
+        "emmtyper_max_size": {
+            "type": "integer",
+            "default": 2000
+        },
+        "hicap_min_gene_percent_coverage": {
+            "type": "number",
+            "default": 0.8
+        },
+        "hicap_min_gene_depth": {
+            "type": "number",
+            "default": 0.7
+        },
+        "hicap_min_gene_length": {
+            "type": "integer",
+            "default": 60
+        },
+        "hicap_min_gene_percent_identity": {
+            "type": "number",
+            "default": 0.8
+        },
+        "srst2_min_percent_coverage": {
+            "type": "integer",
+            "default": 90
+        },
+        "srst2_max_divergence": {
+            "type": "integer",
+            "default": 10
+        },
+        "srst2_min_depth": {
+            "type": "integer",
+            "default": 5
+        },
+        "srst2_min_edge_depth": {
+            "type": "integer",
+            "default": 2
+        },
+        "srst2_gene_max_mismatch": {
+            "type": "integer",
+            "default": 10
+        },
+        "abricate_vibrio_min_percent_identity": {
+            "type": "integer",
+            "default": 80
+        },
+        "abricate_vibrio_min_percent_coverage": {
+            "type": "integer",
+            "default": 80
+        },
+        "vibecheck_vibrio_barcodes": {
+            "type": "string"
+        },
+        "publish_dir_mode": {
+            "type": "string",
+            "default": "copy"
+        },
+        "email": {
+            "type": "string"
+        },
+        "email_on_fail": {
+            "type": "string"
+        },
+        "plaintext_email": {
+            "type": "boolean"
+        },
+        "monochrome_logs": {
+            "type": "boolean"
+        },
+        "hook_url": {
+            "type": "string"
+        },
+        "help_full": {
+            "type": "boolean"
+        },
+        "show_hidden": {
+            "type": "boolean"
+        },
+        "pipelines_testdata_base_path": {
+            "type": "string",
+            "default": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/"
+        }
+    }
+}
