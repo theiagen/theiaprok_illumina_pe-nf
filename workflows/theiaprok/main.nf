@@ -108,6 +108,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         params.trimmomatic_args ?: "",
         params.fastp_args ?: ""
     )
+    ch_value_outputs = ch_value_outputs.mix(READ_QC_TRIM_PE.out.value_results)
     ch_versions = ch_versions.mix(READ_QC_TRIM_PE.out.versions)
     
     ch_clean_reads = READ_QC_TRIM_PE.out.bbduk_cleaned_reads
