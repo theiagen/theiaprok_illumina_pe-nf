@@ -149,7 +149,7 @@ workflow MERLIN_MAGIC {
     }
     
     // AMR Search - conditional based on organism
-    if (params.run_amr_search) {}
+    if (params.run_amr_search) {
         AMR_SEARCH (
             ch_samples_by_species.map { meta, assembly, reads, species -> [meta, assembly, species] }
         )
