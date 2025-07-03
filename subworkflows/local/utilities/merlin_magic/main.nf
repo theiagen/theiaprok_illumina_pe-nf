@@ -29,7 +29,8 @@ include { KLEBSIELLA_TYPING } from '../../../local/species/klebsiella/main'
 include { NEISSERIA_GONORRHOEAE_TYPING } from '../../../local/species/neisseria_gonorrhoeae/main'
 include { NEISSERIA_MENINGITIDIS_TYPING } from '../../../local/species/neisseria_meningitidis/main'
 include { PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING } from '../../../local/species/pseudomonas/main'
-include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main.nf'
+include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main'
+include { STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING } from '../../species/staphylococcus_aureus/main'
 
 workflow MERLIN_MAGIC {
     
@@ -57,6 +58,7 @@ workflow MERLIN_MAGIC {
         neisseria_meningitidis: it[3] == "Neisseria meningitidis"
         pseudomonas_aeruginosa: it[3] == "Pseudomonas aeruginosa"
         legionella_pneumophila: it[3] == "Legionella pneumophila"
+        staphylococcus_aureus: it[3] == "Staphylococcus aureus"
 
     }
 
@@ -124,28 +126,14 @@ workflow MERLIN_MAGIC {
         )
     }
     
-    // Staphylococcus aureus typing
-    if (merlin_tag == "Staphylococcus aureus") {
-        SPATYPER (
-            ch_assembly,
-            params.spatyper_do_enrich ?: false
+    // Staph aureus typing
+    if (!ch_samples_by_species.staphylococcus_aureus.isEmpty()) {
+        STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING (
+            ch_samples_by_species.staphylococcus_aureus
         )
-        ch_spatyper_results = SPATYPER.out.tsv
-        ch_versions = ch_versions.mix(SPATYPER.out.versions)
-        
-        STAPHOPIASCCMEC (
-            ch_assembly
-        )
-        ch_staphopiasccmec_results = STAPHOPIASCCMEC.out.staphopia_results_tsv
-        ch_versions = ch_versions.mix(STAPHOPIASCCMEC.out.versions)
-        
-        AGRVATE (
-            ch_assembly
-        )
-        ch_agrvate_results = AGRVATE.out.agrvate_summary
-        ch_versions = ch_versions.mix(AGRVATE.out.versions)
     }
-    
+
+
     // Streptococcus pneumoniae typing path
     if (merlin_tag == "Streptococcus pneumoniae") {
         if (params.paired_end && !params.ont_data) {
