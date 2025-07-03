@@ -1,24 +1,3 @@
-include { AMR_SEARCH                   } from '../../../../modules/local/gene_typing/drug_resistance/amr_search/main'
-include { HICAP                        } from '../../../../modules/local/species_typing/haemophilus/hicap/main'
-include { MENINGOTYPE                  } from '../../../../modules/local/species_typing/neisseria/meningotype/main'
-include { NGMASTER                     } from '../../../../modules/local/species_typing/neisseria/ngmaster/main'
-include { PASTY                        } from '../../../../modules/local/species_typing/pseudomonas/pasty/main'
-include { GENOTYPHI                    } from '../../../../modules/local/species_typing/salmonella/genotyphi/main'
-include { SEQSERO2                     } from '../../../../modules/local/species_typing/salmonella/seqsero2/main'
-include { SISTR                        } from '../../../../modules/local/species_typing/salmonella/sistr/main'
-include { AGRVATE                      } from '../../../../modules/local/species_typing/staphylococcus/agrvate/main'
-include { SPATYPER                     } from '../../../../modules/local/species_typing/staphylococcus/spatyper/main'
-include { STAPHOPIASCCMEC              } from '../../../../modules/local/species_typing/staphylococcus/staphopiasccmec/main'
-include { EMMTYPER                     } from '../../../../modules/local/species_typing/streptococcus/emmtyper/main'
-include { EMMTYPINGTOOL                } from '../../../../modules/local/species_typing/streptococcus/emmtypingtool/main'
-include { PBPTYPER                     } from '../../../../modules/local/species_typing/streptococcus/pbptyper/main'
-include { POPPUNK_DATABASE             } from '../../../../modules/local/species_typing/streptococcus/poppunk/fetch/main'
-include { POPPUNK                      } from '../../../../modules/local/species_typing/streptococcus/poppunk/run/main'
-include { SEROBA                       } from '../../../../modules/local/species_typing/streptococcus/seroba/main'
-include { SRST2_VIBRIO                 } from '../../../../modules/local/species_typing/vibrio/srst2/main'
-include { VIBECHECK_VIBRIO             } from '../../../../modules/local/species_typing/vibrio/vibecheck_vibrio/main'
-include { TS_MLST                      } from '../../../../modules/local/species_typing/multi/ts_mlst/main'
-
 // New Subworkflows 
 include { ACINETOBACTER_SPECIES_TYPING } from '../../../local/species/acinetobacter_baumannii/main'
 include { LISTERIA_SPECIES_TYPING } from '../../../local/species/listeria/main'
@@ -31,7 +10,8 @@ include { NEISSERIA_MENINGITIDIS_TYPING } from '../../../local/species/neisseria
 include { PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING } from '../../../local/species/pseudomonas/main'
 include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main'
 include { STAPHYLOCOCCUS_AUREUS_SPECIES_TYPING } from '../../species/staphylococcus_aureus/main'
-include { STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING } from '../../species/streptococcus_pneumoniae/main.nf'
+include { STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING } from '../../species/streptococcus_pneumoniae/main'
+include { STREPTOCOCCUS_PYOGENES_SPECIES_TYPING } from '../../species/streptococcus_pyogenes/main' 
 
 workflow MERLIN_MAGIC {
     
@@ -61,6 +41,7 @@ workflow MERLIN_MAGIC {
         legionella_pneumophila: it[3] == "Legionella pneumophila"
         staphylococcus_aureus: it[3] == "Staphylococcus aureus"
         streptococcus_pneumoniae: it[3] == "Streptococcus pneumoniae"
+        streptococcus_pyogenes: it[3] == "Streptococcus pyogenes"
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -119,7 +100,6 @@ workflow MERLIN_MAGIC {
         )
     }
 
-    
     // Legionella pneumophila typing
     if (!ch_samples_by_species.legionella_pneumophila.isEmpty()) {
         LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING (
@@ -134,41 +114,20 @@ workflow MERLIN_MAGIC {
         )
     }
 
-
-    // Strep pnuemoniea typing
+    // Strep pneumoniae typing
     if (!ch_samples_by_species.streptococcus_pneumoniae.isEmpty()) {
         STREPTOCOCCUS_PNEUMONIAE_SPECIES_TYPING (
             ch_samples_by_species.streptococcus_pneumoniae
         )
     }
 
-    // Streptococcus pyogenes typing path
-    if (merlin_tag == "Streptococcus pyogenes") {
-        EMMTYPER (
-            ch_assembly,
-            params.emmtyper_wf ?: "blast",
-            params.emmtyper_cluster_distance ?: 500,
-            params.emmtyper_min_percent_identity ?: 95,
-            params.emmtyper_culling_limit ?: 5,
-            params.emmtyper_mismatch ?: 4,
-            params.emmtyper_align_diff ?: 5,
-            params.emmtyper_gap ?: 2,
-            params.emmtyper_min_perfect ?: 15,
-            params.emmtyper_min_good ?: 15,
-            params.emmtyper_max_size ?: 2000
+    // Strep pyogenes typing
+    if (!ch_samples_by_species.streptococcus_pyogenes.isEmpty()) {
+        STREPTOCOCCUS_PYOGENES_SPECIES_TYPING (
+            ch_samples_by_species.streptococcus_pyogenes
         )
-        ch_emmtyper_results = EMMTYPER.out.emmtyper_results
-        ch_versions = ch_versions.mix(EMMTYPER.out.versions)
-        
-        if (params.paired_end && !params.ont_data) {
-            EMMTYPINGTOOL (
-                ch_reads
-            )
-            ch_emmtypingtool_results = EMMTYPINGTOOL.out.emmtypingtool_results
-            ch_versions = ch_versions.mix(EMMTYPINGTOOL.out.versions)
-        }
     }
-    
+
     // Haemophilus influenzae typing path
     if (merlin_tag == "Haemophilus influenzae") {
         HICAP (
@@ -255,8 +214,6 @@ workflow MERLIN_MAGIC {
     // We can remove all emits from MERLIN_MAGIC as the individual modules handle their own publishing
     // The only one we would necessarily need to emit is versions
     amr_search_results         = ch_amr_search_results
-    emmtyper_results           = ch_emmtyper_results
-    emmtypingtool_results      = ch_emmtypingtool_results
     hicap_results              = ch_hicap_results
     srst2_vibrio_results       = ch_srst2_vibrio_results
     vibecheck_results          = ch_vibecheck_results
