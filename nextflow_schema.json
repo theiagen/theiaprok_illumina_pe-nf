@@ -438,12 +438,12 @@
             "default": "virulence_ecoli"
         },
         "virulencefinder_min_percent_coverage": {
-            "type": "integer",
-            "default": 60
+            "type": "number",
+            "default": 0.60
         },
         "virulencefinder_min_percent_identity": {
-            "type": "integer",
-            "default": 90
+            "type": "number",
+            "default": 0.90
         },
         "tbp_parser_config": {
             "type": "string"
