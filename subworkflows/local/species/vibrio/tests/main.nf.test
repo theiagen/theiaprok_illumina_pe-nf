@@ -1,0 +1,68 @@
+nextflow_workflow {
+    name "Test Subworkflow VIBRIO_SPECIES_TYPING"
+    script '../main.nf'
+    workflow 'VIBRIO_SPECIES_TYPING'
+
+    test("vibrio_species_typing - srst2 and vibecheck test") {
+        when {
+            params {
+                paired_end = true
+                assembly_only = false
+                ont_data = false
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("https://raw.githubusercontent.com/theiagen/test-datasets/refs/heads/vibrio/data/SRR7062531_filtered_contigs.fasta"),
+                    [
+                        file("../../../../test-datasets/data/nonsubsampled/SRR7062531_1.fastq.gz", checkIfExists: true),
+                        file("../../../../test-datasets/data/nonsubsampled/SRR7062531_2.fastq.gz", checkIfExists: true)
+                    ],
+                    "Vibrio"
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.srst2_vibrio_results,
+                    workflow.out.vibecheck_results,
+                    workflow.out.abricate_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+    test("vibrio_species_typing - assembly only test") {
+        when {
+            params {
+                assembly_only = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    file("https://raw.githubusercontent.com/theiagen/test-datasets/refs/heads/vibrio/data/SRR7062531_filtered_contigs.fasta"),
+                    [
+                        file("../../../../test-datasets/data/nonsubsampled/SRR7062531_1.fastq.gz", checkIfExists: true),
+                        file("../../../../test-datasets/data/nonsubsampled/SRR7062531_2.fastq.gz", checkIfExists: true)
+                    ],
+                    "Vibrio"
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.abricate_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

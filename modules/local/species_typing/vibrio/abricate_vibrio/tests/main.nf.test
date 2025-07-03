@@ -9,7 +9,7 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id:'test_sample' ],
-                    file(params.modules_testdata_base_path + "vibrio_test.fasta", checkIfExists: true)
+                    file("https://raw.githubusercontent.com/theiagen/test-datasets/refs/heads/vibrio/data/SRR7062531_filtered_contigs.fasta", checkIfExists: true)
                 ])
                 input[1] = "vibrio"  // database_type
                 input[2] = 90        // min_percent_identity
