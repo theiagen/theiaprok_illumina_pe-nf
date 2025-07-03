@@ -27,6 +27,9 @@ include { ESCHERICHIA_SHIGELLA_TYPING } from '../../../local/species/ecoli_shige
 include { MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING } from '../../../local/species/mycobacterium/main'
 include { KLEBSIELLA_TYPING } from '../../../local/species/klebsiella/main'
 include { NEISSERIA_GONORRHOEAE_TYPING } from '../../../local/species/neisseria_gonorrhoeae/main'
+include { NEISSERIA_MENINGITIDIS_TYPING } from '../../../local/species/neisseria_meningitidis/main'
+include { PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING } from '../../../local/species/pseudomonas/main'
+include { LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING } from '../../species/legionella_pneumophila/main.nf'
 
 workflow MERLIN_MAGIC {
     
@@ -51,6 +54,10 @@ workflow MERLIN_MAGIC {
                         it[3] == "Klebsiella aerogenes" || 
                         it[3] == "Klebsiella oxytoca"
         neisseria_gonorrhoeae: it[3] == "Neisseria gonorrhoeae"
+        neisseria_meningitidis: it[3] == "Neisseria meningitidis"
+        pseudomonas_aeruginosa: it[3] == "Pseudomonas aeruginosa"
+        legionella_pneumophila: it[3] == "Legionella pneumophila"
+
     }
 
     ACINETOBACTER_SPECIES_TYPING(ch_samples_by_species.acinetobacter)
@@ -70,6 +77,7 @@ workflow MERLIN_MAGIC {
         ESCHERICHIA_SHIGELLA_TYPING(ch_samples_by_species.ecoli_shigella)
     }
 
+    // Prepare for TB
     ch_mtb_with_reads = ch_samples_by_species.mycobacterium
         .filter { meta, assembly, reads, species -> 
             reads && !reads.isEmpty() 
@@ -94,31 +102,26 @@ workflow MERLIN_MAGIC {
         )
     }
     
-    // Neisseria meningitidis typing
-    if (merlin_tag == "Neisseria meningitidis") {
-        MENINGOTYPE (
-            ch_assembly
+    // Neisseria meningitidis
+    if (!ch_samples_by_species.neisseria_meningitidis.isEmpty()) {
+        NEISSERIA_MENINGITIDIS_TYPING (
+            ch_samples_by_species.neisseria_meningitidis
         )
-        ch_meningotype_results = MENINGOTYPE.out.meningotype_report
-        ch_versions = ch_versions.mix(MENINGOTYPE.out.versions)
     }
-    
-    // Pseudomonas aeruginosa typing
-    if (merlin_tag == "Pseudomonas aeruginosa") {
-        PASTY (
-            ch_assembly
+
+    // Pseudomonas aerugonosa
+    if (!ch_samples_by_species.pseudomonas_aeruginosa.isEmpty()) {
+        PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING (
+            ch_samples_by_species.pseudomonas_aeruginosa
         )
-        ch_pasty_results = PASTY.out.pasty_summary_tsv
-        ch_versions = ch_versions.mix(PASTY.out.versions)
     }
+
     
     // Legionella pneumophila typing
-    if (merlin_tag == "Legionella pneumophila") {
-        LEGSTA (
-            ch_assembly
+    if (!ch_samples_by_species.legionella_pneumophila.isEmpty()) {
+        LEGIONELLA_PNEUMOPHILA_SPECIES_TYPING (
+            ch_samples_by_species.legionella_pneumophila
         )
-        ch_legsta_results = LEGSTA.out.legsta_results
-        ch_versions = ch_versions.mix(LEGSTA.out.versions)
     }
     
     // Staphylococcus aureus typing

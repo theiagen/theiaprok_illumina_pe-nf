@@ -1,0 +1,47 @@
+nextflow_workflow {
+    name "Test Subworkflow NEISSERIA_MENINGITIDIS_TYPING"
+    script "../main.nf"
+    workflow "NEISSERIA_MENINGITIDIS_TYPING"
+
+    test("neisseria meningitidis - pasty characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_meningitidis', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/019/048/825/GCF_019048825.1_ASM1904882v1/GCF_019048825.1_ASM1904882v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [],
+                            "Pseudomonas aeruginosa"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.pasty_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

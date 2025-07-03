@@ -1,0 +1,47 @@
+nextflow_workflow {
+    name "Test Subworkflow PSEUDOMONAS_AERUGINOSA_SPECIES"
+    script "../main.nf"
+    workflow "PSEUDOMONAS_AERUGINOSA_SPECIES_TYPING"
+
+    test("pseudomonas_aeruginosa - pasty characterization") {
+        setup {
+            run("GUNZIP") {
+                script "../../../../../modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'test_pseudomonas', single_end:false],
+                        file('https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/765/GCF_000006765.1_ASM676v1/GCF_000006765.1_ASM676v1_genomic.fna.gz', checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+        
+        when {
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                    .map { meta, assembly -> 
+                        [
+                            meta, 
+                            assembly, 
+                            [],
+                            "Pseudomonas aeruginosa"
+                        ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.pasty_results,
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+    }
+}

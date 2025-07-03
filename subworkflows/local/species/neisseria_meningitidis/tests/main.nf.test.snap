@@ -1,0 +1,15 @@
+{
+    "neisseria meningitidis - pasty characterization": {
+        "content": [
+            null,
+            [
+                "versions.yml:md5,658325b5f1df943e15d0d3fe407e176f"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.5"
+        },
+        "timestamp": "2025-07-02T20:38:35.73292"
+    }
+}
