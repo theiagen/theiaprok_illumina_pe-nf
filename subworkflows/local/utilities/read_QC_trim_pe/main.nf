@@ -56,11 +56,6 @@ workflow READ_QC_TRIM_PE {
     ch_trimmomatic_stats = Channel.empty()
     ch_fastp_pe_html_report = Channel.empty()
     ch_midas_species_profile = Channel.empty()
-    ch_midas_log_file = Channel.empty()
-    ch_midas_primary_genus = Channel.empty()
-    ch_midas_secondary_genus = Channel.empty()
-    ch_midas_secondary_abundance = Channel.empty()
-    ch_midas_secondary_coverage = Channel.empty()
     ch_kraken2_report = Channel.empty()
 
     // Read processing - trimmomatic or fastp
@@ -148,11 +143,6 @@ workflow READ_QC_TRIM_PE {
             midas_db
         )
         ch_midas_species_profile = MIDAS.out.species_profile
-        ch_midas_log_file = MIDAS.out.log_file
-        ch_midas_primary_genus = MIDAS.out.primary_genus_file
-        ch_midas_secondary_genus = MIDAS.out.secondary_genus_file
-        ch_midas_secondary_abundance = MIDAS.out.secondary_genus_abundance_file
-        ch_midas_secondary_coverage = MIDAS.out.secondary_genus_coverage_file
         ch_versions = ch_versions.mix(MIDAS.out.versions)
     }
 
@@ -200,11 +190,6 @@ workflow READ_QC_TRIM_PE {
     fastp_html_report        = ch_fastp_pe_html_report
     // MIDAS outputs
     midas_species_profile    = ch_midas_species_profile
-    midas_log_file           = ch_midas_log_file
-    midas_primary_genus      = ch_midas_primary_genus
-    midas_secondary_genus    = ch_midas_secondary_genus
-    midas_secondary_abundance  = ch_midas_secondary_abundance
-    midas_secondary_coverage = ch_midas_secondary_coverage
     // Versions
     versions                 = ch_versions
 }
