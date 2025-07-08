@@ -299,27 +299,27 @@
             "properties": {
                 "midas_db": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/midas/midas_db_v1.2.tar.gz"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/midas/midas_db_v1.2.tar.gz"
                 },
                 "kraken_db": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/kraken2/terra_databases_kraken2_kraken2.kalamari_5.1.tar"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/kraken2/terra_databases_kraken2_kraken2.kalamari_5.1.tar"
                 },
                 "kmerfinder_db": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/kmerfinder/kmerfinder_bacteria_20230911.tar.gz"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/kmerfinder/kmerfinder_bacteria_20230911.tar.gz"
                 },
                 "gambit_db_genomes": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/gambit/gambit-metadata-2.0.1-20250505.gdb"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/gambit/gambit-metadata-2.0.1-20250505.gdb"
                 },
                 "gambit_db_signatures": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/gambit/gambit-signatures-2.0.1-20250505.gs"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/gambit/gambit-signatures-2.0.1-20250505.gs"
                 },
                 "bakta_db_path": {
                     "type": "string",
-                    "default": "s3://tgn-latch-dev-database-2025/bakta/"
+                    "default": "latch://tgn-latch-dev-database-2025.mount/bakta/"
                 },
                 "resfinder_db_res": {
                     "type": "string"

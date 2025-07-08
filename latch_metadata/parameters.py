@@ -165,12 +165,6 @@ generated_parameters = {
         section_title=None,
         description=None,
     ),
-    'trimmomatic_args': NextflowParameter(
-        type=typing.Optional[str],
-        default='--phred33',
-        section_title=None,
-        description=None,
-    ),
     'fastp_args': NextflowParameter(
         type=typing.Optional[str],
         default='--detect_adapter_for_pe -g -5 20 -3 20',
