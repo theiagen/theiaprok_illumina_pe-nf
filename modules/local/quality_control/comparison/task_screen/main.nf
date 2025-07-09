@@ -14,10 +14,11 @@ process CHECK_READS {
     val min_proportion
     val workflow_series
     val expected_genome_length
+    val task_prefix
 
     output:
     tuple val(meta), path("*_read_screen.tsv"), emit: read_screen_tsv
-    tuple val(meta), path("READ_SCREEN_FLAG_value.txt"), emit: read_screen
+    tuple val(meta), path("*_READ_SCREEN_FLAG_value.txt"), emit: read_screen
     tuple val(meta), path("*_value.txt"), emit: read_screen_value_results
     path "versions.yml", emit: versions
 
@@ -175,8 +176,8 @@ process CHECK_READS {
     READ_SCREEN_FLAG="\$fail_log"
     EST_GENOME_LENGTH="\$estimated_genome_length"
 
-    echo "\${READ_SCREEN_FLAG}" > READ_SCREEN_FLAG_value.txt
-    echo "\${EST_GENOME_LENGTH}" > EST_GENOME_LENGTH_value.txt
+    echo "\${READ_SCREEN_FLAG}" > ${task_prefix}_READ_SCREEN_FLAG_value.txt
+    echo "\${EST_GENOME_LENGTH}" > ${task_prefix}_EST_GENOME_LENGTH_value.txt
 
 
     cat <<-END_VERSIONS > versions.yml
@@ -195,8 +196,8 @@ END_VERSIONS
     READ_SCREEN_FLAG="PASS"
     EST_GENOME_LENGTH="3000000"
 
-    echo "\${READ_SCREEN_FLAG}" > READ_SCREEN_FLAG_value.txt
-    echo "\${EST_GENOME_LENGTH}" > EST_GENOME_LENGTH_value.txt
+    echo "\${READ_SCREEN_FLAG}" > ${task_prefix}_READ_SCREEN_FLAG_value.txt
+    echo "\${EST_GENOME_LENGTH}" > ${task_prefix}_EST_GENOME_LENGTH_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

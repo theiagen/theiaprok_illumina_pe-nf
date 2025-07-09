@@ -69,7 +69,8 @@ workflow THEIAPROK_ILLUMINA_PE {
             min_coverage,
             min_proportion,
             "theiaprok",
-            params.genome_length ?: ""
+            params.genome_length ?: "",
+            "raw"
         )
         ch_read_screen_raw = RAW_CHECK_READS.out.read_screen
         ch_value_outputs = RAW_CHECK_READS.out.read_screen_value_results
@@ -123,7 +124,8 @@ workflow THEIAPROK_ILLUMINA_PE {
             min_coverage,
             min_proportion,
             "theiaprok",
-            params.genome_length ?: ""
+            params.genome_length ?: "",
+            "clean"
         )
         ch_read_screen_clean = CLEAN_CHECK_READS.out.read_screen
         ch_value_outputs = ch_value_outputs.mix(CLEAN_CHECK_READS.out.read_screen_value_results)
