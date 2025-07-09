@@ -21,6 +21,8 @@ include { PLASMIDFINDER } from '../../modules/local/gene_typing/plasmid_detectio
 include { ABRICATE } from '../../modules/local/gene_typing/drug_resistance/abricate/main'
 include { UTILITY_JSON_BUILDER } from '../../modules/local/utilities/json_builder/main'
 
+// Failure report module for "soft" failures
+include { CREATE_FAILURE_REPORT } from '../../modules/local/reports/failure/main'
 workflow THEIAPROK_ILLUMINA_PE {
     
     take:
@@ -52,12 +54,21 @@ workflow THEIAPROK_ILLUMINA_PE {
     def genome_annotation = params.genome_annotation ?: "prokka"
     def bakta_db = params.bakta_db ?: "full"
     
-    // Initialize output channels
-    ch_assembly = Channel.empty()
+     ch_assembly = Channel.empty()
     ch_read_screen_raw = Channel.empty()
     ch_read_screen_clean = Channel.empty()
     ch_value_outputs = Channel.empty()
     
+    ch_estimated_genome_length = Channel.empty()
+    ch_clean_reads = Channel.empty()
+    ch_quast_report = Channel.empty()
+    ch_cg_pipeline_raw = Channel.empty()
+    ch_cg_pipeline_clean = Channel.empty()
+    ch_busco_report = Channel.empty()
+    ch_busco_results = Channel.empty()
+    
+    // Capture failed samples -- based on our criteria
+    ch_failed_samples = Channel.empty()
 
     if (!skip_screen) {
         RAW_CHECK_READS (
@@ -76,24 +87,26 @@ workflow THEIAPROK_ILLUMINA_PE {
         ch_value_outputs = RAW_CHECK_READS.out.read_screen_value_results
         ch_versions = ch_versions.mix(RAW_CHECK_READS.out.versions)
         
-    ch_reads_to_process = ch_reads
-        .join(ch_read_screen_raw)
-        .filter { it[2].text.trim() == "PASS" }
-        .map { [it[0], it[1]] }
+        ch_reads
+            .join(ch_read_screen_raw)
+            .branch { meta, reads, screen_result ->
+                pass: screen_result.text.trim() == "PASS"
+                    return [meta, reads]
+                fail: screen_result.text.trim() != "PASS"
+                    return [meta, reads, screen_result, "RAW_SCREEN_FAIL"]
+            }
+            .set { ch_raw_screen_branch }
+
+        ch_reads_to_process = ch_raw_screen_branch.pass
+        ch_failed_samples = ch_failed_samples.mix(ch_raw_screen_branch.fail)
+
     } else {
         ch_reads_to_process = ch_reads
     }
     
-    // Only proceed if reads pass screening or screening is skipped
-    ch_reads_to_process
-        .ifEmpty { 
-            log.warn "No samples passed raw read screening"
-        }
-        .set { ch_reads_for_qc }
-    
     // Read QC and trimming
     READ_QC_TRIM_PE (
-        ch_reads_for_qc,
+        ch_reads_to_process,
         trim_min_length,
         trim_quality_min_score,
         trim_window_size,
@@ -131,37 +144,58 @@ workflow THEIAPROK_ILLUMINA_PE {
         ch_value_outputs = ch_value_outputs.mix(CLEAN_CHECK_READS.out.read_screen_value_results)
         ch_versions = ch_versions.mix(CLEAN_CHECK_READS.out.versions)
         
-        ch_clean_reads_to_process = ch_clean_reads
+        // Split channels for processing passing and failure samples
+        ch_clean_reads
             .join(ch_read_screen_clean)
-            .filter { it[2].text.trim() == "PASS" }
-            .map { [it[0], it[1]] }
+            .branch { meta, reads, screen_result ->
+                pass: screen_result.text.trim() == "PASS"
+                    return [meta, reads]
+                fail: screen_result.text.trim() != "PASS"
+                    return [meta, reads, screen_result, "CLEAN_SCREEN_FAIL"]
+            }
+            .set { ch_clean_screen_branch }
+        
+        ch_clean_reads_to_process = ch_clean_screen_branch.pass
+        ch_failed_samples = ch_failed_samples.mix(ch_clean_screen_branch.fail)
     } else {
         ch_clean_reads_to_process = ch_clean_reads
     }
     
-    // Only proceed with assembly if clean reads pass screening
-    // I think this is the right way to hanlde it, but it could be improved
-    ch_clean_reads_to_process
-        .ifEmpty { 
-            log.warn "No samples passed clean read screening"
-        }
-        .set { ch_reads_for_assembly }
-    
-    // If we have reads, we can proceed with assembly -- might want to add assembly failure handling later
+    // Assembly and downstream analysis
     DIGGER_DENOVO (
-        ch_reads_for_assembly
+        ch_clean_reads_to_process
     )
     ch_assembly = DIGGER_DENOVO.out.assembly
     ch_versions = ch_versions.mix(DIGGER_DENOVO.out.versions)
     
+    // Check for assembly failures
+    ch_assembly
+        .branch { meta, assembly ->
+            pass: assembly && assembly.exists() && assembly.size() > 0
+                return [meta, assembly]
+            fail: true
+                return [meta, [], "ASSEMBLY_FAIL"]
+        }
+        .set { ch_assembly_branch }
+
+    ch_assembly = ch_assembly_branch.pass
+    // If assembly failed, add to failed samples with a reason
+    // This is a "soft" failure, we still want to run the rest of the workflow
+    ch_failed_samples = ch_failed_samples.mix(
+        ch_assembly_branch.fail.map { meta, assembly, fail_type ->
+            [meta, [], fail_type, "Assembly failed or produced empty output"]
+        }
+    )
+    
     QUAST (
         ch_assembly
     )
+    ch_quast_report = QUAST.out.report
     ch_versions = ch_versions.mix(QUAST.out.versions)
     
-    // Get genome length for coverage calculations
+    // Get genome length for coverage calculations, can refactore later
     ch_genome_length_for_cg = ch_assembly
-        .join(QUAST.out.report)
+        .join(ch_quast_report)
         .map { meta, assembly, report ->
             def genome_length = report.text.readLines()
                 .find { it ==~ /^Total length\t.*/ }
@@ -183,6 +217,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         "raw"
     )
     ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_RAW.out.cg_pipeline_value_results)
+    ch_cg_pipeline_raw = CG_PIPELINE_RAW.out.cg_pipeline_report
     ch_versions = ch_versions.mix(CG_PIPELINE_RAW.out.versions)
     
     ch_cg_clean_input = ch_clean_reads
@@ -198,12 +233,15 @@ workflow THEIAPROK_ILLUMINA_PE {
         "clean"
     )
     ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_CLEAN.out.cg_pipeline_value_results)
+    ch_cg_pipeline_clean = CG_PIPELINE_CLEAN.out.cg_pipeline_report
     ch_versions = ch_versions.mix(CG_PIPELINE_CLEAN.out.versions)
     
     BUSCO (
         ch_assembly,
         false  // eukaryote = false for bacteria
     )
+    ch_busco_report = BUSCO.out.busco_report
+    ch_busco_results = BUSCO.out.busco_value_results
     ch_versions = ch_versions.mix(BUSCO.out.versions)
     ch_value_outputs = ch_value_outputs.mix(BUSCO.out.busco_value_results)
 
@@ -247,7 +285,6 @@ workflow THEIAPROK_ILLUMINA_PE {
         
         // Split organism and merlin_tag for different uses
         ch_organism = ch_organism_and_tag.map { meta, organism, merlin_tag -> [meta, organism] }
-         
         
         if (call_ani) {
             ANI_MUMMER (
@@ -261,7 +298,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         if (call_kmerfinder) {
             KMERFINDER_BACTERIA (
                 ch_assembly,
-                params.kmerfinder_db ?: [],
+                params.kmerfinder_db ?: []
             )
             ch_value_outputs = ch_value_outputs.mix(KMERFINDER_BACTERIA.out.kmerfinder_value_results)
             ch_versions = ch_versions.mix(KMERFINDER_BACTERIA.out.versions)
@@ -354,7 +391,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             ch_versions = ch_versions.mix(ABRICATE.out.versions)
         }
 
-       if (params.run_merlin_magic ?: true) {
+        if (params.run_merlin_magic ?: true) {
             // Create channel with sample data and merlin_tag for each sample
             ch_merlin_input = ch_assembly
                 .join(ch_clean_reads, by: 0)
@@ -381,9 +418,34 @@ workflow THEIAPROK_ILLUMINA_PE {
                 ch_merlin_input
             )
             ch_value_outputs = ch_value_outputs.mix(MERLIN_MAGIC.out.value_results)
-        }
             ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
+        }
     }
+
+    // In the spirit of PHB, do a soft failure if reads did not pass or if assembly failed
+    ch_failure_input = ch_failed_samples
+        .map { meta, reads, screen_result_or_fail_type, fail_reason_or_type ->
+            def fail_type = ""
+            def fail_reason = ""
+            def screen_result = ""
+            
+            if (screen_result_or_fail_type instanceof String) {
+                fail_type = screen_result_or_fail_type
+                fail_reason = fail_reason_or_type ?: "Unknown failure"
+            } else {
+
+                fail_type = fail_reason_or_type
+                screen_result = screen_result_or_fail_type.text.trim()
+                fail_reason = "Sample failed ${fail_type}: ${screen_result}"
+            }
+            
+            [meta, fail_type, fail_reason]
+        }
+
+    CREATE_FAILURE_REPORT (
+        ch_failure_input
+    )
+    ch_versions = ch_versions.mix(CREATE_FAILURE_REPORT.out.versions)
     
     ch_value_outputs = ch_value_outputs
         .groupTuple() // Group by sample ID to ensure unique entries
@@ -403,15 +465,18 @@ workflow THEIAPROK_ILLUMINA_PE {
     value_json = UTILITY_JSON_BUILDER.out.value_json_output
     
     // QUAST outputs
-    quast_report = QUAST.out.report
+    quast_report = ch_quast_report
     
     // CG Pipeline outputs
-    cg_pipeline_raw = CG_PIPELINE_RAW.out.cg_pipeline_report
-    cg_pipeline_clean = CG_PIPELINE_CLEAN.out.cg_pipeline_report
+    cg_pipeline_raw = ch_cg_pipeline_raw
+    cg_pipeline_clean = ch_cg_pipeline_clean
     
     // BUSCO outputs
-    busco_report = BUSCO.out.busco_report
-    busco_results = BUSCO.out.busco_value_results
+    busco_report = ch_busco_report
+    busco_results = ch_busco_results
+    
+    // Failure reports
+    failure_reports = CREATE_FAILURE_REPORT.out.failure_report
     
     // Versions
     versions = ch_versions
