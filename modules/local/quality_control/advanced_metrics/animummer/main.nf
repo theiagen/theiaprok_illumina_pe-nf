@@ -3,7 +3,6 @@ process ANI_MUMMER {
     label 'process_low'
 
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/mummer:4.0.0-rgdv2"
 
     input:

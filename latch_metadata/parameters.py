@@ -5,7 +5,7 @@ import typing_extensions
 
 from flytekit.core.annotation import FlyteAnnotation
 
-from latch.types.metadata import NextflowParameter
+from latch.types.metadata import NextflowParameter, LatchParameter
 from latch.types.file import LatchFile
 from latch.types.directory import LatchDir, LatchOutputDir
 
@@ -20,6 +20,13 @@ class Sample:
     read2: typing.Optional[LatchFile]
 
 generated_parameters = {
+    'table_id': LatchParameter(
+        display_name="Input Table ID",
+        batch_table_column=True,
+        # Show a table picker instead of a normal int input
+        _custom_ingestion="registry_table",
+        section_title='Latch Table',
+    ),
     'input': NextflowParameter(
         type=typing.List[Sample],
         samplesheet=True,

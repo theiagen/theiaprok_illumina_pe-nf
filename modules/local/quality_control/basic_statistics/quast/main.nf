@@ -1,10 +1,7 @@
-
-
 process QUAST {
     tag "$meta.id"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/quast:5.0.2"
 
     input:

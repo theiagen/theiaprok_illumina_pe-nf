@@ -2,7 +2,6 @@ process TS_MLST {
     tag "$meta.id"
     label "process_low"
 
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/mlst:2.23.0-2024-12-31"
 
     input:

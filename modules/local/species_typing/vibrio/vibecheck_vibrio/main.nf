@@ -2,7 +2,6 @@ process VIBECHECK_VIBRIO {
     tag "$meta.id"
     label 'process_single'
 
-    // conda "${moduleDir}/environment.yml"
     // container "docker.io/watronfire/vibecheck:2025.02.24"
     container "wave.seqera.io/wt/b73ba3a93c0e/wave/build:7541bf8cdb9f5a40" //Quick fix for the missing ps tool, see the accompanying Dockerfile
 

@@ -2,7 +2,6 @@ process SEQSERO2 {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/seqsero2:1.3.1"
 
     input:

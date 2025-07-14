@@ -2,10 +2,11 @@ process UTILITY_JSON_BUILDER {
     tag "${meta.id}"
     label 'process_low'
 
-    conda "python=3.9.17"
+    container "us-docker.pkg.dev/general-theiagen/theiagen/krakentools:d4a2fbe"
 
     input:
     tuple val(meta), path(value_files)
+    path('json_builder.py')
     
     output:
     tuple val(meta), path("*.json"), emit: value_json_output
@@ -13,6 +14,6 @@ process UTILITY_JSON_BUILDER {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    python $projectDir/bin/json_builder.py --value_files "${value_files}" --prefix "${prefix}"
+    python3 json_builder.py --value_files "${value_files}" --prefix "${prefix}"
     """
 }

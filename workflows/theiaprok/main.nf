@@ -54,7 +54,7 @@ workflow THEIAPROK_ILLUMINA_PE {
     def genome_annotation = params.genome_annotation ?: "prokka"
     def bakta_db = params.bakta_db ?: "full"
     
-     ch_assembly = Channel.empty()
+    ch_assembly = Channel.empty()
     ch_read_screen_raw = Channel.empty()
     ch_read_screen_clean = Channel.empty()
     ch_value_outputs = Channel.empty()
@@ -86,7 +86,6 @@ workflow THEIAPROK_ILLUMINA_PE {
         ch_read_screen_raw = RAW_CHECK_READS.out.read_screen
         ch_value_outputs = RAW_CHECK_READS.out.read_screen_value_results
         ch_versions = ch_versions.mix(RAW_CHECK_READS.out.versions)
-        
         ch_reads
             .join(ch_read_screen_raw)
             .branch { meta, reads, screen_result ->
@@ -453,7 +452,7 @@ workflow THEIAPROK_ILLUMINA_PE {
 
     // Collect all value outputs for the JSON builder
     UTILITY_JSON_BUILDER (
-        ch_value_outputs
+        ch_value_outputs, file("$projectDir/modules/local/utilities/json_builder/json_builder.py")
     )
 
     emit:

@@ -2,7 +2,6 @@ process SISTR {
     tag "$meta.id"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/sistr:1.1.3"
 
     input:
