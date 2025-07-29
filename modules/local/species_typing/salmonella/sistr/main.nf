@@ -12,7 +12,7 @@ process SISTR {
     tuple val(meta), path("*-allele.json")                      , emit: sistr_allele_json
     tuple val(meta), path("*-allele.fasta")                     , emit: sistr_allele_fasta
     tuple val(meta), path("*-cgmlst.csv")                       , emit: sistr_cgmlst
-    tuple val(meta), path("*_value_results.txt")                , emit: sistr_value_results
+    tuple val(meta), path("*_value.txt")                , emit: sistr_value_results
     tuple val(meta), path("sistr_predicted_serotype_value.txt") , emit: sistr_predicted_serotype
     path "versions.yml"                        , emit: versions
 
