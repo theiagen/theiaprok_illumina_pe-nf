@@ -10,7 +10,7 @@ process AGRVATE {
     output:
     tuple val(meta), path("*.agrvate.tsv")    , emit: agrvate_summary
     tuple val(meta), path("*.agrvate.tar.gz") , emit: agrvate_results
-    tuple val(meta), path("AGR_*")            , emit: agrvate_value_results
+    tuple val(meta), path("*_value.txt")      , emit: agrvate_value_results
     path "versions.yml"                       , emit: versions
 
     when:
@@ -51,33 +51,33 @@ process AGRVATE {
     # Edit output string AGR_CANONICAL to be more informative
     # https://github.com/VishnuRaghuram94/AgrVATE#results
     if [[ \$(cat AGR_CANONICAL.tmp) == 1 ]]; then
-        echo "1. canonical agrD" > AGR_CANONICAL
+        echo "1. canonical agrD" > AGR_CANONICAL_value.txt
     elif [[ \$(cat AGR_CANONICAL.tmp) == 0 ]]; then
-        echo "0. non-canonical agrD" > AGR_CANONICAL
+        echo "0. non-canonical agrD" > AGR_CANONICAL_value.txt
     elif [[ \$(cat AGR_CANONICAL.tmp) == "u" ]]; then
-        echo "u. unknown agrD" > AGR_CANONICAL
+        echo "u. unknown agrD" > AGR_CANONICAL_value.txt
     else 
-        echo "result unrecognized, please see summary agrvate TSV file" > AGR_CANONICAL
+        echo "result unrecognized, please see summary agrvate TSV file" > AGR_CANONICAL_value.txt
     fi
     
     # Edit output string AGR_MULTIPLE to be more informative
     # https://github.com/VishnuRaghuram94/AgrVATE#results
     if [[ \$(cat AGR_MULTIPLE.tmp) == "s" ]]; then
-        echo "s. single agr group found" > AGR_MULTIPLE
+        echo "s. single agr group found" > AGR_MULTIPLE_value.txt
     elif [[ \$(cat AGR_MULTIPLE.tmp) == "m" ]]; then
-        echo "m. multiple agr groups found" > AGR_MULTIPLE
+        echo "m. multiple agr groups found" > AGR_MULTIPLE_value.txt
     elif [[ \$(cat AGR_MULTIPLE.tmp) == "u" ]]; then
-        echo "u. unknown agr groups found" > AGR_MULTIPLE
+        echo "u. unknown agr groups found" > AGR_MULTIPLE_value.txt
     else 
-        echo "result unrecognized, please see summary agrvate TSV file" > AGR_MULTIPLE
+        echo "result unrecognized, please see summary agrvate TSV file" > AGR_MULTIPLE_value.txt
     fi
     
     # If AGR_NUM_FRAMESHIFTS is unknown, edit output string to be more informative
     # https://github.com/VishnuRaghuram94/AgrVATE#results
     if [[ \$(cat AGR_NUM_FRAMESHIFTS.tmp) == "u" ]]; then
-        echo "u or unknown; agr operon not extracted" > AGR_NUM_FRAMESHIFTS
+        echo "u or unknown; agr operon not extracted" > AGR_NUM_FRAMESHIFTS_value.txt
     else
-        cp AGR_NUM_FRAMESHIFTS.tmp AGR_NUM_FRAMESHIFTS
+        cp AGR_NUM_FRAMESHIFTS.tmp AGR_NUM_FRAMESHIFTS_value.txt
     fi
     
     # Create tarball of all output files
@@ -97,9 +97,9 @@ process AGRVATE {
     gzip ${prefix}.agrvate.tar
     echo "unknown" > AGR_GROUP
     echo "unknown" > AGR_MATCH_SCORE
-    echo "result unrecognized, please see summary agrvate TSV file" > AGR_CANONICAL
-    echo "result unrecognized, please see summary agrvate TSV file" > AGR_MULTIPLE
-    echo "u or unknown; agr operon not extracted" > AGR_NUM_FRAMESHIFTS
+    echo "result unrecognized, please see summary agrvate TSV file" > AGR_CANONICAL_value.txt
+    echo "result unrecognized, please see summary agrvate TSV file" > AGR_MULTIPLE_value.txt
+    echo "u or unknown; agr operon not extracted" > AGR_NUM_FRAMESHIFTS_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
