@@ -10,7 +10,7 @@ process GENOTYPHI {
     output:
     tuple val(meta), path("*_mykrobe_genotyphi_predictResults.tsv") , emit: genotyphi_report
     tuple val(meta), path("*.mykrobe_genotyphi.json")               , emit: genotyphi_json
-    tuple val(meta), path("*_value_results.txt")                    , emit: genotyphi_value_results
+    tuple val(meta), path("*_value.txt")                            , emit: genotyphi_value_results
     path "versions.yml"                                             , emit: versions
 
     when:

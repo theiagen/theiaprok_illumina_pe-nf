@@ -9,7 +9,7 @@ process SEQSERO2 {
 
     output:
     tuple val(meta), path("*_SeqSero_result.tsv")       , emit: seqsero2_report
-    tuple val(meta), path("*_value_results.txt")        , emit: seqsero2_value_results
+    tuple val(meta), path("*_value.txt")                , emit: seqsero2_value_results
     tuple val(meta), path("PREDICTED_SEROTYPE")         , emit: seqsero2_serotype
     path "versions.yml"                                 , emit: versions
 

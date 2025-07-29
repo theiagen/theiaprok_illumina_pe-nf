@@ -9,7 +9,7 @@ process KLEBORATE {
 
     output:
     tuple val(meta), path("*_kleborate_out.tsv")         , emit: kleborate_report
-    tuple val(meta), path("*_value_results.txt")         , emit: kleborate_value_results
+    tuple val(meta), path("*_value.txt")                 , emit: kleborate_value_results
     path "versions.yml"                                  , emit: versions
 
     when:
@@ -52,10 +52,10 @@ process KLEBORATE {
     mv VIRULENCE_SCORE kleborate_VIRULENCE_SCORE_value.txt
     mv RESISTANCE_SCORE kleborate_RESISTANCE_SCORE_value.txt
     mv NUM_RESISTANCE_GENES kleborate_NUM_RESISTANCE_GENES_value.txt
-    mv BLA_RESISTANCE_GENES kleborate_BLA_RESISTANCE_GENES
-    mv ESBL_RESISTANCE_GENES kleborate_ESBL_RESISTANCE_GENES
-    mv KEY_RESISTANCE_GENES kleborate_KEY_RESISTANCE_GENES
-    mv GENOMIC_RESISTANCE_MUTATIONS kleborate_GENOMIC_RESISTANCE_MUTATIONS
+    mv BLA_RESISTANCE_GENES kleborate_BLA_RESISTANCE_GENES_value.txt
+    mv ESBL_RESISTANCE_GENES kleborate_ESBL_RESISTANCE_GENES_value.txt
+    mv KEY_RESISTANCE_GENES kleborate_KEY_RESISTANCE_GENES_value.txt
+    mv GENOMIC_RESISTANCE_MUTATIONS kleborate_GENOMIC_RESISTANCE_MUTATIONS_value.txt
     mv K_TYPE kleborate_K_TYPE_value.txt
     mv K_LOCUS kleborate_K_LOCUS_value.txt
     mv O_TYPE kleborate_O_TYPE_value.txt

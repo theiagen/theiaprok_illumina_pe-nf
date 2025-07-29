@@ -12,7 +12,7 @@ process SONNEITYPER {
     tuple val(meta), path("*.mykrobe.csv"), optional: true, emit: mykrobe_report_csv
     tuple val(meta), path("*.mykrobe.json"), optional: true, emit: mykrobe_report_json
     tuple val(meta), path("*.sonneityping.tsv"), optional: true, emit: sonneityping_final_report
-    tuple val(meta), path("*_value_results.txt"), emit: sonneityping_value_results
+    tuple val(meta), path("*_value.txt"), emit: sonneityping_value_results
     path "versions.yml", emit: versions
 
     when:

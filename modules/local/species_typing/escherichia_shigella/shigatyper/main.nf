@@ -11,7 +11,7 @@ process SHIGATYPER {
     output:
     tuple val(meta), path("*_shigatyper_summary.tsv"), emit: shigatyper_summary
     tuple val(meta), path("*_shigatyper_hits.tsv"), emit: shigatyper_hits
-    tuple val(meta), path("*_value_results.txt"), emit: shigatyper_value_results
+    tuple val(meta), path("*_value.txt"), emit: shigatyper_value_results
     path "versions.yml", emit: versions
 
     when:

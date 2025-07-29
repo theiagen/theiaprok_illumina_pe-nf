@@ -9,7 +9,7 @@ process NGMASTER {
 
     output:
     tuple val(meta), path("*.ngmaster.tsv")      , emit: ngmast_report
-    tuple val(meta), path("*_value_results.txt") , emit: ngmast_value_results
+    tuple val(meta), path("*_value.txt")         , emit: ngmast_value_results
     path "versions.yml"                          , emit: versions
 
     when:
