@@ -1,6 +1,6 @@
 process BBDUK {
     tag "$meta.id"
-    label "process_low"
+    label "process_medium"
 
     container "us-docker.pkg.dev/general-theiagen/staphb/bbtools:38.76"
 
