@@ -1,6 +1,6 @@
 # Prologue
 # DO NOT CHANGE
-from 812206152185.dkr.ecr.us-west-2.amazonaws.com/latch-base-nextflow:v2.3.0
+from 812206152185.dkr.ecr.us-west-2.amazonaws.com/latch-base-nextflow:v3.0.0
 
 workdir /tmp/docker-build/work/
 
@@ -17,7 +17,7 @@ shell [ \
 ]
 env TZ='Etc/UTC'
 env LANG='en_US.UTF-8'
-
+env NXF_PLUGINS_TEST_REPOSITORY="https://github.com/theiagen/nf-theia/releases/download/v0.2.3/nf-theia-0.2.3-meta.json"
 arg DEBIAN_FRONTEND=noninteractive
 
 # Latch SDK
