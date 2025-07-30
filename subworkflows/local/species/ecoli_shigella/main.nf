@@ -38,10 +38,12 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
     ch_virulencefinder_results = Channel.empty()
     ch_shigatyper_results = Channel.empty()
     ch_sonneityper_results = Channel.empty()
+    ch_value_results = Channel.empty()
 
     // STX typer - special case: auto-run on Escherichia/Shigella, optional on others
     if (params.call_stxtyper) {
         STXTYPER (ch_assembly)
+        ch_value_results = ch_value_results.mix(STXTYPER.out.stxtyper_value_results)
         ch_stxtyper_results = STXTYPER.out.stxtyper_report
         ch_versions = ch_versions.mix(STXTYPER.out.stxtyper_version)
     }
@@ -49,6 +51,7 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
     SEROTYPEFINDER (
         ch_assembly
     )
+    ch_value_results = ch_value_results.mix(SEROTYPEFINDER.out.serotypefinder_serotype)
     ch_serotypefinder_results = SEROTYPEFINDER.out.serotypefinder_report
     ch_versions = ch_versions.mix(SEROTYPEFINDER.out.versions)
         
@@ -61,12 +64,14 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
         params.ectyper_verify ?: false,
         params.ectyper_print_alleles ?: false
     )
+    ch_value_results = ch_value_results.mix(ECTYPER.out.ectyper_predicted_serotype_file)
     ch_ectyper_results = ECTYPER.out.ectyper_results
     ch_versions = ch_versions.mix(ECTYPER.out.versions)
 
     SHIGEIFINDER (
         ch_assembly
     )
+    ch_value_results = ch_value_results.mix(SHIGEIFINDER.out.shigeifinder_value_results)
     ch_shigeifinder_results = SHIGEIFINDER.out.shigeifinder_report
     ch_versions = ch_versions.mix(SHIGEIFINDER.out.versions)
 
@@ -76,10 +81,12 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
         params.virulencefinder_min_percent_coverage ?: 0.60,
         params.virulencefinder_min_percent_identity ?: 0.80
     )
+    ch_value_results = ch_value_results.mix(VIRULENCEFINDER.out.virulence_factors)
     ch_virulencefinder_results = VIRULENCEFINDER.out.virulence_report
     ch_versions = ch_versions.mix(VIRULENCEFINDER.out.versions)
 
     SHIGATYPER (ch_shigatyper,params.ont_data ?: false)
+    ch_value_results = ch_value_results.mix(SHIGATYPER.out.shigatyper_value_results)
     ch_shigatyper_results = SHIGATYPER.out.shigatyper_summary
     ch_versions = ch_versions.mix(SHIGATYPER.out.versions)
 
@@ -87,6 +94,7 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
         ch_sonneityper,
         params.ont_data ?: false
     )
+    ch_value_results = ch_value_results.mix(SONNEITYPER.out.sonneityping_value_results)
     ch_sonneityper_results = SONNEITYPER.out.sonneityping_final_report
     ch_versions = ch_versions.mix(SONNEITYPER.out.versions)
 
@@ -98,5 +106,6 @@ workflow ESCHERICHIA_SHIGELLA_TYPING {
     virulencefinder_results = ch_virulencefinder_results
     shigatyper_results = ch_shigatyper_results
     sonneityper_results = ch_sonneityper_results
+    value_results = ch_value_results
     versions = ch_versions
 }

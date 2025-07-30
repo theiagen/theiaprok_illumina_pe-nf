@@ -10,8 +10,7 @@ process SPATYPER {
 
     output:
     tuple val(meta), path("*.tsv"), emit: tsv
-    tuple val(meta), path("REPEATS"), emit: repeats
-    tuple val(meta), path("TYPE"), emit: type
+    tuple val(meta), path("*_values.txt"), emit: spatyper_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -42,10 +41,10 @@ process SPATYPER {
             TYPE.append(row[-1])
             REPEATS.append(row[-2])
 
-        with open ("TYPE", 'wt') as TYPE_fh:
+        with open ("TYPE_values.txt", 'wt') as TYPE_fh:
             TYPE_fh.write(','.join(TYPE))
 
-        with open ("REPEATS", 'wt') as REPEATS_fh:
+        with open ("REPEATS_values.txt", 'wt') as REPEATS_fh:
             REPEATS_fh.write(','.join(REPEATS))
     EOF
 
@@ -60,8 +59,8 @@ process SPATYPER {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv
-    echo "No type found" > TYPE
-    echo "No repeats found" > REPEATS
+    echo "No type found" > TYPE_values.txt
+    echo "No repeats found" > REPEATS_values.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

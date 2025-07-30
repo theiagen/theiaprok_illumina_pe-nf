@@ -14,10 +14,7 @@ process SRST2_VIBRIO {
 
     output:
     tuple val(meta), path("*.detailed.tsv")    , emit: srst2_detailed_tsv
-    tuple val(meta), path("ctxA")              , emit: srst2_ctxa
-    tuple val(meta), path("ompW")              , emit: srst2_ompw
-    tuple val(meta), path("toxR")              , emit: srst2_toxr
-    tuple val(meta), path("BIOTYPE")           , emit: srst2_biotype
+    tuple val(meta), path("*_value.txt")       , emit: srst2_value_results
     tuple val(meta), path("SEROGROUP")         , emit: srst2_serogroup
     path "versions.yml"                        , emit: versions
 
@@ -84,6 +81,12 @@ process SRST2_VIBRIO {
     
     vibrio_parser.py \\
         ${prefix}.tsv
+
+    mv ctxa srst2_ctxA_value.txt
+    mv ompW srst2_ompW_value.txt
+    mv toxR srst2_toxR_value.txt
+    mv BIOTYPE srst2_biotype_value.txt
+    cp SEROGROUP srst2_serogroup_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

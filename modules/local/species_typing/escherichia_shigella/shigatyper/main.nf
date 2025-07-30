@@ -11,9 +11,7 @@ process SHIGATYPER {
     output:
     tuple val(meta), path("*_shigatyper_summary.tsv"), emit: shigatyper_summary
     tuple val(meta), path("*_shigatyper_hits.tsv"), emit: shigatyper_hits
-    tuple val(meta), path("SHIGATYPER_PREDICTION.txt"), emit: shigatyper_predicted_serotype
-    tuple val(meta), path("SHIGATYPER_IPAB.txt"), emit: shigatyper_ipaB_presence
-    tuple val(meta), path("SHIGATYPER_NOTES.txt"), emit: shigatyper_notes
+    tuple val(meta), path("*_value.txt"), emit: shigatyper_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -72,9 +70,9 @@ process SHIGATYPER {
        notes="ShigaTyper notes field was empty"
     fi
     
-    echo "\$prediction" > SHIGATYPER_PREDICTION.txt
-    echo "\$ipaB_status" > SHIGATYPER_IPAB.txt
-    echo "\$notes" > SHIGATYPER_NOTES.txt
+    echo "\$prediction" > SHIGATYPER_PREDICTION_value.txt
+    echo "\$ipaB_status" > SHIGATYPER_IPAB_value.txt
+    echo "\$notes" > SHIGATYPER_NOTES_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -87,9 +85,9 @@ process SHIGATYPER {
     """
     touch ${prefix}_shigatyper_summary.tsv
     touch ${prefix}_shigatyper_hits.tsv
-    echo "No serotype predicted" > SHIGATYPER_PREDICTION.txt
-    echo "Not determined" > SHIGATYPER_IPAB.txt
-    echo "ShigaTyper notes field was empty" > SHIGATYPER_NOTES.txt
+    echo "No serotype predicted" > SHIGATYPER_PREDICTION_value.txt
+    echo "Not determined" > SHIGATYPER_IPAB_value.txt
+    echo "ShigaTyper notes field was empty" > SHIGATYPER_NOTES_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

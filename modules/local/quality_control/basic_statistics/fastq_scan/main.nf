@@ -6,13 +6,12 @@ process FASTQ_SCAN_PE {
 
     input:
     tuple val(meta), path(reads)
-
+    val task_prefix
+    
     output:
     tuple val(meta), path("*_R1_fastq-scan.json"), emit: read1_fastq_scan_json
     tuple val(meta), path("*_R2_fastq-scan.json"), emit: read2_fastq_scan_json
-    tuple val(meta), path("READ1_SEQS"), emit: read1_seq
-    tuple val(meta), path("READ2_SEQS"), emit: read2_seq
-    tuple val(meta), path("READ_PAIRS"), emit: read_pairs
+    tuple val(meta), path("*_value.txt"), emit: fastq_scan_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -69,9 +68,9 @@ process FASTQ_SCAN_PE {
     READ_PAIRS="\$read_pairs"
 
     # Write read counts to files
-    echo "\$READ1_SEQS" > READ1_SEQS
-    echo "\$READ2_SEQS" > READ2_SEQS
-    echo "\$READ_PAIRS" > READ_PAIRS
+    echo "\$READ1_SEQS" > READ1_SEQS_value.txt
+    echo "\$READ2_SEQS" > READ2_SEQS_value.txt
+    echo "\$READ_PAIRS" > READ_PAIRS_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -89,9 +88,9 @@ process FASTQ_SCAN_PE {
     READ2_SEQS="1000"
     READ_PAIRS="1000"
 
-    echo "\$READ1_SEQS" > READ1_SEQS
-    echo "\$READ2_SEQS" > READ2_SEQS
-    echo "\$READ_PAIRS" > READ_PAIRS
+    echo "\$READ1_SEQS" > READ1_SEQS_value.txt
+    echo "\$READ2_SEQS" > READ2_SEQS_value.txt
+    echo "\$READ_PAIRS" > READ_PAIRS_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -12,10 +12,7 @@ process SONNEITYPER {
     tuple val(meta), path("*.mykrobe.csv"), optional: true, emit: mykrobe_report_csv
     tuple val(meta), path("*.mykrobe.json"), optional: true, emit: mykrobe_report_json
     tuple val(meta), path("*.sonneityping.tsv"), optional: true, emit: sonneityping_final_report
-    tuple val(meta), path("SPECIES.txt"), emit: sonneityping_species
-    tuple val(meta), path("FINAL_GENOTYPE.txt"), emit: sonnietyping_final_genotype
-    tuple val(meta), path("GENOTYPE_NAME.txt"), emit: sonneityping_genotype_name
-    tuple val(meta), path("CONFIDENCE.txt"), emit: genotype_confidence
+    tuple val(meta), path("*_value.txt"), emit: sonneityping_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -55,12 +52,17 @@ process SONNEITYPER {
 
         # Parse the output files to create final reports
         sonneityper_parser.py --sonnei_tsv ${prefix}.sonneityping.tsv
+
+        mv SPECIES.txt sonneityping_SPECIES_value.txt
+        mv FINAL_GENOTYPE.txt sonneityping_FINAL_GENOTYPE_value.txt
+        mv GENOTYPE_NAME.txt sonneityping_GENOTYPE_NAME_value.txt
+        mv CONFIDENCE.txt sonneityping_CONFIDENCE_value.txt
     else 
         echo "Error: sonneityping did not produce expected output file. Check mykrobe logs."
-        touch SPECIES.txt
-        touch FINAL_GENOTYPE.txt
-        touch GENOTYPE_NAME.txt
-        touch CONFIDENCE.txt
+        touch sonneityping_SPECIES_value.txt
+        touch sonneityping_FINAL_GENOTYPE_value.txt
+        touch sonneityping_GENOTYPE_NAME_value.txt
+        touch sonneityping_CONFIDENCE_value.txt
     fi
     
 
@@ -76,10 +78,10 @@ process SONNEITYPER {
     touch ${prefix}.mykrobe.csv
     touch ${prefix}.mykrobe.json
     touch ${prefix}.sonneityping.tsv
-    touch SPECIES.txt
-    touch FINAL_GENOTYPE.txt
-    touch GENOTYPE_NAME.txt
-    touch CONFIDENCE.txt
+    touch sonneityping_SPECIES_value.txt
+    touch sonneityping_FINAL_GENOTYPE_value.txt
+    touch sonneityping_GENOTYPE_NAME_value.txt
+    touch sonneityping_CONFIDENCE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -11,10 +11,7 @@ process MIDAS {
     output:
     tuple val(meta), path("*/species/*_species_profile.tsv"), emit: species_profile
     tuple val(meta), path("*/species/*_log.txt"), emit: log_file
-    tuple val(meta), path("PRIMARY_GENUS.txt"), emit: primary_genus_file
-    tuple val(meta), path("SECONDARY_GENUS.txt"), emit: secondary_genus_file
-    tuple val(meta), path("SECONDARY_GENUS_ABUNDANCE.txt"), emit: secondary_genus_abundance_file
-    tuple val(meta), path("SECONDARY_GENUS_COVERAGE.txt"), emit: secondary_genus_coverage_file
+    tuple val(meta), path("*_value.txt"), emit: midas_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -49,6 +46,11 @@ process MIDAS {
 
     parse_midas_output.py ${prefix}/species/${prefix}_species_profile.tsv
 
+    mv PRIMARY_GENUS.txt PRIMARY_GENUS_value.txt
+    mv SECONDARY_GENUS.txt SECONDARY_GENUS_value.txt
+    mv SECONDARY_GENUS_ABUNDANCE.txt SECONDARY_GENUS_ABUND_value.txt
+    mv SECONDARY_GENUS_COVERAGE.txt SECONDARY_GENUS_COVER_value.txt
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         midas: 1.3.2
@@ -62,10 +64,10 @@ process MIDAS {
     mkdir -p ${prefix}/species
     touch ${prefix}/species/${prefix}_species_profile.tsv
     touch ${prefix}/species/${prefix}_log.txt
-    touch PRIMARY_GENUS.txt
-    touch SECONDARY_GENUS.txt
-    touch SECONDARY_GENUS_ABUNDANCE.txt
-    touch SECONDARY_GENUS_COVERAGE.txt
+    touch PRIMARY_GENUS_value.txt
+    touch SECONDARY_GENUS_value.txt
+    touch SECONDARY_GENUS_ABUND_value.txt
+    touch SECONDARY_GENUS_COVER_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -30,8 +30,7 @@ process TBP_PARSER {
     tuple val(meta), path("*.laboratorian_report.csv"), emit: laboratorian_report
     tuple val(meta), path("*.lims_report.csv"), emit: lims_report
     tuple val(meta), path("*.percent_gene_coverage.csv"), emit: coverage_report
-    tuple val(meta), path ("GENOME_PC.txt"), emit: genome_percent_coverage
-    tuple val(meta), path ("AVG_DEPTH.txt"), emit: average_genome_depth
+    tuple val(meta), path ("*_value.txt"), emit: tbp_parser_value_results
     path "versions.yml", emit: versions
 
     script:
@@ -100,15 +99,15 @@ process TBP_PARSER {
       # get cumulative percent coverage for all primer regions over min_depth
       cumulative_primer_region_length=\$(samtools depth -a -J ${bam} -b "\$coverage_regions_bed" | wc -l)
       genome=\$(samtools depth -a -J ${bam} -b "\$coverage_regions_bed" | awk -F "\\t" -v min_depth=${min_depth} '{if (\$3 >= min_depth) print;}' | wc -l )
-      python3 -c "print ( (\$genome / \$cumulative_primer_region_length ) * 100 )" >> GENOME_PC.txt
+      python3 -c "print ( (\$genome / \$cumulative_primer_region_length ) * 100 )" >> GENOME_PC_value.txt
       # get average depth for all primer regions
-      samtools depth -a -J ${bam} -b "\$coverage_regions_bed" | awk -F "\\t" '{sum+=\$3} END { if (NR > 0) print sum/NR; else print 0 }' >> AVG_DEPTH.txt
+      samtools depth -a -J ${bam} -b "\$coverage_regions_bed" | awk -F "\\t" '{sum+=\$3} END { if (NR > 0) print sum/NR; else print 0 }' >> AVG_DEPTH_value.txt
     else
       # get genome percent coverage for the entire reference genome length over min_depth
       genome=\$(samtools depth -a -J ${bam} | awk -F "\\t" -v min_depth=${min_depth} '{if (\$3 >= min_depth) print;}' | wc -l )
-      python3 -c "print ( (\$genome / 4411532 ) * 100 )" >> GENOME_PC.txt
+      python3 -c "print ( (\$genome / 4411532 ) * 100 )" >> GENOME_PC_value.txt
       # get genome average depth
-      samtools depth -a -J ${bam} | awk -F "\\t" '{sum+=\$3} END { if (NR > 0) print sum/NR; else print 0 }' >> AVG_DEPTH.txt
+      samtools depth -a -J ${bam} | awk -F "\\t" '{sum+=\$3} END { if (NR > 0) print sum/NR; else print 0 }' >> AVG_DEPTH_value.txt
     fi
 
     # add sample id to the beginning of the coverage report

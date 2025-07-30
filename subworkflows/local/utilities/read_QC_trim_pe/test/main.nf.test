@@ -46,6 +46,7 @@ nextflow_workflow {
                     workflow.out.fastqc_clean_html1,
                     workflow.out.fastqc_clean_html2,
                     workflow.out.trimmomatic_stats,
+                    workflow.out.value_results,
                     workflow.out.versions).match() }
             )
         }
@@ -93,6 +94,7 @@ nextflow_workflow {
                     workflow.out.fastqc_clean_html1,
                     workflow.out.fastqc_clean_html2,
                     workflow.out.trimmomatic_stats,
+                    workflow.out.value_results,
                     workflow.out.versions).match() }
             )
         }

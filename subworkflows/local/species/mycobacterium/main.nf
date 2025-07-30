@@ -13,6 +13,7 @@ workflow MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING {
     ch_clockwork_results = Channel.empty()
     ch_tbprofiler_results = Channel.empty()
     ch_tbp_parser_results = Channel.empty()
+    ch_value_results = Channel.empty()
 
 
     // Extract reads for analysis
@@ -36,6 +37,7 @@ workflow MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING {
         ch_tb_reads,
         params.ont_data ?: false // Set to true if ONT data is used, ie. used in TheiaProk-ONT
     )
+    ch_value_results = ch_value_results.mix(TBPROFILER.out.tbprofiler_value_results)
     ch_tbprofiler_results = TBPROFILER.out.tbparser_inputs
     ch_versions = ch_versions.mix(TBPROFILER.out.versions)
 
@@ -60,6 +62,7 @@ workflow MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING {
         params.tbp_parser_etha237_frequency ?: 0.1,
         params.tbp_parser_expert_rule_regions_bed ?: ""
     )
+    ch_value_results = ch_value_results.mix(TBP_PARSER.out.tbp_parser_value_results)
     ch_tbp_parser_results = TBP_PARSER.out.looker_report
     ch_versions = ch_versions.mix(TBP_PARSER.out.versions)
 
@@ -67,6 +70,6 @@ workflow MYCOBACTERIUM_TUBERCULOSIS_SPECIES_TYPING {
     clockwork_results = ch_clockwork_results
     tbprofiler_results = ch_tbprofiler_results
     tbp_parser_results = ch_tbp_parser_results
-    
+    value_results = ch_value_results
     versions = ch_versions
 }

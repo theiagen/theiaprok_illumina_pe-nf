@@ -11,10 +11,7 @@ process PASTY {
     tuple val(meta), path("*.tsv")           , emit: pasty_summary_tsv
     tuple val(meta), path("*.blastn.tsv")    , emit: pasty_blast_hits
     tuple val(meta), path("*.details.tsv")   , emit: pasty_all_serogroups
-    tuple val(meta), path("SEROGROUP")       , emit: pasty_serogroup
-    tuple val(meta), path("COVERAGE")        , emit: pasty_serogroup_coverage
-    tuple val(meta), path("FRAGMENTS")       , emit: pasty_serogroup_fragments
-    tuple val(meta), path("COMMENT")         , emit: pasty_comment
+    tuple val(meta), path("*_value.txt")     , emit: pasty_value_results
     path "versions.yml"                      , emit: versions
 
     when:
@@ -37,10 +34,10 @@ process PASTY {
         ${args}
     
     # Parse outputs using external script
-    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f2 > SEROGROUP
-    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f3 > COVERAGE
-    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f4 > FRAGMENTS
-    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f5 > COMMENT
+    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f2 > PASTY_SEROGROUP_value.txt
+    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f3 > PASTY_COVERAGE_value.txt
+    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f4 > PASTY_FRAGMENTS_value.txt
+    awk 'FNR==2' "${prefix}.tsv" | cut -d\$'\\t' -f5 > PASTY_COMMENT_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -54,10 +51,10 @@ process PASTY {
     touch ${prefix}.tsv
     touch ${prefix}.blastn.tsv
     touch ${prefix}.details.tsv
-    touch SEROGROUP
-    touch COVERAGE
-    touch FRAGMENTS
-    touch COMMENT
+    touch PASTY_SEROGROUP_value.txt
+    touch PASTY_COVERAGE_value.txt
+    touch PASTY_FRAGMENTS_value.txt
+    touch PASTY_COMMENT_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

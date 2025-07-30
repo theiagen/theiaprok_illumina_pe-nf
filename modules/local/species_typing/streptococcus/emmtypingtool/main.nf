@@ -9,7 +9,7 @@ process EMMTYPINGTOOL {
 
     output:
     tuple val(meta), path("*.emmtypingtool.xml"), emit: emmtypingtool_results
-    tuple val(meta), path("EMM_TYPE"), emit: emmtypingtool_emm_type
+    tuple val(meta), path("emmtypingtool_EMM_TYPE_value.txt"), emit: emmtypingtool_emm_type
     path "versions.yml", emit: versions
 
     when:
@@ -32,7 +32,7 @@ process EMMTYPINGTOOL {
       -o output_dir \\
         ${args}
 
-    grep "Final_EMM_type" output_dir/*.results.xml | sed -n 's/.*value="\\([^"]*\\)".*/\\1/p' | tee EMM_TYPE
+    grep "Final_EMM_type" output_dir/*.results.xml | sed -n 's/.*value="\\([^"]*\\)".*/\\1/p' | tee emmtypingtool_EMM_TYPE_value.txt
     mv output_dir/*.results.xml ${prefix}.emmtypingtool.xml
 
     cat <<-END_VERSIONS > versions.yml

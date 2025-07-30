@@ -12,29 +12,9 @@ process KAPTIVE {
     val low_gene_percent_identity
 
     output:
-    tuple val(meta), path("*.tsv"),            emit: tables
-    tuple val(meta), path("BEST_MATCH_LOCUS_K"), emit: k_match
-    tuple val(meta), path("BEST_MATCH_TYPE_K"), emit: k_type
-    tuple val(meta), path("MATCH_CONFIDENCE_K"), emit: k_confidence
-    tuple val(meta), path("NUM_EXPECTED_INSIDE_K"), emit: k_expected_inside_count
-    tuple val(meta), path("EXPECTED_GENES_IN_LOCUS_K"), emit: k_expected_inside_genes
-    tuple val(meta), path("NUM_EXPECTED_OUTSIDE_K"), emit: k_expected_outside_count
-    tuple val(meta), path("EXPECTED_GENES_OUT_LOCUS_K"), emit: k_expected_outside_genes
-    tuple val(meta), path("NUM_OTHER_INSIDE_K"), emit: k_other_inside_count
-    tuple val(meta), path("OTHER_GENES_IN_LOCUS_K"), emit: k_other_inside_genes
-    tuple val(meta), path("NUM_OTHER_OUTSIDE_K"), emit: k_other_outside_count
-    tuple val(meta), path("OTHER_GENES_OUT_LOCUS_K"), emit: k_other_outside_genes
-    tuple val(meta), path("BEST_MATCH_LOCUS_OC"), emit: oc_match
-    tuple val(meta), path("BEST_MATCH_TYPE_OC"), emit: oc_type
-    tuple val(meta), path("MATCH_CONFIDENCE_OC"), emit: oc_confidence
-    tuple val(meta), path("NUM_EXPECTED_INSIDE_OC"), emit: oc_expected_inside_count
-    tuple val(meta), path("EXPECTED_GENES_IN_LOCUS_OC"), emit: oc_expected_inside_genes
-    tuple val(meta), path("NUM_EXPECTED_OUTSIDE_OC"), emit: oc_expected_outside_count
-    tuple val(meta), path("EXPECTED_GENES_OUT_LOCUS_OC"), emit: oc_expected_outside_genes
-    tuple val(meta), path("NUM_OTHER_INSIDE_OC"), emit: oc_other_inside_count
-    tuple val(meta), path("OTHER_GENES_IN_LOCUS_OC"), emit: oc_other_inside_genes
-    tuple val(meta), path("NUM_OTHER_OUTSIDE_OC"), emit: oc_other_outside_count
-    tuple val(meta), path("OTHER_GENES_OUT_LOCUS_OC"), emit: oc_other_outside_genes
+    tuple val(meta), path("*_kaptive_out_k_table.tsv"), emit: k_table
+    tuple val(meta), path("*_kaptive_out_oc_table.tsv"), emit: oc_table
+    tuple val(meta), path("*_value.txt"), emit: kaptive_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -87,6 +67,30 @@ process KAPTIVE {
 
     mv -v ${prefix}_kaptive_out_k_table.txt ${prefix}_kaptive_out_k_table.tsv
     mv -v ${prefix}_kaptive_out_oc_table.txt ${prefix}_kaptive_out_oc_table.tsv
+    
+    # Move output values to files labelled with prefix for json
+    mv BEST_MATCH_LOCUS_K BEST_MATCH_LOCUS_K_value.txt
+    mv BEST_MATCH_TYPE_K BEST_MATCH_TYPE_K_value.txt
+    mv MATCH_CONFIDENCE_K MATCH_CONFIDENCE_K_value.txt
+    mv NUM_EXPECTED_INSIDE_K NUM_EXPECTED_INSIDE_K_value.txt
+    mv EXPECTED_GENES_IN_LOCUS_K EXPECTED_GENES_IN_LOCUS_K_value.txt
+    mv NUM_EXPECTED_OUTSIDE_K NUM_EXPECTED_OUTSIDE_K_value.txt
+    mv EXPECTED_GENES_OUT_LOCUS_K EXPECTED_GENES_OUT_LOCUS_K_value.txt
+    mv NUM_OTHER_INSIDE_K NUM_OTHER_INSIDE_K_value.txt
+    mv OTHER_GENES_IN_LOCUS_K OTHER_GENES_IN_LOCUS_K_value.txt
+    mv NUM_OTHER_OUTSIDE_K NUM_OTHER_OUTSIDE_K_value.txt
+    mv OTHER_GENES_OUT_LOCUS_K OTHER_GENES_OUT_LOCUS_K_value.txt
+    mv BEST_MATCH_LOCUS_OC BEST_MATCH_LOCUS_OC_value.txt
+    mv BEST_MATCH_TYPE_OC BEST_MATCH_TYPE_OC_value.txt
+    mv MATCH_CONFIDENCE_OC MATCH_CONFIDENCE_OC_value.txt
+    mv NUM_EXPECTED_INSIDE_OC NUM_EXPECTED_INSIDE_OC_value.txt
+    mv EXPECTED_GENES_IN_LOCUS_OC EXPECTED_GENES_IN_LOCUS_OC_value.txt
+    mv NUM_EXPECTED_OUTSIDE_OC NUM_EXPECTED_OUTSIDE_OC_value.txt
+    mv EXPECTED_GENES_OUT_LOCUS_OC EXPECTED_GENES_OUT_LOCUS_OC_value.txt
+    mv NUM_OTHER_INSIDE_OC NUM_OTHER_INSIDE_OC_value.txt
+    mv OTHER_GENES_IN_LOCUS_OC OTHER_GENES_IN_LOCUS_OC_value.txt
+    mv NUM_OTHER_OUTSIDE_OC NUM_OTHER_OUTSIDE_OC_value.txt
+    mv OTHER_GENES_OUT_LOCUS_OC OTHER_GENES_OUT_LOCUS_OC_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

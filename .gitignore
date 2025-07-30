@@ -9,3 +9,5 @@ testing*
 *.log
 *.pyc
 null/
+.latch/
+.log/

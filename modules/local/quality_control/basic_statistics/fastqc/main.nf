@@ -6,15 +6,14 @@ process FASTQC {
 
     input:
     tuple val(meta), path(reads)
+    val task_prefix
 
     output:
     tuple val(meta), path("*_R1_fastqc.html"), emit: read1_fastqc_html
     tuple val(meta), path("*_R1_fastqc.zip"), emit: read1_fastqc_zip
     tuple val(meta), path("*_R2_fastqc.html"), emit: read2_fastqc_html
     tuple val(meta), path("*_R2_fastqc.zip"), emit: read2_fastqc_zip
-    tuple val(meta), path("READ1_SEQS.txt"), emit: read1_seq_txt
-    tuple val(meta), path("READ2_SEQS.txt"), emit: read2_seq_txt  
-    tuple val(meta), path("READ_PAIRS.txt"), emit: read_pairs_txt
+    tuple val(meta), path("*_value.txt"), emit: fastqc_value_results
     path "versions.yml", emit: versions
 
     when:
@@ -72,9 +71,9 @@ process FASTQC {
     fi
     
     # Write values to files for outputs
-    echo "\${read1_seqs}" > READ1_SEQS.txt
-    echo "\${read2_seqs}" > READ2_SEQS.txt
-    echo "\${read_pairs}" > READ_PAIRS.txt
+    echo "\${read1_seqs}" > READ1_SEQS_${task_prefix}_value.txt
+    echo "\${read2_seqs}" > READ2_SEQS_${task_prefix}_value.txt
+    echo "\${read_pairs}" > READ_PAIRS_${task_prefix}_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -89,10 +88,10 @@ process FASTQC {
     touch ${prefix}_R1_fastqc.zip
     touch ${prefix}_R2_fastqc.html
     touch ${prefix}_R2_fastqc.zip
-    
-    echo "1000" > READ1_SEQS.txt
-    echo "1000" > READ2_SEQS.txt
-    echo "1000" > READ_PAIRS.txt
+
+    echo "1000" > READ1_SEQS_${task_prefix}_value.txt
+    echo "1000" > READ2_SEQS_${task_prefix}_value.txt
+    echo "1000" > READ_PAIRS_${task_prefix}_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

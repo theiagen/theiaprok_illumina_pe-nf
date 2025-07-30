@@ -1,0 +1,36 @@
+nextflow_process {
+    name "Test Process UTILITY_JSON_BUILDER"
+    script "../main.nf"
+    process "UTILITY_JSON_BUILDER"
+
+    test("json_builder test") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id:'test_sample' ],
+                    [file("$projectDir/test-data/json_builder_value_files/AMR_CLASSES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/AMR_CORE_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/AMR_PLUS_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/AMR_SUBCLASSES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/BETA_LACTAM_BETA_LACTAM_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/BETA_LACTAM_CARBAPENEM_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/BETA_LACTAM_CEPHALOSPORIN_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/BETA_LACTAM_CEPHALOTHIN_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/BETA_LACTAM_METHICILLIN_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/STRESS_GENES.txt", checkIfExists: true),
+                    file("$projectDir/test-data/json_builder_value_files/VIRULENCE_GENES.txt", checkIfExists: true)]
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.value_json_output
+                    ).match() }
+            )
+        }
+    }
+}

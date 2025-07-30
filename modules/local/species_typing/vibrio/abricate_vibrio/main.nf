@@ -12,11 +12,7 @@ process ABRICATE_VIBRIO {
 
     output:
     tuple val(meta), path("*_abricate_hits.tsv"), emit: abricate_hits
-    tuple val(meta), path("CTXA.txt"), emit: ctxa
-    tuple val(meta), path("OMPW.txt"), emit: ompw
-    tuple val(meta), path("TOXR.txt"), emit: toxr
-    tuple val(meta), path("BIOTYPE.txt"), emit: biotype
-    tuple val(meta), path("SEROGROUP.txt"), emit: serogroup
+    tuple val(meta), path("*_value.txt"), emit: abricate_value_results
     path("versions.yml"), emit: versions
 
     script:
@@ -37,26 +33,26 @@ process ABRICATE_VIBRIO {
     
     # presence or absence genes - ctxA, ompW and toxR
     # if empty report as (not detected)
-    if grep -q '\\tctxA\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > CTXA.txt; else echo "present" > CTXA.txt; fi
-    if grep -q '\\tompW\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > OMPW.txt; else echo "present" > OMPW.txt; fi
-    if grep -q '\\ttoxR\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > TOXR.txt; else echo "present" > TOXR.txt; fi
+    if grep -q '\\tctxA\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > CTXA.txt; else echo "present" > abricate_vibrio_CTXA_value.txt; fi
+    if grep -q '\\tompW\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > OMPW.txt; else echo "present" > abricate_vibrio_OMPW_value.txt; fi
+    if grep -q '\\ttoxR\\t' ${prefix}_abricate_hits.tsv; then echo "(not detected)" > TOXR.txt; else echo "present" > abricate_vibrio_TOXR_value.txt; fi
 
     # biotype - tcpA classical or tcpA ElTor
     if grep -q '\ttcpA_classical\t' ${prefix}_abricate_hits.tsv; then
-      echo "tcpA_classical" > BIOTYPE.txt
+      echo "tcpA_classical" > abricate_vibrio_BIOTYPE_value.txt
     elif grep -q '\ttcpA_ElTor\t' ${prefix}_abricate_hits.tsv; then
-      echo "tcpA_ElTor" > BIOTYPE.txt
+      echo "tcpA_ElTor" > abricate_vibrio_BIOTYPE_value.txt
     else
-      echo "(not detected)" > BIOTYPE.txt
+      echo "(not detected)" > abricate_vibrio_BIOTYPE_value.txt
     fi
 
     # serogroup - O1 or O139
     if grep -q '\twbeN_O1\t' ${prefix}_abricate_hits.tsv; then
-      echo "O1" > SEROGROUP.txt
+      echo "O1" > abricate_vibrio_SEROGROUP_value.txt
     elif grep -q '\twbfR_O139\t' ${prefix}_abricate_hits.tsv; then
-      echo "O139" > SEROGROUP.txt
+      echo "O139" > abricate_vibrio_SEROGROUP_value.txt
     else
-      echo "(not detected)" > SEROGROUP.txt
+      echo "(not detected)" > abricate_vibrio_SEROGROUP_value.txt
     fi
 
     cat <<-END_VERSIONS > versions.yml
@@ -69,11 +65,11 @@ process ABRICATE_VIBRIO {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_abricate_hits.tsv
-    touch CTXA.txt
-    touch OMPW.txt
-    touch TOXR.txt
-    touch BIOTYPE.txt
-    touch SEROGROUP.txt
+    touch abricate_vibrio_CTXA.txt
+    touch abricate_vibrio_OMPW.txt
+    touch abricate_vibrio_TOXR.txt
+    touch abricate_vibrio_BIOTYPE.txt
+    touch abricate_vibrio_SEROGROUP.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

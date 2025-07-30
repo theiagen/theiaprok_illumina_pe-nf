@@ -9,21 +9,7 @@ process KLEBORATE {
 
     output:
     tuple val(meta), path("*_kleborate_out.tsv")         , emit: kleborate_report
-    tuple val(meta), path("SPECIES")                     , emit: kleborate_species
-    tuple val(meta), path("MLST_SEQUENCE_TYPE")          , emit: kleborate_mlst_sequence_type
-    tuple val(meta), path("VIRULENCE_SCORE")             , emit: kleborate_virulence_score
-    tuple val(meta), path("RESISTANCE_SCORE")            , emit: kleborate_resistance_score
-    tuple val(meta), path("NUM_RESISTANCE_GENES")        , emit: kleborate_num_resistance_genes
-    tuple val(meta), path("BLA_RESISTANCE_GENES")        , emit: kleborate_bla_resistance_genes
-    tuple val(meta), path("ESBL_RESISTANCE_GENES")       , emit: kleborate_esbl_resistance_genes
-    tuple val(meta), path("KEY_RESISTANCE_GENES")        , emit: kleborate_key_resistance_genes
-    tuple val(meta), path("GENOMIC_RESISTANCE_MUTATIONS"), emit: kleborate_genomic_resistance_mutations
-    tuple val(meta), path("K_TYPE")                      , emit: kleborate_k_type
-    tuple val(meta), path("K_LOCUS")                     , emit: kleborate_k_locus
-    tuple val(meta), path("O_TYPE")                      , emit: kleborate_o_type
-    tuple val(meta), path("O_LOCUS")                     , emit: kleborate_o_locus
-    tuple val(meta), path("K_LOCUS_CONFIDENCE")          , emit: kleborate_k_locus_confidence
-    tuple val(meta), path("O_LOCUS_CONFIDENCE")          , emit: kleborate_o_locus_confidence
+    tuple val(meta), path("*_value.txt")                 , emit: kleborate_value_results
     path "versions.yml"                                  , emit: versions
 
     when:
@@ -59,6 +45,23 @@ process KLEBORATE {
     # Call parser
     kleborate_parser.py \\
         ${prefix}_kleborate_out.tsv
+
+    # Rename output files
+    mv SPECIES kleborate_SPECIES_value.txt
+    mv MLST_SEQUENCE_TYPE kleborate_MLST_SEQUENCE_TYPE_value.txt
+    mv VIRULENCE_SCORE kleborate_VIRULENCE_SCORE_value.txt
+    mv RESISTANCE_SCORE kleborate_RESISTANCE_SCORE_value.txt
+    mv NUM_RESISTANCE_GENES kleborate_NUM_RESISTANCE_GENES_value.txt
+    mv BLA_RESISTANCE_GENES kleborate_BLA_RESISTANCE_GENES_value.txt
+    mv ESBL_RESISTANCE_GENES kleborate_ESBL_RESISTANCE_GENES_value.txt
+    mv KEY_RESISTANCE_GENES kleborate_KEY_RESISTANCE_GENES_value.txt
+    mv GENOMIC_RESISTANCE_MUTATIONS kleborate_GENOMIC_RESISTANCE_MUTATIONS_value.txt
+    mv K_TYPE kleborate_K_TYPE_value.txt
+    mv K_LOCUS kleborate_K_LOCUS_value.txt
+    mv O_TYPE kleborate_O_TYPE_value.txt
+    mv O_LOCUS kleborate_O_LOCUS_value.txt
+    mv K_LOCUS_CONFIDENCE kleborate_K_LOCUS_CONFIDENCE_value.txt
+    mv O_LOCUS_CONFIDENCE kleborate_O_LOCUS_CONFIDENCE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

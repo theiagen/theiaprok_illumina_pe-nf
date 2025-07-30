@@ -35,8 +35,6 @@ workflow READ_QC_TRIM_PE {
     // Not sure if this is the best way to handle these channels, but it works for now
     // Just trying to map the outputs to the expected channels like we do in the wdl version
     ch_trimmed_reads = Channel.empty()
-    ch_fastqc_raw = Channel.empty()
-    ch_fastqc_clean = Channel.empty()
     ch_fastq_scan_raw_r1 = Channel.empty()
     ch_fastq_scan_raw_r2 = Channel.empty()
     ch_fastq_scan_raw_pairs = Channel.empty()
@@ -57,6 +55,7 @@ workflow READ_QC_TRIM_PE {
     ch_fastp_pe_html_report = Channel.empty()
     ch_midas_species_profile = Channel.empty()
     ch_kraken2_report = Channel.empty()
+    ch_value_results = Channel.empty()
 
     // Read processing - trimmomatic or fastp
     if (read_processing == "trimmomatic") {
@@ -99,15 +98,15 @@ workflow READ_QC_TRIM_PE {
     // Quality control - fastqc or fastq_scan
     if (read_qc == "fastqc") {
         // FastQC on raw reads
-        FASTQC_RAW (reads)
-        ch_fastqc_raw = FASTQC_RAW.out
+        FASTQC_RAW (reads, "raw")
+        ch_value_results = ch_value_results.mix(FASTQC_RAW.out.fastqc_value_results)
         ch_versions = ch_versions.mix(FASTQC_RAW.out.versions)
         ch_fastqc_raw_read1_html = FASTQC_RAW.out.read1_fastqc_html
         ch_fastqc_raw_read2_html = FASTQC_RAW.out.read2_fastqc_html
 
         // FastQC on clean reads
-        FASTQC_CLEAN (ch_clean_reads)
-        ch_fastqc_clean = FASTQC_CLEAN.out
+        FASTQC_CLEAN (ch_clean_reads, "clean")
+        ch_value_results = ch_value_results.mix(FASTQC_CLEAN.out.fastqc_value_results)
         ch_fastqc_clean_html1 = FASTQC_CLEAN.out.read1_fastqc_html
         ch_fastqc_clean_html2 = FASTQC_CLEAN.out.read2_fastqc_html
         ch_fastqc_clean_zip1 = FASTQC_CLEAN.out.read1_fastqc_zip
@@ -118,19 +117,15 @@ workflow READ_QC_TRIM_PE {
 
     if (read_qc == "fastq_scan") {
         // FastQ-scan on raw reads
-        FASTQ_SCAN_PE_RAW (reads)
-        ch_fastq_scan_raw_r1 = FASTQ_SCAN_PE_RAW.out.read1_seq
-        ch_fastq_scan_raw_r2 = FASTQ_SCAN_PE_RAW.out.read2_seq
-        ch_fastq_scan_raw_pairs = FASTQ_SCAN_PE_RAW.out.read_pairs
+        FASTQ_SCAN_PE_RAW (reads, "raw")
+        ch_value_results = ch_value_results.mix(FASTQ_SCAN_PE_RAW.out.fastq_scan_value_results)
         ch_fastq_scan_raw_json1 = FASTQ_SCAN_PE_RAW.out.read1_fastq_scan_json
         ch_fastq_scan_raw_json2 = FASTQ_SCAN_PE_RAW.out.read2_fastq_scan_json
         ch_versions = ch_versions.mix(FASTQ_SCAN_PE_RAW.out.versions)
 
         // FastQ-scan on clean reads
-        FASTQ_SCAN_PE_CLEAN (ch_clean_reads)
-        ch_fastq_scan_clean_r1 = FASTQ_SCAN_PE_CLEAN.out.read1_seq
-        ch_fastq_scan_clean_r2 = FASTQ_SCAN_PE_CLEAN.out.read2_seq
-        ch_fastq_scan_clean_pairs = FASTQ_SCAN_PE_CLEAN.out.read_pairs
+        FASTQ_SCAN_PE_CLEAN (ch_clean_reads, "clean")
+        ch_value_results = ch_value_results.mix(FASTQ_SCAN_PE_CLEAN.out.fastq_scan_value_results)
         ch_fastq_scan_clean_json1 = FASTQ_SCAN_PE_CLEAN.out.read1_fastq_scan_json
         ch_fastq_scan_clean_json2 = FASTQ_SCAN_PE_CLEAN.out.read2_fastq_scan_json
         ch_versions = ch_versions.mix(FASTQ_SCAN_PE_CLEAN.out.versions)
@@ -143,6 +138,8 @@ workflow READ_QC_TRIM_PE {
             midas_db
         )
         ch_midas_species_profile = MIDAS.out.species_profile
+        ch_midas_log_file = MIDAS.out.log_file
+        ch_value_results = ch_value_results.mix(MIDAS.out.midas_value_results)
         ch_versions = ch_versions.mix(MIDAS.out.versions)
     }
 
@@ -155,6 +152,7 @@ workflow READ_QC_TRIM_PE {
             "classified#.fastq", // classified_out
             "unclassified#.fastq" // unclassified_out
         )
+        ch_value_results = ch_value_results.mix(KRAKEN2.out.kraken2_percent_human_file)
         ch_kraken2_report = KRAKEN2.out.kraken2_report
         ch_versions = ch_versions.mix(KRAKEN2.out.versions)
     }
@@ -190,6 +188,8 @@ workflow READ_QC_TRIM_PE {
     fastp_html_report        = ch_fastp_pe_html_report
     // MIDAS outputs
     midas_species_profile    = ch_midas_species_profile
+    // Value results
+    value_results            = ch_value_results
     // Versions
     versions                 = ch_versions
 }

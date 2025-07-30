@@ -20,7 +20,7 @@ process EMMTYPER {
 
     output:
     tuple val(meta), path("*_emmtyper.tsv"), emit: emmtyper_results
-    tuple val(meta), path("EMM_TYPE"), emit: emmtyper_emm_type
+    tuple val(meta), path("emmtyper_EMM_TYPE_value.txt"), emit: emmtyper_emm_type
     path "versions.yml", emit: versions
 
     when:
@@ -58,7 +58,7 @@ process EMMTYPER {
         ${assembly} > ${prefix}_emmtyper.tsv
 
     # emm type is in column 4 for verbose output format
-    awk -F "\\t" '{print \$4}' ${prefix}_emmtyper.tsv > EMM_TYPE
+    awk -F "\\t" '{print \$4}' ${prefix}_emmtyper.tsv > emmtyper_EMM_TYPE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

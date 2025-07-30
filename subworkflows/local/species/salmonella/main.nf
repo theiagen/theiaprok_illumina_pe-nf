@@ -10,6 +10,7 @@ workflow SALMONELLA_SPECIES_TYPING {
     main:
 
     ch_versions = Channel.empty()
+    ch_value_results = Channel.empty()
     ch_sistr_results = Channel.empty()
     ch_seqsero2_results = Channel.empty()
     ch_genotyphi_results = Channel.empty()
@@ -24,6 +25,7 @@ workflow SALMONELLA_SPECIES_TYPING {
     SISTR (
         ch_assembly
     )
+    ch_value_results = ch_value_results.mix(SISTR.out.sistr_value_results)
     ch_sistr_results = SISTR.out.sistr_result
     ch_versions = ch_versions.mix(SISTR.out.versions)
     
@@ -37,13 +39,14 @@ workflow SALMONELLA_SPECIES_TYPING {
             ch_reads
         )
     }
+    ch_value_results = ch_value_results.mix(SEQSERO2.out.seqsero2_value_results)
     ch_seqsero2_results = SEQSERO2.out.seqsero2_report
     ch_versions = ch_versions.mix(SEQSERO2.out.versions)
     
     // GenotypHi for Typhi - only if not assembly_only
     if (!params.assembly_only) {
         // Get serotype predictions to check for Typhi
-        ch_typhi_check = SEQSERO2.out.seqsero_serotype
+        ch_typhi_check = SEQSERO2.out.seqsero2_serotype
             .join(SISTR.out.sistr_predicted_serotype)
             .filter { meta, seqsero_file, sistr_file ->
                 def seqsero_content = seqsero_file.text.trim()
@@ -59,6 +62,7 @@ workflow SALMONELLA_SPECIES_TYPING {
         GENOTYPHI (
             ch_typhi_reads
         )
+        ch_value_results = ch_value_results.mix(GENOTYPHI.out.genotyphi_value_results)
         ch_genotyphi_results = GENOTYPHI.out.genotyphi_report
         ch_versions = ch_versions.mix(GENOTYPHI.out.versions)
     }
@@ -67,6 +71,6 @@ workflow SALMONELLA_SPECIES_TYPING {
     sistr_results = ch_sistr_results
     seqsero2_results = ch_seqsero2_results
     genotyphi_results = ch_genotyphi_results
-    
+    value_results = ch_value_results
     versions = ch_versions
 }

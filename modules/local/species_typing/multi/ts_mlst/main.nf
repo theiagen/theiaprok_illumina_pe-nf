@@ -2,7 +2,6 @@ process TS_MLST {
     tag "$meta.id"
     label "process_low"
 
-    conda "${moduleDir}/environment.yml"
     container "us-docker.pkg.dev/general-theiagen/staphb/mlst:2.23.0-2024-12-31"
 
     input:
@@ -16,9 +15,7 @@ process TS_MLST {
 
     output:
     tuple val(meta), path("*_ts_mlst.tsv"), emit: ts_mlst_results
-    tuple val(meta), path("PREDICTED_MLST.txt"), emit: predicted_st_file
-    tuple val(meta), path("PUBMLST_SCHEME.txt"), emit: pubmlst_scheme_file
-    tuple val(meta), path("ALLELIC_PROFILE.txt"), emit: allelic_profile_file
+    tuple val(meta), path("*_value.txt"), emit: ts_mlst_value_results
     tuple val(meta), path("*_novel_mlst_alleles.fasta"), optional: true, emit: novel_alleles
     path "versions.yml", emit: versions
 
@@ -174,9 +171,9 @@ process TS_MLST {
       fi
     fi
     
-    echo "\$predicted_mlst" > PREDICTED_MLST.txt
-    echo "\$pubmlst_scheme" > PUBMLST_SCHEME.txt
-    echo "\$allelic_profile" > ALLELIC_PROFILE.txt
+    echo "\$predicted_mlst" > PREDICTED_MLST_value.txt
+    echo "\$pubmlst_scheme" > PUBMLST_SCHEME_value.txt
+    echo "\$allelic_profile" > ALLELIC_PROFILE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -189,9 +186,9 @@ process TS_MLST {
     """
     touch ${prefix}_ts_mlst.tsv
     touch ${prefix}_novel_mlst_alleles.fasta
-    echo "No ST predicted" > PREDICTED_MLST.txt
-    echo "NA" > PUBMLST_SCHEME.txt
-    echo "NA" > ALLELIC_PROFILE.txt
+    echo "No ST predicted" > PREDICTED_MLST_value.txt
+    echo "NA" > PUBMLST_SCHEME_value.txt
+    echo "NA" > ALLELIC_PROFILE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

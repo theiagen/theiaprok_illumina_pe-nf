@@ -9,14 +9,7 @@ process MENINGOTYPE {
 
     output:
     tuple val(meta), path("*.tsv")               , emit: meningotype_report
-    tuple val(meta), path("MENINGOTYPE_SEROTYPE"), emit: meningotype_serogroup
-    tuple val(meta), path("MENINGOTYPE_PORA")    , emit: meningotype_pora
-    tuple val(meta), path("MENINGOTYPE_FETA")    , emit: meningotype_feta
-    tuple val(meta), path("MENINGOTYPE_PORB")    , emit: meningotype_porb
-    tuple val(meta), path("MENINGOTYPE_FHBP")    , emit: meningotype_fhbp
-    tuple val(meta), path("MENINGOTYPE_NHBA")    , emit: meningotype_nhba
-    tuple val(meta), path("MENINGOTYPE_NADA")    , emit: meningotype_nada
-    tuple val(meta), path("MENINGOTYPE_BAST")    , emit: meningotype_bast
+    tuple val(meta), path("*_values.txt")        , emit: meningotype_value_results
     path "versions.yml"                          , emit: versions
 
     when:
@@ -55,15 +48,15 @@ process MENINGOTYPE {
         > ${prefix}.tsv
 
 
-    tail -1 ${prefix}.tsv | awk '{print \$2}' | tee MENINGOTYPE_SEROTYPE
-    tail -1 ${prefix}.tsv | awk '{print \$5}' | tee MENINGOTYPE_PORA
-    tail -1 ${prefix}.tsv | awk '{print \$6}' | tee MENINGOTYPE_FETA
-    tail -1 ${prefix}.tsv | awk '{print \$7}' | tee MENINGOTYPE_PORB
-    tail -1 ${prefix}.tsv | awk '{print \$8}' | tee MENINGOTYPE_FHBP
-    tail -1 ${prefix}.tsv | awk '{print \$9}' | tee MENINGOTYPE_NHBA
-    tail -1 ${prefix}.tsv | awk '{print \$10}' | tee MENINGOTYPE_NADA
-    tail -1 ${prefix}.tsv | awk '{print \$11}' | tee MENINGOTYPE_BAST
-    
+    tail -1 ${prefix}.tsv | awk '{print \$2}' | tee MENINGOTYPE_SEROTYPE_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$5}' | tee MENINGOTYPE_PORA_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$6}' | tee MENINGOTYPE_FETA_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$7}' | tee MENINGOTYPE_PORB_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$8}' | tee MENINGOTYPE_FHBP_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$9}' | tee MENINGOTYPE_NHBA_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$10}' | tee MENINGOTYPE_NADA_values.txt
+    tail -1 ${prefix}.tsv | awk '{print \$11}' | tee MENINGOTYPE_BAST_values.txt
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         meningotype: \$(meningotype --version 2>&1 | sed 's/^.*meningotype v//')
@@ -74,14 +67,14 @@ process MENINGOTYPE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv
-    touch MENINGOTYPE_SEROTYPE
-    touch MENINGOTYPE_PORA
-    touch MENINGOTYPE_FETA
-    touch MENINGOTYPE_PORB
-    touch MENINGOTYPE_FHBP
-    touch MENINGOTYPE_NHBA
-    touch MENINGOTYPE_NADA
-    touch MENINGOTYPE_BAST
+    touch MENINGOTYPE_SEROTYPE_values.txt
+    touch MENINGOTYPE_PORA_values.txt
+    touch MENINGOTYPE_FETA_values.txt
+    touch MENINGOTYPE_PORB_values.txt
+    touch MENINGOTYPE_FHBP_values.txt
+    touch MENINGOTYPE_NHBA_values.txt
+    touch MENINGOTYPE_NADA_values.txt
+    touch MENINGOTYPE_BAST_values.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

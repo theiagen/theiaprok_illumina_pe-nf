@@ -9,13 +9,7 @@ process SHIGEIFINDER {
 
     output:
     tuple val(meta), path("*_shigeifinder.tsv"), emit: shigeifinder_report
-    tuple val(meta), path("shigeifinder_serotype.txt"), emit: shigeifinder_serotype
-    tuple val(meta), path("shigeifinder_ipaH_presence_absence.txt"), optional: true, emit: shigeifinder_ipaH_presence_absence
-    tuple val(meta), path("shigeifinder_num_virulence_plasmid_genes.txt"), optional: true, emit: shigeifinder_num_virulence_plasmid_genes
-    tuple val(meta), path("shigeifinder_cluster.txt"), optional: true, emit: shigeifinder_cluster
-    tuple val(meta), path("shigeifinder_O_antigen.txt"), optional: true, emit: shigeifinder_O_antigen
-    tuple val(meta), path("shigeifinder_H_antigen.txt"), optional: true, emit: shigeifinder_H_antigen
-    tuple val(meta), path("shigeifinder_notes.txt"), optional: true, emit: shigeifinder_notes
+    tuple val(meta), path("*_value.txt"), emit: shigeifinder_value_results
     path "versions.yml", emit: versions
 
     script:
@@ -38,39 +32,39 @@ process SHIGEIFINDER {
 
     # set helpful output strings if field in TSV is blank by overwriting output TXT files
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 2)" == "" ]; then
-       echo "ShigEiFinder ipaH field was empty" > shigeifinder_ipaH_presence_absence.txt
+       echo "ShigEiFinder ipaH field was empty" > shigeifinder_ipaH_presence_absence_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 2 > shigeifinder_ipaH_presence_absence.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 2 > shigeifinder_ipaH_presence_absence_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 3)" == "" ]; then
-       echo "ShigEiFinder number of virulence plasmid genes field was empty" > shigeifinder_num_virulence_plasmid_genes.txt
+       echo "ShigEiFinder number of virulence plasmid genes field was empty" > shigeifinder_num_virulence_plasmid_genes_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 3 > shigeifinder_num_virulence_plasmid_genes.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 3 > shigeifinder_num_virulence_plasmid_genes_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 4)" == "" ]; then
-       echo "ShigEiFinder cluster field was empty" > shigeifinder_cluster.txt
+       echo "ShigEiFinder cluster field was empty" > shigeifinder_cluster_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 4 > shigeifinder_cluster.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 4 > shigeifinder_cluster_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 5)" == "" ]; then
-       echo "ShigEiFinder serotype field was empty" > shigeifinder_serotype.txt
+       echo "ShigEiFinder serotype field was empty" > shigeifinder_serotype_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 5 > shigeifinder_serotype.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 5 > shigeifinder_serotype_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 6)" == "" ]; then
-       echo "ShigEiFinder O antigen field was empty" > shigeifinder_O_antigen.txt
+       echo "ShigEiFinder O antigen field was empty" > shigeifinder_O_antigen_value.txt
     else 
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 6 > shigeifinder_O_antigen.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 6 > shigeifinder_O_antigen_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 7)" == "" ]; then
-       echo "ShigEiFinder H antigen field was empty" > shigeifinder_H_antigen.txt
+       echo "ShigEiFinder H antigen field was empty" > shigeifinder_H_antigen_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 7 > shigeifinder_H_antigen.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 7 > shigeifinder_H_antigen_value.txt
     fi
     if [ "\$(head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 8)" == "" ]; then
-       echo "ShigEiFinder notes field was empty" > shigeifinder_notes.txt
+       echo "ShigEiFinder notes field was empty" > shigeifinder_notes_value.txt
     else
-       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 8 > shigeifinder_notes.txt
+       head -n 2 ${prefix}_shigeifinder.tsv | tail -n 1 | cut -f 8 > shigeifinder_notes_value.txt
     fi
 
     cat <<-END_VERSIONS > versions.yml
@@ -84,13 +78,13 @@ process SHIGEIFINDER {
 
     """
     echo "Empty" > "${prefix}_shigeifinder.tsv"
-    echo "ShigEiFinder ipaH field was empty" > "shigeifinder_ipaH_presence_absence.txt"
-    echo "ShigEiFinder number of virulence plasmid genes field was empty" > "shigeifinder_num_virulence_plasmid_genes.txt"
-    echo "ShigEiFinder cluster field was empty" > "shigeifinder_cluster.txt"
-    echo "ShigEiFinder serotype field was empty" > "shigeifinder_serotype.txt"
-    echo "ShigEiFinder O antigen field was empty" > "shigeifinder_O_antigen.txt"
-    echo "ShigEiFinder H antigen field was empty" > "shigeifinder_H_antigen.txt"
-    echo "ShigEiFinder notes field was empty" > "shigeifinder_notes.txt"
+    echo "ShigEiFinder ipaH field was empty" > "shigeifinder_ipaH_presence_absence_value.txt"
+    echo "ShigEiFinder number of virulence plasmid genes field was empty" > "shigeifinder_num_virulence_plasmid_genes_value.txt"
+    echo "ShigEiFinder cluster field was empty" > "shigeifinder_cluster_value.txt"
+    echo "ShigEiFinder serotype field was empty" > "shigeifinder_serotype_value.txt"
+    echo "ShigEiFinder O antigen field was empty" > "shigeifinder_O_antigen_value.txt"
+    echo "ShigEiFinder H antigen field was empty" > "shigeifinder_H_antigen_value.txt"
+    echo "ShigEiFinder notes field was empty" > "shigeifinder_notes_value.txt"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

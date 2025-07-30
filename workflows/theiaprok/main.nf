@@ -19,6 +19,8 @@ include { PROKKA } from '../../modules/nf-core/prokka/main'
 include { BAKTA_BAKTA as BAKTA } from '../../modules/nf-core/bakta/bakta/main'
 include { PLASMIDFINDER } from '../../modules/local/gene_typing/plasmid_detection/plasmidfinder/main'
 include { ABRICATE } from '../../modules/local/gene_typing/drug_resistance/abricate/main'
+include { UTILITY_JSON_BUILDER } from '../../modules/local/utilities/json_builder/main'
+
 // Failure report module for "soft" failures
 include { CREATE_FAILURE_REPORT } from '../../modules/local/reports/failure/main'
 workflow THEIAPROK_ILLUMINA_PE {
@@ -52,9 +54,11 @@ workflow THEIAPROK_ILLUMINA_PE {
     def genome_annotation = params.genome_annotation ?: "prokka"
     def bakta_db = params.bakta_db ?: "full"
     
-     ch_assembly = Channel.empty()
+    ch_assembly = Channel.empty()
     ch_read_screen_raw = Channel.empty()
     ch_read_screen_clean = Channel.empty()
+    ch_value_outputs = Channel.empty()
+    
     ch_estimated_genome_length = Channel.empty()
     ch_clean_reads = Channel.empty()
     ch_quast_report = Channel.empty()
@@ -76,12 +80,12 @@ workflow THEIAPROK_ILLUMINA_PE {
             min_coverage,
             min_proportion,
             "theiaprok",
-            params.genome_length ?: ""
+            params.genome_length ?: "",
+            "raw"
         )
         ch_read_screen_raw = RAW_CHECK_READS.out.read_screen
-        ch_estimated_genome_length = RAW_CHECK_READS.out.est_genome_length
+        ch_value_outputs = RAW_CHECK_READS.out.read_screen_value_results
         ch_versions = ch_versions.mix(RAW_CHECK_READS.out.versions)
-        
         ch_reads
             .join(ch_read_screen_raw)
             .branch { meta, reads, screen_result ->
@@ -117,6 +121,7 @@ workflow THEIAPROK_ILLUMINA_PE {
         params.trimmomatic_args ?: "",
         params.fastp_args ?: ""
     )
+    ch_value_outputs = ch_value_outputs.mix(READ_QC_TRIM_PE.out.value_results)
     ch_versions = ch_versions.mix(READ_QC_TRIM_PE.out.versions)
     
     ch_clean_reads = READ_QC_TRIM_PE.out.bbduk_cleaned_reads
@@ -131,9 +136,11 @@ workflow THEIAPROK_ILLUMINA_PE {
             min_coverage,
             min_proportion,
             "theiaprok",
-            params.genome_length ?: ""
+            params.genome_length ?: "",
+            "clean"
         )
         ch_read_screen_clean = CLEAN_CHECK_READS.out.read_screen
+        ch_value_outputs = ch_value_outputs.mix(CLEAN_CHECK_READS.out.read_screen_value_results)
         ch_versions = ch_versions.mix(CLEAN_CHECK_READS.out.versions)
         
         // Split channels for processing passing and failure samples
@@ -205,8 +212,10 @@ workflow THEIAPROK_ILLUMINA_PE {
     CG_PIPELINE_RAW (
         ch_cg_raw_input,
         params.genome_length ?: 3000000,
-        params.cg_pipe_opts ?: ""
+        params.cg_pipe_opts ?: "",
+        "raw"
     )
+    ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_RAW.out.cg_pipeline_value_results)
     ch_cg_pipeline_raw = CG_PIPELINE_RAW.out.cg_pipeline_report
     ch_versions = ch_versions.mix(CG_PIPELINE_RAW.out.versions)
     
@@ -219,8 +228,10 @@ workflow THEIAPROK_ILLUMINA_PE {
     CG_PIPELINE_CLEAN (
         ch_cg_clean_input,
         params.genome_length ?: 3000000,
-        params.cg_pipe_opts ?: ""
+        params.cg_pipe_opts ?: "",
+        "clean"
     )
+    ch_value_outputs = ch_value_outputs.mix(CG_PIPELINE_CLEAN.out.cg_pipeline_value_results)
     ch_cg_pipeline_clean = CG_PIPELINE_CLEAN.out.cg_pipeline_report
     ch_versions = ch_versions.mix(CG_PIPELINE_CLEAN.out.versions)
     
@@ -229,8 +240,9 @@ workflow THEIAPROK_ILLUMINA_PE {
         false  // eukaryote = false for bacteria
     )
     ch_busco_report = BUSCO.out.busco_report
-    ch_busco_results = BUSCO.out.busco_results
+    ch_busco_results = BUSCO.out.busco_value_results
     ch_versions = ch_versions.mix(BUSCO.out.versions)
+    ch_value_outputs = ch_value_outputs.mix(BUSCO.out.busco_value_results)
 
     if (perform_characterization) {
         GAMBIT (
@@ -238,6 +250,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             params.gambit_db_genomes,
             params.gambit_db_signatures
         )
+        ch_value_outputs = ch_value_outputs.mix(GAMBIT.out.gambit_value_results)
         ch_versions = ch_versions.mix(GAMBIT.out.versions)
         
         // Get organism/merlin tag with better handling
@@ -277,6 +290,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 ch_assembly,
                 params.ani_ref_genome ?: []
             )
+            ch_value_outputs = ch_value_outputs.mix(ANI_MUMMER.out.txt)
             ch_versions = ch_versions.mix(ANI_MUMMER.out.versions)
         }
         
@@ -285,6 +299,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 ch_assembly,
                 params.kmerfinder_db ?: []
             )
+            ch_value_outputs = ch_value_outputs.mix(KMERFINDER_BACTERIA.out.kmerfinder_value_results)
             ch_versions = ch_versions.mix(KMERFINDER_BACTERIA.out.versions)
         }
         
@@ -295,6 +310,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             ch_amrfinder_input.map { meta, assembly, organism -> [meta, assembly] },
             ch_amrfinder_input.map { meta, assembly, organism -> organism }
         )
+        ch_value_outputs = ch_value_outputs.mix(AMRFINDER_PLUS_NUC.out.amrfinderplus_value_results)
         ch_versions = ch_versions.mix(AMRFINDER_PLUS_NUC.out.versions)
         
         if (call_resfinder) {
@@ -303,6 +319,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 params.resfinder_db_point ?: [],
                 params.resfinder_db_res ?: []
             )
+            ch_value_outputs = ch_value_outputs.mix(RESFINDER.out.resfinder_predicted_resistance)
             ch_versions = ch_versions.mix(RESFINDER.out.versions)
         }
 
@@ -318,6 +335,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             params.mlst_min_percent_coverage ?: 10,
             params.mlst_minscore ?: 50
         )
+        ch_value_outputs = ch_value_outputs.mix(TS_MLST.out.ts_mlst_value_results)
         ch_versions = ch_versions.mix(TS_MLST.out.versions)
         
         if (genome_annotation == "prokka") {
@@ -357,6 +375,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 params.plasmidfinder_min_percent_coverage ?: 0.60,
                 params.plasmidfinder_min_percent_identity ?: 0.90
             )
+            ch_value_outputs = ch_value_outputs.mix(PLASMIDFINDER.out.plasmidfinder_plasmids)
             ch_versions = ch_versions.mix(PLASMIDFINDER.out.versions)
         }
         
@@ -367,6 +386,7 @@ workflow THEIAPROK_ILLUMINA_PE {
                 params.abricate_min_percent_identity ?: 80,
                 params.abricate_min_percent_coverage ?: 80
             )
+            ch_value_outputs = ch_value_outputs.mix(ABRICATE.out.genes_file)
             ch_versions = ch_versions.mix(ABRICATE.out.versions)
         }
 
@@ -396,6 +416,7 @@ workflow THEIAPROK_ILLUMINA_PE {
             MERLIN_MAGIC(
                 ch_merlin_input
             )
+            ch_value_outputs = ch_value_outputs.mix(MERLIN_MAGIC.out.value_results)
             ch_versions = ch_versions.mix(MERLIN_MAGIC.out.versions)
         }
     }
@@ -425,12 +446,22 @@ workflow THEIAPROK_ILLUMINA_PE {
     )
     ch_versions = ch_versions.mix(CREATE_FAILURE_REPORT.out.versions)
     
+    ch_value_outputs = ch_value_outputs
+        .groupTuple() // Group by sample ID to ensure unique entries
+        .map { id, files -> tuple(id, files.flatten().unique()) } // Flatten and deduplicate files
+
+    // Collect all value outputs for the JSON builder
+    UTILITY_JSON_BUILDER (
+        ch_value_outputs, file("$projectDir/modules/local/utilities/json_builder/json_builder.py")
+    )
+
     emit:
     // Key outputs
     assembly = ch_assembly
     clean_reads = ch_clean_reads
     read_screen_raw = ch_read_screen_raw
     read_screen_clean = ch_read_screen_clean
+    value_json = UTILITY_JSON_BUILDER.out.value_json_output
     
     // QUAST outputs
     quast_report = ch_quast_report

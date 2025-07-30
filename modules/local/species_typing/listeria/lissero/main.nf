@@ -11,7 +11,7 @@ process LISSERO {
 
     output:
     tuple val(meta), path("*.tsv"), emit: lissero_results
-    tuple val(meta), path("SEROTYPE.txt"), emit: lissero_serotype
+    tuple val(meta), path("lissero_SEROTYPE.txt"), emit: lissero_serotype
     path "versions.yml", emit: versions
 
     when:
@@ -37,7 +37,7 @@ process LISSERO {
     else
         serotype="No serotype predicted"
     fi
-    echo "\$serotype" > SEROTYPE.txt
+    echo "\$serotype" > lissero_SEROTYPE.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -49,7 +49,7 @@ process LISSERO {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.tsv
-    echo "No serotype predicted" > SEROTYPE.txt
+    echo "No serotype predicted" > lissero_SEROTYPE.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

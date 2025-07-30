@@ -8,13 +8,10 @@ process GENOTYPHI {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*_mykrobe_genotyphi_predictResults.tsv"), emit: genotyphi_report
-    tuple val(meta), path("*.mykrobe_genotyphi.json")              , emit: genotyphi_json
-    tuple val(meta), path("SPECIES")                               , emit: genotyphi_species
-    tuple val(meta), path("SPP_PERCENT")                           , emit: genotyphi_spp_percent
-    tuple val(meta), path("FINAL_GENOTYPE")                        , emit: genotyphi_final_genotype
-    tuple val(meta), path("CONFIDENCE")                            , emit: genotyphi_confidence
-    path "versions.yml"                                            , emit: versions
+    tuple val(meta), path("*_mykrobe_genotyphi_predictResults.tsv") , emit: genotyphi_report
+    tuple val(meta), path("*.mykrobe_genotyphi.json")               , emit: genotyphi_json
+    tuple val(meta), path("*_value.txt")                            , emit: genotyphi_value_results
+    path "versions.yml"                                             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -53,6 +50,11 @@ process GENOTYPHI {
     # Parse output file using external script
     genotyphi_parser.py \\
         ${prefix}_mykrobe_genotyphi_predictResults.tsv
+    
+    mv SPECIES genotyphi_SPECIES_value.txt
+    mv SPP_PERCENT genotyphi_SPP_PERCENT_value.txt
+    mv FINAL_GENOTYPE genotyphi_FINAL_GENOTYPE_value.txt
+    mv CONFIDENCE genotyphi_CONFIDENCE_value.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
