@@ -67,21 +67,21 @@ def collect_file_locations(collated_file: dict, latch_acc_address: str):
     for task in collated_file['tasks']:
         for output_name, output_data in task['outputs'].items():
             sample_name = task['tag']
-            #logger.debug(f"Processing task for sample: {sample_name}")
-            #logger.debug(f"Processing output: {output_name}")
+            logger.debug(f"Processing task for sample: {sample_name}")
+            logger.debug(f"Processing output: {output_name}")
             if 'value_results' not in output_name:
                 #logger.debug(f"Output {output_name} does not contain 'value_results'")
                 if 'publishedFiles' in output_data:
-                    #logger.debug(f"Adding published files for output {output_name}: {output_data['publishedFiles']}")
+                    logger.debug(f"Adding published files for output {output_name}: {output_data['publishedFiles']}")
                     latch_list = []
                     for file in output_data['publishedFiles']:
                         latch_list.append(LatchFile(f"{latch_acc_address}/{file}"))
-                        #logger.debug(f"Added LatchFile: {latch_list}")
+                        logger.debug(f"Added LatchFile: {latch_list}")
                     if output_name not in published_files:
                         published_files[output_name] = [(sample_name, latch_list)]
                     else:
                         published_files[output_name].append((sample_name, latch_list))      
-    #logger.debug(f"Collected published files: {published_files}")
+    logger.debug(f"Collected published files: {published_files}")
     return published_files
 
 def parse_json_output(run_flag: bool, outdir: str, table_id: int, sample: str) -> bool:
